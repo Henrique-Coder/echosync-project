@@ -2,8 +2,7 @@ from os import system, makedirs, environ, pathsep, path, getcwd, remove
 from pathlib import Path
 from re import sub, findall
 from shutil import rmtree
-from time import sleep
-from time import time
+from time import sleep, time
 
 from colorama import init as colorama_init, Fore
 from music_tag import load_file as tag_load_file
@@ -114,6 +113,17 @@ def get_thumbnail_url(url, resolution, hostname):
     thumbnail_url = f'https://{hostname}/vi/{extract.video_id(url)}/{resolution}.jpg'
     return thumbnail_url
 
+def get_youtube_url(query):
+    # Busca a URL do video no YouTube
+    try:
+        search = SearchVideos(query, offset=1, mode='dict', max_results=1)
+        results = search.result()
+        return str(results['search_result'][0]['link'])
+
+    except Exception as e:
+        print(f'{Fore.LIGHTWHITE_EX}[{Fore.LIGHTRED_EX}{now_downloading}/{total_urls}{Fore.LIGHTWHITE_EX}] {Fore.LIGHTRED_EX}Erro ao buscar a URL da música no YouTube! Erro: {Fore.LIGHTBLUE_EX}{e}\n')
+        pass
+
 def enchance_music_file(yt, music_title):
     # Globaliza as variaveis
     global success_downloads
@@ -147,7 +157,7 @@ def download_music(url, now_downloading, total_urls):
     # Globaliza as variaveis
     global already_exists, failed_downloads, total_requests
 
-    total_attempts = 15
+    total_attempts = 16
     retry_attempts = total_attempts
     retry_delay = 3
 
@@ -190,11 +200,11 @@ def download_music(url, now_downloading, total_urls):
 
         except Exception as e:
             if retry_attempts == 0:
-                print(f'{Fore.LIGHTWHITE_EX}[{Fore.LIGHTRED_EX}-{Fore.LIGHTWHITE_EX}] {Fore.LIGHTBLUE_EX}Pulando para o próximo da lista...\n')
+                print(f'{Fore.LIGHTWHITE_EX}[{Fore.LIGHTRED_EX}{now_downloading}/{total_urls}{Fore.LIGHTWHITE_EX}] {Fore.LIGHTRED_EX}Pulando para o próximo da lista...\n')
                 return
 
             else:
-                print(f'{Fore.LIGHTWHITE_EX}[{Fore.LIGHTRED_EX}{now_downloading}/{total_urls}{Fore.LIGHTWHITE_EX}] {Fore.LIGHTRED_EX}Erro na {Fore.LIGHTBLUE_EX}{retry_attempts}/{total_attempts}º {Fore.LIGHTRED_EX}tentativa: {Fore.LIGHTBLUE_EX}"{e}"{Fore.LIGHTRED_EX}! Tentando novamente...')
+                print(f'{Fore.LIGHTWHITE_EX}[{Fore.LIGHTRED_EX}{now_downloading}/{total_urls}{Fore.LIGHTWHITE_EX}] {Fore.LIGHTRED_EX}Erro na {Fore.LIGHTBLUE_EX}{retry_attempts}/{total_attempts-1}º {Fore.LIGHTRED_EX}tentativa: {Fore.LIGHTBLUE_EX}"{e}"{Fore.LIGHTRED_EX}! Tentando novamente...')
                 sleep(retry_delay)
 
     # Baixa a musica do YouTube
@@ -221,17 +231,6 @@ def download_music(url, now_downloading, total_urls):
 
     except Exception as e:
         print(f'{Fore.LIGHTWHITE_EX}[{Fore.LIGHTRED_EX}{now_downloading}/{total_urls}{Fore.LIGHTWHITE_EX}] {Fore.LIGHTRED_EX}Erro ao baixar a musica {Fore.LIGHTBLUE_EX}"{music_title}"{Fore.LIGHTRED_EX}! Erro: {Fore.LIGHTBLUE_EX}{e}\n')
-
-def get_youtube_url(query):
-    # Busca a URL do video no YouTube
-    try:
-        search = SearchVideos(query, offset=1, mode='dict', max_results=1)
-        results = search.result()
-        return str(results['search_result'][0]['link'])
-
-    except Exception as e:
-        print(f'{Fore.LIGHTWHITE_EX}[{Fore.LIGHTRED_EX}{now_downloading}/{total_urls}{Fore.LIGHTWHITE_EX}] {Fore.LIGHTRED_EX}Erro ao buscar o URL do video no YouTube! Erro: {Fore.LIGHTBLUE_EX}{e}\n')
-        pass
 
 # Baixa o FFMPEG
 download_ffmpeg()
@@ -267,3 +266,5 @@ print(f'{Fore.LIGHTWHITE_EX}[{Fore.LIGHTGREEN_EX}|{Fore.LIGHTWHITE_EX}] {Fore.LI
 print(f'{Fore.LIGHTWHITE_EX}[{Fore.LIGHTGREEN_EX}|{Fore.LIGHTWHITE_EX}] {Fore.LIGHTGREEN_EX}Ignoradas: {Fore.LIGHTBLUE_EX}{already_exists}')
 print(f'{Fore.LIGHTWHITE_EX}[{Fore.LIGHTGREEN_EX}|{Fore.LIGHTWHITE_EX}] {Fore.LIGHTGREEN_EX}Falhas: {Fore.LIGHTBLUE_EX}{failed_downloads}')
 print(f'{Fore.LIGHTWHITE_EX}[{Fore.LIGHTGREEN_EX}L{Fore.LIGHTWHITE_EX}] {Fore.LIGHTGREEN_EX}Tentativas falhas: {Fore.LIGHTBLUE_EX}{total_requests - (success_downloads + already_exists + failed_downloads)}')
+
+input()
