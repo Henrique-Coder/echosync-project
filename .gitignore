@@ -5,8 +5,9 @@
 songs/
 build/
 dist/
+upx-4.0.2-win64/
 
 # Files
 *.spec
-pyinstaller.py
+run-pyinstaller.py
 query_list.txt
