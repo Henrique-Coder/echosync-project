@@ -353,8 +353,8 @@ else:
             url = get_youtube_url(query).strip()
             download_music(url, now_downloading, total_urls)
 
-# Deletando os arquivos temporarios
-rmtree(fr'.temp', ignore_errors=True)
+# Deletando a pasta de arquivos temporarios
+rmtree(temp_dir, ignore_errors=True)
 
 print(f'{Fore.LIGHTWHITE_EX}[{Fore.LIGHTGREEN_EX}T{Fore.LIGHTWHITE_EX}] {Fore.LIGHTGREEN_EX}Tempo de execução: {Fore.LIGHTBLUE_EX}{convert_seconds_to_time(time() - start_time)}')
 print(f'{Fore.LIGHTWHITE_EX}[{Fore.LIGHTGREEN_EX}|{Fore.LIGHTWHITE_EX}] {Fore.LIGHTGREEN_EX}Salvas: {Fore.LIGHTBLUE_EX}{success_downloads}')
