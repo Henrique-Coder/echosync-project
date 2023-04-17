@@ -1,7 +1,9 @@
 # Folders
 .idea/
+.releases/
 .temps/
 songs/
 
 # Files
-query_list.txt/
+pyinstaller.py
+query_list.txt
