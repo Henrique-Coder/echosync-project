@@ -3,7 +3,10 @@
 .releases/
 .temps/
 songs/
+build/
+dist/
 
 # Files
+*.spec
 pyinstaller.py
 query_list.txt
