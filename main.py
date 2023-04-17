@@ -3,6 +3,7 @@ from pathlib import Path
 from re import sub, findall
 from shutil import rmtree
 from time import sleep, time
+from tkinter import Tk, filedialog
 
 from colorama import init as colorama_init, Fore
 from music_tag import load_file as tag_load_file
@@ -15,10 +16,10 @@ from youtubesearchpython import SearchVideos
 from zstd import ZSTD_uncompress
 
 
-# Inicializa o tempo de execução do programa
+# Inicializa o tempo de execucao do programa
 start_time = time()
 
-# Configuracoes
+# Configuracoes padrao
 success_downloads = 0
 already_exists = 0
 failed_downloads = 0
@@ -27,13 +28,24 @@ total_requests = 0
 # Inicializa o colorama
 colorama_init(autoreset=True)
 
-# Nome do arquivo de texto que será lido
-query_list_file = 'query_list.txt'
+# Seta as variaveis para o diretorio do programa
+app_name = 'Batch Music Downloader'
+userprofile_dir = environ['userprofile']
+app_dir = Path(fr'{userprofile_dir}\AppData\Local\{app_name}')
 
 # Cria as pastas necessárias
+makedirs(fr'{app_dir}\dependencies', exist_ok=True)
+makedirs(fr'{app_dir}\assets', exist_ok=True)
+
 makedirs('songs', exist_ok=True)
 makedirs(r'.temp\songs', exist_ok=True)
 makedirs(r'.temp\thumbnails', exist_ok=True)
+
+def cl(jump_lines=0):
+    system('cls || clear')
+
+    for num in range(jump_lines):
+        print()
 
 def convert_seconds_to_time(seconds):
     hours = int(seconds // 3600)
@@ -57,13 +69,8 @@ def tqdm_custom_bar(current, total, width=40, char=''):
 
 def download_ffmpeg():
     # Baixando o FFMPEG compactado [Tamanho compactado: ~41MB]
-    app_name = 'Batch Music Downloader'
-    userprofile_dir = environ['userprofile']
-    app_dir = Path(fr'{userprofile_dir}\AppData\Local\{app_name}')
     ffmpeg_exe_zst = Path(fr'{app_dir}\dependencies\ffmpeg.exe.zst')
     ffmpeg_exe = Path(fr'{app_dir}\dependencies\ffmpeg.exe')
-
-    makedirs(fr'{app_dir}\dependencies', exist_ok=True)
 
     if not ffmpeg_exe.is_file():
         ffmpeg_url = 'https://drive.google.com/uc?export=download&id=16Ob9qv7uwLWqcMOwTOKeC9p52accn-wO'
@@ -73,7 +80,7 @@ def download_ffmpeg():
         block_size = 1024  # Tamanho do bloco de download
 
         # Configurar o formato da barra de progresso e a animação
-        print(f'{Fore.LIGHTWHITE_EX}[{Fore.LIGHTRED_EX}{now_downloading}/{total_urls}{Fore.LIGHTWHITE_EX}] {Fore.LIGHTRED_EX}O FFMPEG não foi encontrado no local padrão! {Fore.LIGHTGREEN_EX}Logo, será baixado automaticamente...')
+        print(f'{Fore.LIGHTWHITE_EX}[{Fore.LIGHTRED_EX}!{Fore.LIGHTWHITE_EX}] {Fore.LIGHTRED_EX}O FFMPEG não foi encontrado no local padrão! Então, será baixado automaticamente...')
         bar_format = '★ Progress › {bar} ‹ {percentage:3.1f}% • Rate|Downloaded|Total: {rate_fmt}{postfix}|{n_fmt}|{total_fmt} — Elapsed|Remaining: {elapsed}|{remaining}'
         anim_rotation_dot = ' ⠋⠙⠹⠸⠼⠴⠦⠧⠇⠏━'
 
@@ -204,7 +211,7 @@ def download_music(url, now_downloading, total_urls):
                 return
 
             else:
-                print(f'{Fore.LIGHTWHITE_EX}[{Fore.LIGHTRED_EX}{now_downloading}/{total_urls}{Fore.LIGHTWHITE_EX}] {Fore.LIGHTRED_EX}Erro na {Fore.LIGHTBLUE_EX}{retry_attempts}/{total_attempts-1}º {Fore.LIGHTRED_EX}tentativa: {Fore.LIGHTBLUE_EX}"{e}"{Fore.LIGHTRED_EX}! Tentando novamente...')
+                print(f'{Fore.LIGHTWHITE_EX}[{Fore.LIGHTRED_EX}{now_downloading}/{total_urls}{Fore.LIGHTWHITE_EX}] {Fore.LIGHTRED_EX}Erro na {Fore.LIGHTBLUE_EX}{total_attempts-retry_attempts}/{total_attempts-1}º {Fore.LIGHTRED_EX}tentativa: {Fore.LIGHTBLUE_EX}"{e}"{Fore.LIGHTRED_EX}! Tentando novamente...')
                 sleep(retry_delay)
 
     # Baixa a musica do YouTube
@@ -235,11 +242,88 @@ def download_music(url, now_downloading, total_urls):
 # Baixa o FFMPEG
 download_ffmpeg()
 
-# Abre o arquivo no modo de leitura, especificando a codificação como UTF-8
-with open(query_list_file.strip(), 'r', encoding='utf-8') as query_list:
-    now_downloading = 0
-    query_list = query_list.readlines()
+#def from_local_file():
+
+
+# Pergunta se o usuário quer baixar as músicas de um arquivo de texto ou escrever manualmente
+print(f'{Fore.LIGHTWHITE_EX}[{Fore.LIGHTYELLOW_EX}?{Fore.LIGHTWHITE_EX}] {Fore.LIGHTYELLOW_EX}Você pode baixar as músicas de um {Fore.LIGHTCYAN_EX}arquivo de texto local {Fore.LIGHTYELLOW_EX}ou {Fore.LIGHTCYAN_EX}escrever manualmente{Fore.LIGHTYELLOW_EX}.\n')
+
+print(f'{Fore.LIGHTWHITE_EX}[{Fore.LIGHTGREEN_EX}!{Fore.LIGHTWHITE_EX}] {Fore.LIGHTWHITE_EX}Para selecionar um arquivo de texto local, deixe em branco e pressione ENTER.')
+print(f'{Fore.LIGHTWHITE_EX}[{Fore.LIGHTGREEN_EX}!{Fore.LIGHTWHITE_EX}] {Fore.LIGHTWHITE_EX}Para escrever manualmente, digite alguma URL (do YouTube) ou nome de música e pressione ENTER.\n')
+
+print(f'{Fore.LIGHTWHITE_EX}[{Fore.LIGHTRED_EX}0{Fore.LIGHTWHITE_EX}] {Fore.LIGHTRED_EX}Lista de URLs/Queries — Para escolher um arquivo de texto local, deixe em branco e pressione ENTER.')
+user_response = input(f'\r{Fore.LIGHTWHITE_EX}›{Fore.LIGHTBLUE_EX} ')
+
+user_response = user_response.strip()
+if user_response == '':
+    # Limpa a tela e pula uma linha
+    cl(jump_lines=1)
+
+    print(f'{Fore.LIGHTWHITE_EX}[{Fore.LIGHTYELLOW_EX}!{Fore.LIGHTWHITE_EX}] {Fore.LIGHTYELLOW_EX}Abrindo o explorador de arquivos para você selecionar o arquivo de texto local...\n')
+
+    # Inicializa a janela Tkinter e oculta-a
+    root = Tk()
+    root.withdraw()
+
+    # Baixa o ícone da janela de dialogo caso não exista
+    explorer_ico_url = 'https://raw.githubusercontent.com/Henrique-Coder/batch-music-downloader/main/assets/explorer.ico'
+    explorer_ico_dir = fr'{app_dir}\assets\explorer.ico'
+
+    if not Path(explorer_ico_dir).is_file():
+        r = get(explorer_ico_url, allow_redirects=True)
+
+        with open(explorer_ico_dir, 'wb') as fo:
+            fo.write(r.content)
+
+    root.iconbitmap(explorer_ico_dir)
+
+    # Abre uma janela de diálogo para selecionar o arquivo de entrada
+    input_file_path = filedialog.askopenfilename(title='Selecione um arquivo de texto com as URLs/Queries',
+                                                 filetypes=[('Arquivo de Texto', '*.txt')])
+
+    # Limpa a tela e pula uma linha
+    cl(jump_lines=1)
+
+    # Abre o arquivo no modo de leitura, especificando a codificação como UTF-8
+    with open(input_file_path.strip(), 'r', encoding='utf-8') as query_list:
+        query_list = [line.strip() for line in query_list.readlines()]
+        query_list = [line for line in query_list if line != '']
+        total_urls = len(query_list)
+        now_downloading = 0
+
+        print(f'{Fore.LIGHTWHITE_EX}[{Fore.LIGHTGREEN_EX}#{Fore.LIGHTWHITE_EX}] {Fore.LIGHTGREEN_EX}Total de URLs: {Fore.LIGHTBLUE_EX}{total_urls}\n')
+
+        for query in query_list:
+            sleep(1)
+
+            yt_url_regex = r'(?:https?://)?(?:www\.)?(?:m\.)?(?:youtu\.be/|youtube\.com/(?:watch\?(?=.*v=\w+)(?:\S+)?v=|embed/|v/)?)([\w-]{11})'
+            url_match = findall(yt_url_regex, query)
+
+            if url_match:
+                now_downloading += 1
+
+                url = query.strip()
+                download_music(url, now_downloading, total_urls)
+
+            else:
+                now_downloading += 1
+
+                url = get_youtube_url(query).strip()
+                download_music(url, now_downloading, total_urls)
+
+else:
+    query_list = []
+
+    while user_response != '':
+        query_list.append(user_response)
+        user_response = input(f'{Fore.LIGHTWHITE_EX}›{Fore.LIGHTBLUE_EX} ')
+
     total_urls = len(query_list)
+    now_downloading = 0
+
+    # Limpa a tela e pula uma linha
+    cl(jump_lines=1)
+
     print(f'{Fore.LIGHTWHITE_EX}[{Fore.LIGHTGREEN_EX}#{Fore.LIGHTWHITE_EX}] {Fore.LIGHTGREEN_EX}Total de URLs: {Fore.LIGHTBLUE_EX}{total_urls}\n')
 
     for query in query_list:
@@ -250,11 +334,13 @@ with open(query_list_file.strip(), 'r', encoding='utf-8') as query_list:
 
         if url_match:
             now_downloading += 1
+
             url = query.strip()
             download_music(url, now_downloading, total_urls)
 
         else:
             now_downloading += 1
+
             url = get_youtube_url(query).strip()
             download_music(url, now_downloading, total_urls)
 
