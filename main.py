@@ -4,7 +4,6 @@ from re import sub, findall
 from shutil import rmtree
 from time import sleep, time
 from tkinter import Tk, filedialog
-
 from colorama import init as colorama_init, Fore
 from music_tag import load_file as tag_load_file
 from pytube import YouTube, extract
@@ -15,9 +14,6 @@ from tqdm import tqdm
 from youtubesearchpython import SearchVideos
 from zstd import ZSTD_uncompress
 
-
-# Inicializa o tempo de execucao do programa
-start_time = time()
 
 # Configuracoes padrao
 success_downloads = 0
@@ -32,16 +28,18 @@ colorama_init(autoreset=True)
 app_name = 'Batch Music Downloader'
 userprofile_dir = environ['userprofile']
 app_dir = Path(fr'{userprofile_dir}\AppData\Local\{app_name}')
+temp_dir = Path(fr'{app_dir}\.temp')
 
-# Cria as pastas necessárias
-makedirs(fr'{app_dir}\dependencies', exist_ok=True)
-makedirs(fr'{app_dir}\assets', exist_ok=True)
-
-makedirs('songs', exist_ok=True)
-makedirs(r'.temp\songs', exist_ok=True)
-makedirs(r'.temp\thumbnails', exist_ok=True)
+# Seta a extensao do arquivo de musica
+ext = 'mp3'
 
 def cl(jump_lines=0):
+    """
+    Limpa a tela do terminal
+    :param jump_lines: opcional, quantidade de linhas em branco a serem puladas após limpar a tela
+    :return:
+    """
+
     system('cls || clear')
 
     for num in range(jump_lines):
@@ -136,13 +134,13 @@ def enchance_music_file(yt, music_title):
     global success_downloads
 
     # Codificar o arquivo de musica (printar apenas uma linha do output do ffmpeg)
-    system(fr'ffmpeg -i ".temp\songs\{music_title}.mp3" -b:a 320k -vn "songs\{music_title}.mp3" -y -hide_banner -loglevel quiet -stats')
+    system(fr'ffmpeg -i "{temp_dir}\songs\{music_title}.{ext}" -b:a 320k -vn "songs\{music_title}.{ext}" -y -hide_banner -loglevel quiet -stats')
 
     # Adiciona metadados ao arquivo de musica
     publish_year = str(yt.publish_date).split('-')[0]
 
-    f = tag_load_file(fr'songs\{music_title}.mp3')
-    f['artwork'] = open(fr'.temp\thumbnails\{music_title}.jpg', 'rb').read()
+    f = tag_load_file(fr'songs\{music_title}.{ext}')
+    f['artwork'] = open(fr'{temp_dir}\thumbnails\{music_title}.jpg', 'rb').read()
     f['tracktitle'] = music_title
     f['artist'] = format_string(yt.author)
     f['year'] = publish_year
@@ -151,10 +149,10 @@ def enchance_music_file(yt, music_title):
     f.save()
 
     # Deleta o arquivo de musica baixado pelo pytube
-    remove(fr'.temp\songs\{music_title}.mp3')
+    remove(fr'{temp_dir}\songs\{music_title}.{ext}')
 
     # Deleta a thumbnail baixada
-    remove(fr'.temp\thumbnails\{music_title}.jpg')
+    remove(fr'{temp_dir}\thumbnails\{music_title}.jpg')
 
     print(f'{Fore.LIGHTWHITE_EX}[{Fore.LIGHTGREEN_EX}{now_downloading}/{total_urls}{Fore.LIGHTWHITE_EX}] {Fore.LIGHTGREEN_EX}Música salva com sucesso!\n')
 
@@ -219,7 +217,7 @@ def download_music(url, now_downloading, total_urls):
         thumbnail_url = get_thumbnail_url(url, resolution='maxresdefault', hostname='i.ytimg.com')
 
         # Baixa a musica (dir: 'songs')
-        if Path(fr'songs\{music_title}.mp3').is_file():
+        if Path(fr'{temp_dir}\songs\{music_title}.{ext}').is_file():
             print(f'{Fore.LIGHTWHITE_EX}[{Fore.LIGHTYELLOW_EX}{now_downloading}/{total_urls}{Fore.LIGHTWHITE_EX}] {Fore.LIGHTYELLOW_EX}Música {Fore.LIGHTBLUE_EX}"{music_title}" {Fore.LIGHTYELLOW_EX}já foi baixada anteriormente!\n')
             already_exists += 1
             return
@@ -228,22 +226,29 @@ def download_music(url, now_downloading, total_urls):
             print(f'{Fore.LIGHTWHITE_EX}[{Fore.LIGHTYELLOW_EX}{now_downloading}/{total_urls}{Fore.LIGHTWHITE_EX}] {Fore.LIGHTYELLOW_EX}Baixando música {Fore.LIGHTBLUE_EX}"{music_title}"{Fore.LIGHTYELLOW_EX}...')
 
             yt_stream = yt.streams.filter(only_audio=True).get_audio_only()
-            yt_stream.download(filename=music_title + '.mp3', output_path='.temp\songs')
+            yt_stream.download(filename=f'{music_title}.{ext}', output_path=f'{temp_dir}\songs')
 
             # Baixa a thumbnail da musica (dir: '.temp') caso a musica tenha sido baixada
             r = get(thumbnail_url, allow_redirects=True)
-            open(fr'.temp\thumbnails\{music_title}.jpg', 'wb').write(r.content)
+            open(fr'{temp_dir}\thumbnails\{music_title}.jpg', 'wb').write(r.content)
 
             enchance_music_file(yt, music_title)
 
     except Exception as e:
         print(f'{Fore.LIGHTWHITE_EX}[{Fore.LIGHTRED_EX}{now_downloading}/{total_urls}{Fore.LIGHTWHITE_EX}] {Fore.LIGHTRED_EX}Erro ao baixar a musica {Fore.LIGHTBLUE_EX}"{music_title}"{Fore.LIGHTRED_EX}! Erro: {Fore.LIGHTBLUE_EX}{e}\n')
 
+
+# Cria as pastas necessárias
+makedirs('songs', exist_ok=True)
+
+makedirs(fr'{app_dir}\dependencies', exist_ok=True)
+makedirs(fr'{app_dir}\assets', exist_ok=True)
+
+makedirs(fr'{temp_dir}\songs', exist_ok=True)
+makedirs(fr'{temp_dir}\thumbnails', exist_ok=True)
+
 # Baixa o FFMPEG
 download_ffmpeg()
-
-#def from_local_file():
-
 
 # Pergunta se o usuário quer baixar as músicas de um arquivo de texto ou escrever manualmente
 print(f'{Fore.LIGHTWHITE_EX}[{Fore.LIGHTYELLOW_EX}?{Fore.LIGHTWHITE_EX}] {Fore.LIGHTYELLOW_EX}Você pode baixar as músicas de um {Fore.LIGHTCYAN_EX}arquivo de texto local {Fore.LIGHTYELLOW_EX}ou {Fore.LIGHTCYAN_EX}escrever manualmente{Fore.LIGHTYELLOW_EX}.\n')
@@ -251,8 +256,8 @@ print(f'{Fore.LIGHTWHITE_EX}[{Fore.LIGHTYELLOW_EX}?{Fore.LIGHTWHITE_EX}] {Fore.L
 print(f'{Fore.LIGHTWHITE_EX}[{Fore.LIGHTGREEN_EX}!{Fore.LIGHTWHITE_EX}] {Fore.LIGHTWHITE_EX}Para selecionar um arquivo de texto local, deixe em branco e pressione ENTER.')
 print(f'{Fore.LIGHTWHITE_EX}[{Fore.LIGHTGREEN_EX}!{Fore.LIGHTWHITE_EX}] {Fore.LIGHTWHITE_EX}Para escrever manualmente, digite alguma URL (do YouTube) ou nome de música e pressione ENTER.\n')
 
-print(f'{Fore.LIGHTWHITE_EX}[{Fore.LIGHTRED_EX}0{Fore.LIGHTWHITE_EX}] {Fore.LIGHTRED_EX}Lista de URLs/Queries — Para escolher um arquivo de texto local, deixe em branco e pressione ENTER.')
-user_response = input(f'\r{Fore.LIGHTWHITE_EX}›{Fore.LIGHTBLUE_EX} ')
+print(f'{Fore.LIGHTWHITE_EX}[{Fore.LIGHTRED_EX}#{Fore.LIGHTWHITE_EX}] {Fore.LIGHTRED_EX}Lista de URLs/Queries — Para escolher um arquivo de texto local, deixe em branco e pressione ENTER.')
+user_response = input(f'{Fore.LIGHTWHITE_EX} ›{Fore.LIGHTBLUE_EX} ')
 
 user_response = user_response.strip()
 if user_response == '':
@@ -266,7 +271,7 @@ if user_response == '':
     root.withdraw()
 
     # Baixa o ícone da janela de dialogo caso não exista
-    explorer_ico_url = 'https://raw.githubusercontent.com/Henrique-Coder/batch-music-downloader/main/assets/explorer.ico'
+    explorer_ico_url = 'https://raw.githubusercontent.com/Henrique-Coder/batch-music-downloader/main/online_assets/explorer.ico'
     explorer_ico_dir = fr'{app_dir}\assets\explorer.ico'
 
     if not Path(explorer_ico_dir).is_file():
@@ -285,6 +290,8 @@ if user_response == '':
     cl(jump_lines=1)
 
     # Abre o arquivo no modo de leitura, especificando a codificação como UTF-8
+    start_time = time()
+
     with open(input_file_path.strip(), 'r', encoding='utf-8') as query_list:
         query_list = [line.strip() for line in query_list.readlines()]
         query_list = [line for line in query_list if line != '']
@@ -312,11 +319,13 @@ if user_response == '':
                 download_music(url, now_downloading, total_urls)
 
 else:
+    start_time = time()
+
     query_list = []
 
     while user_response != '':
         query_list.append(user_response)
-        user_response = input(f'{Fore.LIGHTWHITE_EX}›{Fore.LIGHTBLUE_EX} ')
+        user_response = input(f'{Fore.LIGHTWHITE_EX} ›{Fore.LIGHTBLUE_EX} ')
 
     total_urls = len(query_list)
     now_downloading = 0
