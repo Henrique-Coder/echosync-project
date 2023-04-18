@@ -9,5 +9,5 @@ upx-4.0.2-win64/
 
 # Files
 *.spec
-run-pyinstaller.py
+py_to_exe.py
 query_list.txt
