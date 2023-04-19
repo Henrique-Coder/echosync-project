@@ -10,6 +10,7 @@ from pytube import YouTube, extract
 from pytube.exceptions import VideoUnavailable, AgeRestrictedError, LiveStreamError, VideoPrivate, \
     RecordingUnavailable, MembersOnly, VideoRegionBlocked
 from requests import get
+from bs4 import BeautifulSoup
 from tqdm import tqdm
 from youtubesearchpython import SearchVideos
 from zstd import ZSTD_uncompress
@@ -33,7 +34,7 @@ temp_dir = Path(fr'{app_dir}\.temp')
 # Seta a extensao do arquivo de musica
 ext = 'mp3'
 
-def cl(jump_lines=0):
+def cl(jump_lines: int=0) -> None:
     """
     Limpa a tela do terminal
     :param jump_lines: opcional, quantidade de linhas em branco a serem puladas após limpar a tela
@@ -117,17 +118,6 @@ def get_thumbnail_url(url, resolution, hostname):
 
     thumbnail_url = f'https://{hostname}/vi/{extract.video_id(url)}/{resolution}.jpg'
     return thumbnail_url
-
-def get_youtube_url(query):
-    # Busca a URL do video no YouTube
-    try:
-        search = SearchVideos(query, offset=1, mode='dict', max_results=1)
-        results = search.result()
-        return str(results['search_result'][0]['link'])
-
-    except Exception as e:
-        print(f'{Fore.LIGHTWHITE_EX}[{Fore.LIGHTRED_EX}{now_downloading}/{total_urls}{Fore.LIGHTWHITE_EX}] {Fore.LIGHTRED_EX}Erro ao buscar a URL da música no YouTube! Erro: {Fore.LIGHTBLUE_EX}{e}\n')
-        pass
 
 def enchance_music_file(yt, music_title):
     # Globaliza as variaveis
@@ -217,7 +207,7 @@ def download_music(url, now_downloading, total_urls):
         thumbnail_url = get_thumbnail_url(url, resolution='maxresdefault', hostname='i.ytimg.com')
 
         # Baixa a musica (dir: 'songs')
-        if Path(fr'{temp_dir}\songs\{music_title}.{ext}').is_file():
+        if Path(fr'songs\{music_title}.{ext}').is_file():
             print(f'{Fore.LIGHTWHITE_EX}[{Fore.LIGHTYELLOW_EX}{now_downloading}/{total_urls}{Fore.LIGHTWHITE_EX}] {Fore.LIGHTYELLOW_EX}Música {Fore.LIGHTBLUE_EX}"{music_title}" {Fore.LIGHTYELLOW_EX}já foi baixada anteriormente!\n')
             already_exists += 1
             return
@@ -236,6 +226,52 @@ def download_music(url, now_downloading, total_urls):
 
     except Exception as e:
         print(f'{Fore.LIGHTWHITE_EX}[{Fore.LIGHTRED_EX}{now_downloading}/{total_urls}{Fore.LIGHTWHITE_EX}] {Fore.LIGHTRED_EX}Erro ao baixar a musica {Fore.LIGHTBLUE_EX}"{music_title}"{Fore.LIGHTRED_EX}! Erro: {Fore.LIGHTBLUE_EX}{e}\n')
+
+def get_yt_url_from_query(query):
+    # Busca a URL do video no YouTube
+    try:
+        search = SearchVideos(query, offset=1, mode='dict', max_results=1)
+        results = search.result()
+        return str(results['search_result'][0]['link'])
+
+    except Exception as e:
+        print(f'{Fore.LIGHTWHITE_EX}[{Fore.LIGHTRED_EX}{now_downloading}/{total_urls}{Fore.LIGHTWHITE_EX}] {Fore.LIGHTRED_EX}Erro ao buscar a URL da música no YouTube! Erro: {Fore.LIGHTBLUE_EX}{e}\n')
+        pass
+
+def get_musics_from_resso_playlist(url: str) -> list:
+    website = get(url).content
+    music_tags = BeautifulSoup(website, 'html.parser').find_all('img', src=lambda value: value.startswith('https://p16.resso.me/img/') and value.endswith('.jpg'))
+    musics = [music['alt'] for music in music_tags[2:]]
+    return musics
+
+def get_youtube_urls(query_list: list) -> list:
+    regexes = {
+        'youtube_video': r'(?:https?://)?(?:www\.)?(?:m\.)?(?:youtu\.be/|youtube\.com/(?:watch\?(?=.*v=\w+)(?:\S+)?v=|embed/|v/)?)([\w-]{11})',
+        'resso_playlist': r'^(?:https?://)?(?:www\.)?resso\.com/playlist/\d+.*|(?:https?://)?m\.resso\.com/\w+.*$',
+        'name': r'.*',
+    }
+
+    youtube_urls = list()
+    for query in query_list:
+        for source, regex in regexes.items():
+            match = findall(regex, query)
+            if match:
+                if source == 'youtube_video':
+                    new_url = query
+                    youtube_urls.append(new_url)
+
+                elif source == 'resso_playlist':
+                    names = get_musics_from_resso_playlist(query)
+                    new_urls = get_youtube_urls(names)
+                    youtube_urls.extend(new_urls)
+
+                elif source == 'name':
+                    new_url = get_yt_url_from_query(query)
+                    youtube_urls.append(new_url)
+
+                break
+
+    return youtube_urls
 
 
 # Cria as pastas necessárias
@@ -260,7 +296,7 @@ print(f'{Fore.LIGHTWHITE_EX}[{Fore.LIGHTRED_EX}#{Fore.LIGHTWHITE_EX}] {Fore.LIGH
 user_response = input(f'{Fore.LIGHTWHITE_EX} ›{Fore.LIGHTBLUE_EX} ')
 
 user_response = user_response.strip()
-if user_response == '':
+if len(user_response) == 0:
     # Limpa a tela e pula uma linha
     cl(jump_lines=1)
 
@@ -292,38 +328,15 @@ if user_response == '':
     # Abre o arquivo no modo de leitura, especificando a codificação como UTF-8
     start_time = time()
 
-    with open(input_file_path.strip(), 'r', encoding='utf-8') as query_list:
-        query_list = [line.strip() for line in query_list.readlines()]
-        query_list = [line for line in query_list if line != '']
-        total_urls = len(query_list)
-        now_downloading = 0
-
-        print(f'{Fore.LIGHTWHITE_EX}[{Fore.LIGHTGREEN_EX}#{Fore.LIGHTWHITE_EX}] {Fore.LIGHTGREEN_EX}Total de URLs: {Fore.LIGHTBLUE_EX}{total_urls}\n')
-
-        for query in query_list:
-            sleep(1)
-
-            yt_url_regex = r'(?:https?://)?(?:www\.)?(?:m\.)?(?:youtu\.be/|youtube\.com/(?:watch\?(?=.*v=\w+)(?:\S+)?v=|embed/|v/)?)([\w-]{11})'
-            url_match = findall(yt_url_regex, query)
-
-            if url_match:
-                now_downloading += 1
-
-                url = query.strip()
-                download_music(url, now_downloading, total_urls)
-
-            else:
-                now_downloading += 1
-
-                url = get_youtube_url(query).strip()
-                download_music(url, now_downloading, total_urls)
+    with open(input_file_path.strip(), 'r', encoding='utf-8') as fi:
+        query_list = [line.strip() for line in fi.readlines() if len(line.strip()) != 0]
 
 else:
     start_time = time()
 
-    query_list = []
+    query_list = list()
 
-    while user_response != '':
+    while len(user_response) != 0:
         query_list.append(user_response)
         user_response = input(f'{Fore.LIGHTWHITE_EX} ›{Fore.LIGHTBLUE_EX} ')
 
@@ -333,25 +346,13 @@ else:
     # Limpa a tela e pula uma linha
     cl(jump_lines=1)
 
-    print(f'{Fore.LIGHTWHITE_EX}[{Fore.LIGHTGREEN_EX}#{Fore.LIGHTWHITE_EX}] {Fore.LIGHTGREEN_EX}Total de URLs: {Fore.LIGHTBLUE_EX}{total_urls}\n')
+youtube_urls = get_youtube_urls(query_list)
+total_urls = len(youtube_urls)
 
-    for query in query_list:
-        sleep(1)
-
-        yt_url_regex = r'(?:https?://)?(?:www\.)?(?:m\.)?(?:youtu\.be/|youtube\.com/(?:watch\?(?=.*v=\w+)(?:\S+)?v=|embed/|v/)?)([\w-]{11})'
-        url_match = findall(yt_url_regex, query)
-
-        if url_match:
-            now_downloading += 1
-
-            url = query.strip()
-            download_music(url, now_downloading, total_urls)
-
-        else:
-            now_downloading += 1
-
-            url = get_youtube_url(query).strip()
-            download_music(url, now_downloading, total_urls)
+now_downloading = 1
+for url in youtube_urls:
+    download_music(url, now_downloading, total_urls)
+    now_downloading += 1
 
 # Deletando a pasta de arquivos temporarios
 rmtree(temp_dir, ignore_errors=True)
@@ -360,6 +361,6 @@ print(f'{Fore.LIGHTWHITE_EX}[{Fore.LIGHTGREEN_EX}T{Fore.LIGHTWHITE_EX}] {Fore.LI
 print(f'{Fore.LIGHTWHITE_EX}[{Fore.LIGHTGREEN_EX}|{Fore.LIGHTWHITE_EX}] {Fore.LIGHTGREEN_EX}Salvas: {Fore.LIGHTBLUE_EX}{success_downloads}')
 print(f'{Fore.LIGHTWHITE_EX}[{Fore.LIGHTGREEN_EX}|{Fore.LIGHTWHITE_EX}] {Fore.LIGHTGREEN_EX}Ignoradas: {Fore.LIGHTBLUE_EX}{already_exists}')
 print(f'{Fore.LIGHTWHITE_EX}[{Fore.LIGHTGREEN_EX}|{Fore.LIGHTWHITE_EX}] {Fore.LIGHTGREEN_EX}Falhas: {Fore.LIGHTBLUE_EX}{failed_downloads}')
-print(f'{Fore.LIGHTWHITE_EX}[{Fore.LIGHTGREEN_EX}L{Fore.LIGHTWHITE_EX}] {Fore.LIGHTGREEN_EX}Tentativas falhas: {Fore.LIGHTBLUE_EX}{total_requests - (success_downloads + already_exists + failed_downloads)}')
+print(f'{Fore.LIGHTWHITE_EX}[{Fore.LIGHTGREEN_EX}L{Fore.LIGHTWHITE_EX}] {Fore.LIGHTGREEN_EX}Tentativas totais: {Fore.LIGHTBLUE_EX}{total_requests - (success_downloads + already_exists + failed_downloads)}')
 
 input()
