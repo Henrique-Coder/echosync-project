@@ -6,6 +6,7 @@ songs/
 build/
 dist/
 upx-4.0.2-win64/
+.tests/
 
 # Files
 *.spec
