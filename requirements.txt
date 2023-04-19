@@ -5,3 +5,4 @@ requests
 tqdm
 youtube-search-python
 zstd
+beautifulsoup4
