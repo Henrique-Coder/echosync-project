@@ -1,7 +1,8 @@
-from os import system, makedirs, environ, pathsep, path, getcwd, remove
+from os import makedirs, environ, pathsep, path, getcwd, remove
 from pathlib import Path
 from re import sub, findall
 from shutil import rmtree
+from subprocess import run as subrun
 from time import sleep, time
 from tkinter import Tk, filedialog
 from bs4 import BeautifulSoup
@@ -47,7 +48,7 @@ def cl(jump_lines: int = 0) -> None:
     :return: None
     """
 
-    system('cls || clear')
+    subrun('cls || clear', shell=True)
 
     for i in range(jump_lines):
         print()
@@ -206,7 +207,7 @@ def enchance_music_file(yt, music_title: str) -> None:
     # Encoding the music file (by printing just one line of ffmpeg output in the terminal)
     makedirs('songs', exist_ok=True)
 
-    system(fr'ffmpeg -i "{temp_dir}\songs\{music_title}.{ext}" -b:a 320k -vn "songs\{music_title}.{ext}" -y -hide_banner -loglevel quiet -stats')
+    subrun(fr'ffmpeg -i "{temp_dir}\songs\{music_title}.{ext}" -b:a 320k -vn "songs\{music_title}.{ext}" -y -hide_banner -loglevel quiet -stats', shell=True)
 
     # Adds metadata to the music file
     publish_year = str(yt.publish_date).split('-')[0]
@@ -217,7 +218,6 @@ def enchance_music_file(yt, music_title: str) -> None:
     f['artist'] = format_string(string=yt.author)
     f['year'] = publish_year
     f['albumartist'] = format_string(string=yt.author)
-    f['genre'] = 'Music'
     f.save()
 
     # Delete the temporary music file and thumbnail
