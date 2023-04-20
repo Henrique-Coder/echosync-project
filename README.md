@@ -1,7 +1,7 @@
 [![Documentation](https://img.shields.io/badge/DOCS-soon...-lightgray?style=for-the-badge)]()
 [![Python 3.11.3](https://img.shields.io/badge/Python-3.11.3-blue?style=for-the-badge&logo=python)](https://www.python.org/downloads/release/python-3113/)
-[![GitHub issues](https://img.shields.io/github/issues/Henrique-Coder/batch-music-downloader?style=for-the-badge&logo=github&color=blue)](https://github.com/Henrique-Coder/batch-music-downloader/issues)
 [![GitHub license](https://img.shields.io/github/license/Henrique-Coder/batch-music-downloader?style=for-the-badge&logo=github&color=blue)](https://github.com/Henrique-Coder/batch-music-downloader/blob/main/LICENSE)
+[![GitHub issues](https://img.shields.io/github/issues/Henrique-Coder/batch-music-downloader?style=for-the-badge&logo=github&color=blue)](https://github.com/Henrique-Coder/batch-music-downloader/issues)
 
 ## BMD ・ Batch Music Downloader
  
@@ -20,10 +20,10 @@
 ### Available features (v1.0.0)
 In the list below, it shows everything that **BMD** can do with each music platform...
 
-#### <img align="left" width="24" height="24" src="github_assets/music_platforms/youtube.png" alt="YouTube"><img src=''> YouTube
+#### <img align="left" width="24" height="24" src="github_assets/music_platforms/youtube.png" alt="YouTube">ㅤYouTube
 - Supports downloading from any YouTube music link, playlists are not yet supported;
 
-#### <img align="left" width="24" height="24" src="github_assets/music_platforms/resso.png" alt="Spotify"><img src=''> Resso
+#### <img align="left" width="24" height="24" src="github_assets/music_platforms/resso.png" alt="Spotify">ㅤResso
 - It supports downloading all songs in a playlist, individual song links are not yet supported;
 
 ### _Possible_ future implementations
