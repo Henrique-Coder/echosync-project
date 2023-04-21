@@ -8,7 +8,7 @@ from tkinter import Tk, filedialog
 from bs4 import BeautifulSoup
 from colorama import init as colorama_init, Fore
 from music_tag import load_file as tag_load_file
-from pytube import YouTube, extract
+from pytube import YouTube, Playlist, extract
 from pytube.exceptions import VideoUnavailable, AgeRestrictedError, LiveStreamError, VideoPrivate, \
     RecordingUnavailable, MembersOnly, VideoRegionBlocked
 from requests import get
@@ -240,7 +240,7 @@ def download_music(url: str, now_downloading: int, total_urls: int) -> None:
     # Globalize the variables
     global already_exists, failed_downloads, total_requests
 
-    total_attempts = 11
+    total_attempts = 16
     retry_attempts = total_attempts
     retry_delay = 3
 
@@ -336,7 +336,22 @@ def get_yt_url_from_query(query: str) -> str:
     except Exception as e:
         print(f'{LWHITE}[{LRED}{now_downloading}/{total_urls}{LWHITE}] {LRED}Error when searching the song URL on YouTube! Error: {LBLUE}{e}\n')
 
-def get_musics_from_resso_playlist(url: str) -> list:
+def get_musics_from_youtube_playlist_url(url: str) -> list:
+    """
+    Returns a list of the songs in a YouTube playlist
+    :param url: url of the YouTube playlist
+    :return: list of the songs
+    """
+
+    playlist_id = extract.playlist_id(url)
+    playlist_url = f'https://www.youtube.com/playlist?list={playlist_id}'
+
+    playlist = Playlist(playlist_url)
+    urls = list(playlist.video_urls)
+
+    return urls
+
+def get_musics_from_resso_playlist_url(url: str) -> list:
     """
     Returns a list of the songs in a Resso playlist
     :param url: url of the Resso playlist
@@ -348,6 +363,18 @@ def get_musics_from_resso_playlist(url: str) -> list:
     musics = [music['alt'] for music in music_tags[2:]]
     return musics
 
+def get_musics_from_resso_track_url(url: str) -> str:
+    """
+    Returns the song in a Resso track
+    :param url: url of the Resso track
+    :return: song title
+    """
+
+    web_content = get(url).content
+    music_title = BeautifulSoup(web_content, 'html.parser').find('title').text[:-30].replace('Official Resso', '\b')
+
+    return music_title
+
 def get_youtube_urls(query_list: list) -> list:
     """
     Returns a list of YouTube URLs from a list of queries
@@ -356,9 +383,11 @@ def get_youtube_urls(query_list: list) -> list:
     """
 
     regexes = {
-        'youtube_video_url': r'(?:https?://)?(?:www\.)?(?:m\.)?(?:youtu\.be/|youtube\.com/(?:watch\?(?=.*v=\w+)(?:\S+)?v=|embed/|v/)?)([\w-]{11})',
+        'youtube_playlist_url': r'^https?://(?:www\.|)youtu(?:\.be/|be\.com/(?:watch\?(?:.*&)?v=|embed/|v/)|\.com/(?:(?:m/)?user(?:/[^/]+)?|c/[^\s/]+))([\w-]{11})(?:\S+)?(?:\?|\&)list=([\w-]+)',
+        'youtube_video_url': r'^https?:\/\/(?:www\.)?youtube\.com\/watch\?v=[\w-]+(?![\w&=?+%-]*(?:list|playlist)[\w&=?+%-]*)',
         'resso_playlist_url': r'^(?:https?://)?(?:www\.)?resso\.com/playlist/\d+.*|(?:https?://)?m\.resso\.com/\w+.*$',
-        'title': r'.*',
+        'resso_track_url': r'https:\/\/www\.resso\.com\/track\/[a-zA-Z0-9-]+\/[a-zA-Z0-9-_%?=&]+',
+        'title': r'.*'
     }
 
     youtube_urls = list()
@@ -366,14 +395,22 @@ def get_youtube_urls(query_list: list) -> list:
         for source, regex in regexes.items():
             match = findall(regex, query)
             if match:
-                if source == 'youtube_video_url':
-                    new_url = query
-                    youtube_urls.append(new_url)
+                if source == 'youtube_playlist_url':
+                    new_urls = get_musics_from_youtube_playlist_url(url=query)
+                    youtube_urls.extend(new_urls)
+
+                elif source == 'youtube_video_url':
+                    youtube_urls.append(query)
 
                 elif source == 'resso_playlist_url':
-                    names = get_musics_from_resso_playlist(url=query)
+                    names = get_musics_from_resso_playlist_url(url=query)
                     new_urls = get_youtube_urls(names)
                     youtube_urls.extend(new_urls)
+
+                elif source == 'resso_track_url':
+                    name = get_musics_from_resso_track_url(url=query)
+                    new_url = get_yt_url_from_query(query=name)
+                    youtube_urls.append(new_url)
 
                 elif source == 'title':
                     new_url = get_yt_url_from_query(query=query)
@@ -443,6 +480,6 @@ rmtree(temp_dir, ignore_errors=True)
 print(f'{LWHITE}[{LGREEN}T{LWHITE}] {LGREEN}Runtime: {LBLUE}{seconds_to_time(seconds=int(time() - start_time))}')
 print(f'{LWHITE}[{LGREEN}|{LWHITE}] {LGREEN}Saved: {LBLUE}{success_downloads}')
 print(f'{LWHITE}[{LGREEN}|{LWHITE}] {LGREEN}Ignored (they already existed): {LBLUE}{already_exists}')
-print(f'{LWHITE}[{LGREEN}|{LWHITE}] {LGREEN}Fails: {LBLUE}{failed_downloads}')
+print(f'{LWHITE}[{LGREEN}L{LWHITE}] {LGREEN}Fails: {LBLUE}{failed_downloads}')
 
-input()
+input(f'\n{LWHITE}[{LYELLOW}!{LWHITE}] {LYELLOW}Press ENTER to exit...')
