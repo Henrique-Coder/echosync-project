@@ -1,44 +1,54 @@
-[![Documentation](https://img.shields.io/badge/DOCS-soon...-lightgray?style=for-the-badge)]()
-[![Python 3.11.3](https://img.shields.io/badge/Python-3.11.3-blue?style=for-the-badge&logo=python)](https://www.python.org/downloads/release/python-3113/)
-[![GitHub license](https://img.shields.io/github/license/Henrique-Coder/batch-music-downloader?style=for-the-badge&logo=github&color=blue)](https://github.com/Henrique-Coder/batch-music-downloader/blob/main/LICENSE)
-[![GitHub issues](https://img.shields.io/github/issues/Henrique-Coder/batch-music-downloader?style=for-the-badge&logo=github&color=blue)](https://github.com/Henrique-Coder/batch-music-downloader/issues)
+<p align='center'>
+    <a href='https://github.com/Henrique-Coder/batch-music-downloader/blob/main/README.md'><img src='https://img.shields.io/badge/DOCS-soon...-lightgray?style=for-the-badge' alt='Documentation'></a>
+    <a href='https://www.python.org/downloads/release/python-3113/'><img src='https://img.shields.io/badge/Python-3.11.3-blue?style=for-the-badge&logo=python' alt='Python 3.11.3'></a>
+    <a href='https://opensource.org/license/mit/'><img src='https://img.shields.io/github/license/Henrique-Coder/batch-music-downloader?style=for-the-badge&logo=github&color=blue' alt='GitHub License'></a>
+    <a href='https://github.com/Henrique-Coder/batch-music-downloader/issues'><img src='https://img.shields.io/github/issues/Henrique-Coder/batch-music-downloader?style=for-the-badge&logo=github&color=blue' alt='GitHub Issues'></a>
+
+
+<center>
 
 ## BMD ・ Batch Music Downloader
- 
+</center>
+
+ <center>
+
 **BMD** is an open source project originally created in [Python 3.11.3](https://www.python.org/downloads/release/python-3113/), which allows you to download music playlists in a fast and intuitive way. Using [YouTube](https://www.youtube.com/) as a music search source, the [PyTube](https://pytube.io/en/latest/) library to download the songs and [FFmpeg](https://ffmpeg.org/) to re-encode the songs, enhancing their metadata and overall file.
+</center>
+
 
 <br>
-<div style='text-align: center;'>
-    <img src='favicon.ico' width='72' height='72' alt='Favicon'></div>
-<br>
+<p align='center'>
+    <a href='https://github.com/Henrique-Coder/batch-music-downloader'><img src='favicon.ico' width='72' height='72' alt='Favicon'></a>
+<br><br>
+
 
 ---
 <div style='text-align: center;'>
   <a href='https://github.com/Henrique-Coder/batch-music-downloader/releases/latest'>
     <img src='https://img.shields.io/github/v/release/Henrique-Coder/batch-music-downloader?color=red&style=for-the-badge' alt='GitHub release (latest by date)'></a></div>
 
-### Available features (v1.0.0)
+### Available features (v1.0.1)
 In the list below, it shows everything that **BMD** can do with each music platform...
 
 #### <img align="left" width="24" height="24" src="github_assets/music_platforms/youtube.png" alt="YouTube">ㅤYouTube
-- Supports downloading from any YouTube music link, playlists are not yet supported;
+- Supports downloading individual songs and playlists.
 
 #### <img align="left" width="24" height="24" src="github_assets/music_platforms/resso.png" alt="Spotify">ㅤResso
-- It supports downloading all songs in a playlist, individual song links are not yet supported;
+- Supports downloading individual songs and playlists.
 
 ### _Possible_ future implementations
 Later on, I plan to implement more music platforms, such as:
 
-<div style='text-align: left;'>
-  <img src="github_assets/music_platforms/youtube_music.png" alt="YouTube Music" style="display:inline-block; width:24px; height:24px; margin-right: 4px;">
-    <img src="github_assets/music_platforms/deezer.png" alt="Deezer" style="display:inline-block; width:24px; height:24px; margin-right: 4px;">
-    <img src="github_assets/music_platforms/spotify.png" alt="Spotify" style="display:inline-block; width:24px; height:24px; margin-right: 4px;">
-    <img src="github_assets/music_platforms/soundcloud.png" alt="Soundcloud" style="display:inline-block; width:24px; height:24px; margin-right: 4px;">
-    <img src="github_assets/music_platforms/tidal.png" alt="Tidal" style="display:inline-block; width:24px; height:24px; margin-right: 4px;">
-    <img src="github_assets/music_platforms/apple_music.png" alt="Apple Music" style="display:inline-block; width:24px; height:24px; margin-right: 4px;">
-    <img src="github_assets/music_platforms/amazon_music.png" alt="Amazon Music" style="display:inline-block; width:24px; height:24px; margin-right: 4px;">
-    <img src="github_assets/music_platforms/napster.png" alt="Napster" style="display:inline-block; width:24px; height:24px; margin-right: 4px;">
-</div>
+<p align='left'>
+  <img src="github_assets/music_platforms/youtube_music.png" alt="YouTube Music" style="display:inline-block; width:24px; height:24px; margin-right: 6px;">
+    <img src="github_assets/music_platforms/deezer.png" alt="Deezer" style="display:inline-block; width:24px; height:24px; margin-right: 6px;">
+    <img src="github_assets/music_platforms/spotify.png" alt="Spotify" style="display:inline-block; width:24px; height:24px; margin-right: 6px;">
+    <img src="github_assets/music_platforms/soundcloud.png" alt="Soundcloud" style="display:inline-block; width:24px; height:24px; margin-right: 6px;">
+    <img src="github_assets/music_platforms/tidal.png" alt="Tidal" style="display:inline-block; width:24px; height:24px; margin-right: 6px;">
+    <img src="github_assets/music_platforms/apple_music.png" alt="Apple Music" style="display:inline-block; width:24px; height:24px; margin-right: 6px;">
+    <img src="github_assets/music_platforms/amazon_music.png" alt="Amazon Music" style="display:inline-block; width:24px; height:24px; margin-right: 6px;">
+    <img src="github_assets/music_platforms/napster.png" alt="Napster" style="display:inline-block; width:24px; height:24px; margin-right: 6px;">
+</p>
 <br>
 
 ---
@@ -46,8 +56,8 @@ Later on, I plan to implement more music platforms, such as:
 <br>
 
 #### Main Screen ↴
-<div style='text-align: left;'>
-  <img src='github_assets/media_content/main_screen.png' alt='Main Screen' width="560" height="180"></div>
+<p align='left'>
+  <img src='github_assets/media_content/main_screen.png' alt='Main Screen' width="560" height="180"></p>
 
 ---
 ### How to use? (running from the executable)
