@@ -1,8 +1,12 @@
 <p align='center'>
-    <a href='https://github.com/Henrique-Coder/batch-music-downloader/blob/main/README.md'><img src='https://img.shields.io/badge/DOCS-soon...-lightgray?style=for-the-badge' alt='Documentation'></a>
-    <a href='https://www.python.org/downloads/release/python-3113/'><img src='https://img.shields.io/badge/Python-3.11.3-blue?style=for-the-badge&logo=python' alt='Python 3.11.3'></a>
-    <a href='https://opensource.org/license/mit/'><img src='https://img.shields.io/github/license/Henrique-Coder/batch-music-downloader?style=for-the-badge&logo=github&color=blue' alt='GitHub License'></a>
-    <a href='https://github.com/Henrique-Coder/batch-music-downloader/issues'><img src='https://img.shields.io/github/issues/Henrique-Coder/batch-music-downloader?style=for-the-badge&logo=github&color=blue' alt='GitHub Issues'></a>
+    <a href='https://github.com/Henrique-Coder/batch-music-downloader/blob/main/README.md'>
+        <img src='https://img.shields.io/badge/DOCS-soon...-lightgray?style=for-the-badge' alt='Documentation'></a>
+    <a href='https://www.python.org/downloads/release/python-3113/'>
+        <img src='https://img.shields.io/badge/Python-3.11.3-blue?style=for-the-badge&logo=python' alt='Python 3.11.3'></a>
+    <a href='https://opensource.org/license/mit/'>
+        <img src='https://img.shields.io/github/license/Henrique-Coder/batch-music-downloader?style=for-the-badge&logo=github&color=blue' alt='GitHub License'></a>
+    <a href='https://github.com/Henrique-Coder/batch-music-downloader/issues'>
+        <img src='https://img.shields.io/github/issues/Henrique-Coder/batch-music-downloader?style=for-the-badge&logo=github&color=blue' alt='GitHub Issues'></a>
 
 
 <center>
@@ -18,14 +22,15 @@
 
 <br>
 <p align='center'>
-    <a href='https://github.com/Henrique-Coder/batch-music-downloader'><img src='favicon.ico' width='72' height='72' alt='Favicon'></a>
+    <a href='https://github.com/Henrique-Coder/batch-music-downloader'>
+        <img src='favicon.ico' width='72' height='72' alt='Favicon'></a>
 <br><br>
 
 
 ---
-<div style='text-align: center;'>
+<p align='center'>
   <a href='https://github.com/Henrique-Coder/batch-music-downloader/releases/latest'>
-    <img src='https://img.shields.io/github/v/release/Henrique-Coder/batch-music-downloader?color=red&style=for-the-badge' alt='GitHub release (latest by date)'></a></div>
+    <img src='https://img.shields.io/github/v/release/Henrique-Coder/batch-music-downloader?color=red&style=for-the-badge' alt='GitHub release (latest by date)'></a><p>
 
 ### Available features (v1.0.1)
 In the list below, it shows everything that **BMD** can do with each music platform...
@@ -40,7 +45,7 @@ In the list below, it shows everything that **BMD** can do with each music platf
 Later on, I plan to implement more music platforms, such as:
 
 <p align='left'>
-  <img src="github_assets/music_platforms/youtube_music.png" alt="YouTube Music" style="display:inline-block; width:24px; height:24px; margin-right: 6px;">
+    <img src="github_assets/music_platforms/youtube_music.png" alt="YouTube Music" style="display:inline-block; width:24px; height:24px; margin-right: 6px;">
     <img src="github_assets/music_platforms/deezer.png" alt="Deezer" style="display:inline-block; width:24px; height:24px; margin-right: 6px;">
     <img src="github_assets/music_platforms/spotify.png" alt="Spotify" style="display:inline-block; width:24px; height:24px; margin-right: 6px;">
     <img src="github_assets/music_platforms/soundcloud.png" alt="Soundcloud" style="display:inline-block; width:24px; height:24px; margin-right: 6px;">
