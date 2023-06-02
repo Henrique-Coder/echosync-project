@@ -9,8 +9,7 @@ from bs4 import BeautifulSoup
 from colorama import init as colorama_init, Fore
 from music_tag import load_file as tag_load_file
 from pytube import YouTube, Playlist, extract
-from pytube.exceptions import VideoUnavailable, AgeRestrictedError, LiveStreamError, VideoPrivate, \
-    RecordingUnavailable, MembersOnly, VideoRegionBlocked
+from pytube.exceptions import VideoUnavailable, AgeRestrictedError, LiveStreamError, VideoPrivate, RecordingUnavailable, MembersOnly, VideoRegionBlocked
 from requests import get
 from tqdm import tqdm
 from youtubesearchpython import SearchVideos
@@ -474,7 +473,7 @@ for url in youtube_urls:
     download_music(url=url, now_downloading=now_downloading, total_urls=total_urls)
     now_downloading += 1
 
-# Deletando a pasta de arquivos temporarios
+# Deleting the temporary files folder
 rmtree(temp_dir, ignore_errors=True)
 
 print(f'{LWHITE}[{LGREEN}T{LWHITE}] {LGREEN}Runtime: {LBLUE}{seconds_to_time(seconds=int(time() - start_time))}')
