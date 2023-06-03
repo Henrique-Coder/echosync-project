@@ -1,14 +1,16 @@
-# Folders
+# PyCharm
 .idea/
-.releases/
-.temps/
+venv/
+
+# Folders
 songs/
+.releases/
+.tests/
+upx-4.0.2-win64/
 build/
 dist/
-upx-4.0.2-win64/
-.tests/
 
 # Files
-*.spec
 py_to_exe.py
 query_list.txt
+*.spec
