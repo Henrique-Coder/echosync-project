@@ -35,24 +35,24 @@
 ### Available features (v1.0.1)
 In the list below, it shows everything that **BMD** can do with each music platform...
 
-#### <img align="left" width="24" height="24" src="github_assets/music_platforms/youtube.png" alt="YouTube">ㅤYouTube
+#### <img align="left" width="24" height="24" src=".github/music_platforms/youtube.png" alt="YouTube">ㅤYouTube
 - Supports downloading individual songs and playlists.
 
-#### <img align="left" width="24" height="24" src="github_assets/music_platforms/resso.png" alt="Spotify">ㅤResso
+#### <img align="left" width="24" height="24" src=".github/music_platforms/resso.png" alt="Spotify">ㅤResso
 - Supports downloading individual songs and playlists.
 
 ### _Possible_ future implementations
 Later on, I plan to implement more music platforms, such as:
 
 <p align='left'>
-    <img src="github_assets/music_platforms/youtube_music.png" alt="YouTube Music" style="display:inline-block; width:24px; height:24px; margin-right: 6px;">
-    <img src="github_assets/music_platforms/deezer.png" alt="Deezer" style="display:inline-block; width:24px; height:24px; margin-right: 6px;">
-    <img src="github_assets/music_platforms/spotify.png" alt="Spotify" style="display:inline-block; width:24px; height:24px; margin-right: 6px;">
-    <img src="github_assets/music_platforms/soundcloud.png" alt="Soundcloud" style="display:inline-block; width:24px; height:24px; margin-right: 6px;">
-    <img src="github_assets/music_platforms/tidal.png" alt="Tidal" style="display:inline-block; width:24px; height:24px; margin-right: 6px;">
-    <img src="github_assets/music_platforms/apple_music.png" alt="Apple Music" style="display:inline-block; width:24px; height:24px; margin-right: 6px;">
-    <img src="github_assets/music_platforms/amazon_music.png" alt="Amazon Music" style="display:inline-block; width:24px; height:24px; margin-right: 6px;">
-    <img src="github_assets/music_platforms/napster.png" alt="Napster" style="display:inline-block; width:24px; height:24px; margin-right: 6px;">
+    <img src=".github/music_platforms/youtube_music.png" alt="YouTube Music" style="display:inline-block; width:24px; height:24px; margin-right: 6px;">
+    <img src=".github/music_platforms/deezer.png" alt="Deezer" style="display:inline-block; width:24px; height:24px; margin-right: 6px;">
+    <img src=".github/music_platforms/spotify.png" alt="Spotify" style="display:inline-block; width:24px; height:24px; margin-right: 6px;">
+    <img src=".github/music_platforms/soundcloud.png" alt="Soundcloud" style="display:inline-block; width:24px; height:24px; margin-right: 6px;">
+    <img src=".github/music_platforms/tidal.png" alt="Tidal" style="display:inline-block; width:24px; height:24px; margin-right: 6px;">
+    <img src=".github/music_platforms/apple_music.png" alt="Apple Music" style="display:inline-block; width:24px; height:24px; margin-right: 6px;">
+    <img src=".github/music_platforms/amazon_music.png" alt="Amazon Music" style="display:inline-block; width:24px; height:24px; margin-right: 6px;">
+    <img src=".github/music_platforms/napster.png" alt="Napster" style="display:inline-block; width:24px; height:24px; margin-right: 6px;">
 </p>
 <br>
 
@@ -62,7 +62,7 @@ Later on, I plan to implement more music platforms, such as:
 
 #### Main Screen ↴
 <p align='left'>
-  <img src='github_assets/media_content/main_screen.png' alt='Main Screen' width="560" height="180"></p>
+  <img src='.github/media_content/main_screen.png' alt='Main Screen' width="560" height="180"></p>
 
 ---
 ### How to use? (running from the executable)
