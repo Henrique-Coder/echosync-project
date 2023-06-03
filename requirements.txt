@@ -2,7 +2,6 @@ colorama
 music-tag
 pytube
 requests
-tqdm
 youtube-search-python
-zstd
 beautifulsoup4
+remotezip
