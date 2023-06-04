@@ -28,6 +28,9 @@ LYELLOW = Fore.LIGHTYELLOW_EX
 LCYAN = Fore.LIGHTCYAN_EX
 LMAGENTA = Fore.LIGHTMAGENTA_EX
 
+# Application version
+app_version = '1.0.5'
+
 # Creating initial variables
 ext = 'mp3'
 
@@ -38,6 +41,11 @@ temp_dir = Path(fr'{app_dir}/.temp')
 
 
 def is_internet_connected() -> bool:
+    """
+    Checks if the internet is connected
+    :return: True if connected, False if not
+    """
+
     try:
         response = get('http://www.google.com', timeout=5)
 
@@ -46,6 +54,21 @@ def is_internet_connected() -> bool:
 
     except ConnectionError:
         return False
+
+def app_update_checker() -> None:
+    """
+    Checks if the application is up to date
+    :return: None
+    """
+
+    repo_releases = 'https://github.com/Henrique-Coder/batch-music-downloader/releases'
+    repo_latest = f'{repo_releases}/latest'
+    latest_version = get(repo_latest).url.rsplit('/', 1)[-1].replace('v', '')
+
+    if latest_version > app_version:
+        print(f'\n{LMAGENTA}★ This app is out of date ({app_version}), '
+              f'the latest available version is {latest_version}!')
+        print(f'{LMAGENTA}★ Download it at: {repo_releases}/tag/v{latest_version}')
 
 def cl(jump_lines: int = 0) -> None:
     """
@@ -76,17 +99,6 @@ def seconds_to_time(seconds: int) -> str:
 
     formatted_time = str(f'{hours_str}:{minutes_str}:{seconds_str}')
     return formatted_time
-
-def tqdm_custom_bar(current, total, width=40, char='') -> str:
-    """
-    TQDM dependency for the custom progress bar
-    """
-
-    filled_length = int(width * current / total)
-    empty_length = width - filled_length
-    bar = char * filled_length + ' ' * empty_length
-
-    return f'[{bar}]'
 
 def dep_download_assets() -> None:
     """
@@ -138,18 +150,22 @@ def dep_download_ffmpeg() -> None:
     ffmpeg_exe = Path(f'{app_dir}/dependencies/ffmpeg.exe')
 
     if not ffmpeg_exe.is_file():
+        print(f'\n{LWHITE}✏ FFMPEG is not installed, downloading...', end='\r')
+
         repo = 'https://github.com/GyanD/codexffmpeg/releases/latest'
 
         latest_ffmpeg = get(repo).url.rsplit('/', 1)[-1]
         build = f'ffmpeg-{latest_ffmpeg}-essentials_build'
 
-        with RemoteZip(f'{repo}/download/{build}.zip') as rmzip:
-            total_size = rmzip.getinfo(f'{build}/bin/ffmpeg.exe').compress_size
-            print(f'{LWHITE}★ Downloading FFMPEG... ({total_size / 1024 / 1024:.2f} MB)')
+        with RemoteZip(f'{repo}/download/{build}.zip') as rzip:
+            total_size = rzip.getinfo(f'{build}/bin/ffmpeg.exe').compress_size
 
-            rmzip.extract(f'{build}/bin/ffmpeg.exe', Path(f'{app_dir}/dependencies'))
+            rzip.extract(f'{build}/bin/ffmpeg.exe', Path(f'{app_dir}/dependencies'))
             Path(f'{app_dir}/dependencies/{build}/bin/ffmpeg.exe').rename(Path(f'{app_dir}/dependencies/ffmpeg.exe'))
             rmtree(Path(f'{app_dir}/dependencies/{build}'), ignore_errors=True)
+
+            print(f'{LWHITE}✏ FFMPEG was successfully downloaded! (Compressed: {total_size / 1024 / 1024:.2f} MB & '
+                  f'Uncompressed: {rzip.getinfo(f"{build}/bin/ffmpeg.exe").file_size / 1024 / 1024:.2f} MB)')
 
     environ['PATH'] += pathsep + path.join(getcwd(), Path(f'{app_dir}/dependencies'))
 
@@ -448,6 +464,9 @@ if not is_internet_connected():
     input(f'{LWHITE}[{LRED}✖{LWHITE}] {LRED}Unstable internet connection! '
           f'{LYELLOW}Press ENTER or anything else to exit...')
     exit()
+
+# Check if app is up to date
+app_update_checker()
 
 # Download the necessary files for the program to run
 dep_download_assets()
