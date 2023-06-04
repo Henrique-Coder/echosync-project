@@ -9,8 +9,9 @@ from bs4 import BeautifulSoup
 from colorama import init as colorama_init, Fore
 from music_tag import load_file as tag_load_file
 from pytube import YouTube, Playlist, extract
-from pytube.exceptions import VideoUnavailable, AgeRestrictedError, LiveStreamError, VideoPrivate, RecordingUnavailable, MembersOnly, VideoRegionBlocked
-from requests import get
+from pytube.exceptions import VideoUnavailable, AgeRestrictedError, LiveStreamError, VideoPrivate, \
+    RecordingUnavailable, MembersOnly, VideoRegionBlocked
+from requests import get, ConnectionError
 from youtubesearchpython import SearchVideos
 from remotezip import RemoteZip
 
@@ -32,8 +33,19 @@ ext = 'mp3'
 
 # Creating variables for the program directory
 app_name = 'Batch Music Downloader [by Henrique-Coder]'
-app_dir = Path(environ['userprofile'] + fr'\AppData\Local\{app_name}')
-temp_dir = Path(fr'{app_dir}\.temp')
+app_dir = Path(environ['userprofile'] + fr'/AppData/Local/{app_name}')
+temp_dir = Path(fr'{app_dir}/.temp')
+
+
+def is_internet_connected() -> bool:
+    try:
+        response = get('http://www.google.com', timeout=5)
+
+        if response.status_code == 200:
+            return True
+
+    except ConnectionError:
+        return False
 
 def cl(jump_lines: int = 0) -> None:
     """
@@ -82,16 +94,19 @@ def dep_download_assets() -> None:
     :return: None
     """
 
+    # Creating variables for the GitHub repository
+    github_repo_url = 'https://raw.githubusercontent.com/Henrique-Coder/batch-music-downloader/main'
+
     # Creates the application directory if it doesn't exist
-    makedirs(fr'{app_dir}\dependencies', exist_ok=True)
+    makedirs(Path(f'{app_dir}/dependencies'), exist_ok=True)
 
     # Starts the Tkinter window and hides it
     root = Tk()
     root.withdraw()
 
     # Download the application favicon
-    favicon_url = 'https://raw.githubusercontent.com/Henrique-Coder/batch-music-downloader/main/favicon.ico'
-    favicon_dir = fr'{app_dir}\favicon.ico'
+    favicon_url = f'{github_repo_url}/favicon.ico'
+    favicon_dir = Path(f'{app_dir}/favicon.ico')
 
     if not Path(favicon_dir).is_file():
         r = get(favicon_url, allow_redirects=True)
@@ -100,19 +115,19 @@ def dep_download_assets() -> None:
             fo.write(r.content)
 
     # Download the dialog window icon if it doesn't exist
-    makedirs(fr'{app_dir}\assets', exist_ok=True)
+    makedirs(Path(f'{app_dir}/assets'), exist_ok=True)
 
-    explorer_ico_url = 'https://raw.githubusercontent.com/Henrique-Coder/batch-music-downloader/main/online_assets/explorer.ico'
-    explorer_ico_dir = fr'{app_dir}\assets\explorer.ico'
+    explorer_icon_url = f'{github_repo_url}/online_assets/explorer.ico'
+    explorer_icon_dir = Path(f'{app_dir}/assets/explorer.ico')
 
-    if not Path(explorer_ico_dir).is_file():
-        r = get(explorer_ico_url, allow_redirects=True)
+    if not Path(explorer_icon_dir).is_file():
+        r = get(explorer_icon_url, allow_redirects=True)
 
-        with open(explorer_ico_dir, 'wb') as fo:
+        with open(explorer_icon_dir, 'wb') as fo:
             fo.write(r.content)
 
     # Applies the dialog window icon
-    root.iconbitmap(explorer_ico_dir)
+    root.iconbitmap(explorer_icon_dir)
 
 def dep_download_ffmpeg() -> None:
     """
@@ -120,21 +135,23 @@ def dep_download_ffmpeg() -> None:
     :return: None
     """
 
-    ffmpeg_exe = Path(fr'{app_dir}\dependencies\ffmpeg.exe')
+    ffmpeg_exe = Path(f'{app_dir}/dependencies/ffmpeg.exe')
+
     if not ffmpeg_exe.is_file():
         repo = 'https://github.com/GyanD/codexffmpeg/releases/latest'
+
         latest_ffmpeg = get(repo).url.rsplit('/', 1)[-1]
         build = f'ffmpeg-{latest_ffmpeg}-essentials_build'
 
-        with RemoteZip(f'{repo}/download/{build}.zip') as zip:
-            total_size = zip.getinfo(f'{build}/bin/ffmpeg.exe').compress_size
+        with RemoteZip(f'{repo}/download/{build}.zip') as rmzip:
+            total_size = rmzip.getinfo(f'{build}/bin/ffmpeg.exe').compress_size
             print(f'{LWHITE}★ Downloading FFMPEG... ({total_size / 1024 / 1024:.2f} MB)')
 
-            zip.extract(f'{build}/bin/ffmpeg.exe', fr'{app_dir}\dependencies')
-            Path(fr'{app_dir}\dependencies\{build}\bin\ffmpeg.exe').rename(fr'{app_dir}\dependencies\ffmpeg.exe')
-            rmtree(fr'{app_dir}\dependencies\{build}')
+            rmzip.extract(f'{build}/bin/ffmpeg.exe', Path(f'{app_dir}/dependencies'))
+            Path(f'{app_dir}/dependencies/{build}/bin/ffmpeg.exe').rename(Path(f'{app_dir}/dependencies/ffmpeg.exe'))
+            rmtree(Path(f'{app_dir}/dependencies/{build}'), ignore_errors=True)
 
-    environ['PATH'] += pathsep + path.join(getcwd(), fr'{app_dir}\dependencies')
+    environ['PATH'] += pathsep + path.join(getcwd(), Path(f'{app_dir}/dependencies'))
 
 def format_string(string: str) -> str:
     """
@@ -144,9 +161,13 @@ def format_string(string: str) -> str:
     """
 
     # Format the string to be compatible with all operating systems
-    new_string = ''
+    new_string = str()
+    allowed_chars = 'aáàâãbcçdeéèêfghiíìîjklmnoóòôõpqrstuúùûvwxyzAÁÀÂÃBCÇDEÉÈÊFGHIÍÌÎJKLMNOÓÒÔÕPQRSTUÚÙÛVWXYZ' \
+                    '0123456789-_()[]{}# '
+
     for char in string:
-        if char in 'aáàâãbcçdeéèêfghiíìîjklmnoóòôõpqrstuúùûvwxyzAÁÀÂÃBCÇDEÉÈÊFGHIÍÌÎJKLMNOÓÒÔÕPQRSTUÚÙÛVWXYZ0123456789-_()[]{}# ':
+
+        if char in allowed_chars:
             new_string += char
 
     new_string = sub(' +', ' ', new_string).strip()
@@ -178,15 +199,19 @@ def enchance_music_file(yt, music_title: str) -> None:
     """
 
     # Encoding the music file (by printing just one line of ffmpeg output in the terminal)
-    makedirs('songs', exist_ok=True)
+    makedirs(Path('songs'), exist_ok=True)
 
-    subrun(fr'ffmpeg -i "{temp_dir}/songs/{music_title}.{ext}" -b:a 320k -vn "songs/{music_title}.{ext}" -y -hide_banner -loglevel quiet -stats', shell=True)
+    input_music_dir = Path(f'{temp_dir}/songs/{music_title}.{ext}')
+    output_music_dir = Path(f'songs/{music_title}.{ext}')
+
+    subrun(f'ffmpeg -i "{input_music_dir}" -b:a 320k -vn "{output_music_dir}" -y -hide_banner -loglevel quiet -stats',
+           shell=True)
 
     # Adds metadata to the music file
     publish_year = str(yt.publish_date).split('-')[0]
 
-    f = tag_load_file(fr'songs\{music_title}.{ext}')
-    f['artwork'] = open(fr'{temp_dir}\thumbnails\{music_title}.jpg', 'rb').read()
+    f = tag_load_file(output_music_dir)
+    f['artwork'] = open(Path(f'{temp_dir}/thumbnails/{music_title}.jpg'), 'rb').read()
     f['tracktitle'] = music_title
     f['artist'] = format_string(string=yt.author)
     f['year'] = publish_year
@@ -194,12 +219,13 @@ def enchance_music_file(yt, music_title: str) -> None:
     f.save()
 
     # Delete the temporary music file and thumbnail
-    remove(fr'{temp_dir}\songs\{music_title}.{ext}')
-    remove(fr'{temp_dir}\thumbnails\{music_title}.jpg')
+    remove(Path(f'{temp_dir}/songs/{music_title}.{ext}'))
+    remove(Path(f'{temp_dir}/thumbnails/{music_title}.jpg'))
 
-    print(f'{LWHITE}[{LGREEN}{app_env["now_downloading"]}/{app_env["total_urls"]}{LWHITE}] {LGREEN}Music successfully saved!\n')
+    print(f'{LWHITE}[{LGREEN}{app_env["now_downloading"]}/{app_env["total_urls"]}{LWHITE}] '
+          f'{LGREEN}Music successfully saved!\n')
 
-    app_env["success_downloads"] += 1
+    app_env['success_downloads'] += 1
 
 def download_music(url: str) -> None:
     """
@@ -208,13 +234,13 @@ def download_music(url: str) -> None:
     :return: None
     """
 
-    total_attempts = 16
+    total_attempts = 11
     retry_attempts = total_attempts
     retry_delay = 3
 
     while retry_attempts > 0:
         try:
-            app_env["total_requests"] += 1
+            app_env['total_requests'] += 1
             retry_attempts -= 1
 
             yt = YouTube(url)
@@ -222,41 +248,65 @@ def download_music(url: str) -> None:
             break
 
         except VideoRegionBlocked:
-            print(f'{LWHITE}[{LRED}{app_env["now_downloading"]}/{app_env["total_urls"]}{LWHITE}] {LRED}Error when accessing the URL: {LBLUE}"{url}"{LRED}, because the song is {LBLUE}blocked in your region{LRED}! Jumping to the next in the list...\n')
-            app_env["failed_downloads"] += 1
-            return
-        except AgeRestrictedError:
-            print(f'{LWHITE}[{LRED}{app_env["now_downloading"]}/{app_env["total_urls"]}{LWHITE}] {LRED}Error when accessing the URL: {LBLUE}"{url}"{LRED}, as the song is {LBLUE}restricted to 18+ years old{LRED} and cannot be downloaded anonymously! Jumping to the next on the list...\n')
-            app_env["failed_downloads"] += 1
-            return
-        except LiveStreamError:
-            print(f'{LWHITE}[{LRED}{app_env["now_downloading"]}/{app_env["total_urls"]}{LWHITE}] {LRED}Error when accessing the URL: {LBLUE}"{url}"{LRED}, because the song is at {LBLUE}live{LRED} and it is not possible to download it! Jumping to the next in the list...\n')
-            app_env["failed_downloads"] += 1
-            return
-        except VideoPrivate:
-            print(f'{LWHITE}[{LRED}{app_env["now_downloading"]}/{app_env["total_urls"]}{LWHITE}] {LRED}Error when accessing the URL: {LBLUE}"{url}"{LRED}, because the song is {LBLUE}private{LRED} and cannot be accessed! Jumping to the next in the list...\n')
-            app_env["failed_downloads"] += 1
-            return
-        except RecordingUnavailable:
-            print(f'{LWHITE}[{LRED}{app_env["now_downloading"]}/{app_env["total_urls"]}{LWHITE}] {LRED}Error when accessing the URL: {LBLUE}"{url}"{LRED}, because the song is {LBLUE}indisavailable{LRED}! Jumping to the next in the list...\n')
-            app_env["failed_downloads"] += 1
-            return
-        except MembersOnly:
-            print(f'{LWHITE}[{LRED}{app_env["now_downloading"]}/{app_env["total_urls"]}{LWHITE}] {LRED}Error when accessing the URL: {LBLUE}"{url}"{LRED}, because the music is {LBLUE}exclusive to members{LRED} and cannot be downloaded anonymously! Jumping to the next on the list...\n')
-            app_env["failed_downloads"] += 1
-            return
-        except VideoUnavailable:
-            print(f'{LWHITE}[{LRED}{app_env["now_downloading"]}/{app_env["total_urls"]}{LWHITE}] {LRED}Error when accessing the URL: {LBLUE}"{url}"{LRED}, because the song is {LBLUE}indisavailable{LRED}! Jumping to the next in the list...\n')
-            app_env["failed_downloads"] += 1
+            print(f'{LWHITE}[{LRED}{app_env["now_downloading"]}/{app_env["total_urls"]}{LWHITE}] {LRED}'
+                  f'Error when accessing the URL: {LBLUE}"{url}"{LRED}, because the song is {LBLUE}'
+                  f'blocked in your region{LRED}! Jumping to the next in the list...\n')
+            app_env['failed_downloads'] += 1
             return
 
-        except Exception as e:
+        except AgeRestrictedError:
+            print(f'{LWHITE}[{LRED}{app_env["now_downloading"]}/{app_env["total_urls"]}{LWHITE}] {LRED}'
+                  f'Error when accessing the URL: {LBLUE}"{url}"{LRED}, as the song is {LBLUE}'
+                  f'restricted to 18+ years old{LRED} and cannot be downloaded! Jumping to the next on the list...\n')
+            app_env['failed_downloads'] += 1
+            return
+
+        except LiveStreamError:
+            print(f'{LWHITE}[{LRED}{app_env["now_downloading"]}/{app_env["total_urls"]}{LWHITE}] {LRED}'
+                  f'Error when accessing the URL: {LBLUE}"{url}"{LRED}, because the song is at {LBLUE}'
+                  f'live{LRED} and it is not possible to download it! Jumping to the next in the list...\n')
+            app_env['failed_downloads'] += 1
+            return
+
+        except VideoPrivate:
+            print(f'{LWHITE}[{LRED}{app_env["now_downloading"]}/{app_env["total_urls"]}{LWHITE}] {LRED}'
+                  f'Error when accessing the URL: {LBLUE}"{url}"{LRED}, because the song is {LBLUE}'
+                  f'private{LRED} and cannot be accessed! Jumping to the next in the list...\n')
+            app_env['failed_downloads'] += 1
+            return
+
+        except RecordingUnavailable:
+            print(f'{LWHITE}[{LRED}{app_env["now_downloading"]}/{app_env["total_urls"]}{LWHITE}] {LRED}'
+                  f'Error when accessing the URL: {LBLUE}"{url}"{LRED}, because the song is {LBLUE}'
+                  f'indisavailable{LRED}! Jumping to the next in the list...\n')
+            app_env['failed_downloads'] += 1
+            return
+
+        except MembersOnly:
+            print(f'{LWHITE}[{LRED}{app_env["now_downloading"]}/{app_env["total_urls"]}{LWHITE}] {LRED}'
+                  f'Error when accessing the URL: {LBLUE}"{url}"{LRED}, because the music is {LBLUE}'
+                  f'exclusive to members{LRED} and cannot be downloaded! Jumping to the next on the list...\n')
+            app_env['failed_downloads'] += 1
+            return
+
+        except VideoUnavailable:
+            print(f'{LWHITE}[{LRED}{app_env["now_downloading"]}/{app_env["total_urls"]}{LWHITE}] {LRED}'
+                  f'Error when accessing the URL: {LBLUE}"{url}"{LRED}, because the song is {LBLUE}'
+                  f'indisavailable{LRED}! Jumping to the next in the list...\n')
+            app_env['failed_downloads'] += 1
+            return
+
+        except Exception:
             if retry_attempts == 0:
-                print(f'{LWHITE}[{LRED}{app_env["now_downloading"]}/{app_env["total_urls"]}{LWHITE}] {LRED}Jumping to the next on the list...\n')
+                print(f'{LWHITE}[{LRED}{app_env["now_downloading"]}/{app_env["total_urls"]}{LWHITE}] {LRED}'
+                      f'Jumping to the next on the list...\n')
                 return
 
             else:
-                print(f'{LWHITE}[{LRED}{app_env["now_downloading"]}/{app_env["total_urls"]}{LWHITE}] {LRED}Error on the {LBLUE}{total_attempts-retry_attempts}/{total_attempts-1}th {LRED}attempt: {LBLUE}"{e}"{LRED}! Trying again...')
+                print(f'{LWHITE}[{LRED}{app_env["now_downloading"]}/{app_env["total_urls"]}{LWHITE}] {LRED}'
+                      f'Error on the {LBLUE}{total_attempts-retry_attempts}/{total_attempts-1}th {LRED}attempt! '
+                      f'{LBLUE}Trying again...')
+
                 sleep(retry_delay)
 
     # Get the URL of the thumbnail and saves it in a variable
@@ -264,29 +314,32 @@ def download_music(url: str) -> None:
         thumbnail_url = get_yt_thumbnail_url(url=url, resolution='maxresdefault', hostname='i.ytimg.com')
 
         # Download the song from YouTube
-        if Path(fr'songs\{music_title}.{ext}').is_file():
-            print(f'{LWHITE}[{LYELLOW}{app_env["now_downloading"]}/{app_env["total_urls"]}{LWHITE}] {LYELLOW}Music {LBLUE}"{music_title}" {LYELLOW} has already been downloaded!\n')
-            app_env["already_exists"] += 1
+        if Path(Path(f'songs/{music_title}.{ext}')).is_file():
+            print(f'{LWHITE}[{LYELLOW}{app_env["now_downloading"]}/{app_env["total_urls"]}{LWHITE}] '
+                  f'{LYELLOW}Music {LBLUE}"{music_title}" {LYELLOW} has already been downloaded!\n')
+            app_env['already_exists'] += 1
             return
 
         else:
-            print(f'{LWHITE}[{LYELLOW}{app_env["now_downloading"]}/{app_env["total_urls"]}{LWHITE}] {LYELLOW}Downloading music {LBLUE}"{music_title}"{LYELLOW}...')
+            print(f'{LWHITE}[{LYELLOW}{app_env["now_downloading"]}/{app_env["total_urls"]}{LWHITE}] '
+                  f'{LYELLOW}Downloading music {LBLUE}"{music_title}"{LYELLOW}...')
 
-            makedirs(fr'{temp_dir}\songs', exist_ok=True)
+            makedirs(Path(f'{temp_dir}/songs'), exist_ok=True)
 
             yt_stream = yt.streams.filter(only_audio=True).get_audio_only()
-            yt_stream.download(filename=f'{music_title}.{ext}', output_path=f'{temp_dir}\songs')
+            yt_stream.download(filename=f'{music_title}.{ext}', output_path=Path(f'{temp_dir}/songs'))
 
             # Download the thumbnail if the song has already been downloaded
-            makedirs(fr'{temp_dir}\thumbnails', exist_ok=True)
+            makedirs(Path(f'{temp_dir}/thumbnails'), exist_ok=True)
 
             r = get(thumbnail_url, allow_redirects=True)
-            open(fr'{temp_dir}\thumbnails\{music_title}.jpg', 'wb').write(r.content)
+            open(Path(f'{temp_dir}/thumbnails/{music_title}.jpg'), 'wb').write(r.content)
 
             enchance_music_file(yt, music_title=music_title)
 
     except Exception as e:
-        print(f'{LWHITE}[{LRED}{app_env["now_downloading"]}/{app_env["total_urls"]}{LWHITE}] {LRED}Error downloading music {LBLUE}"{music_title}"{LRED}! Error: {LBLUE}{e}\n')
+        print(f'{LWHITE}[{LRED}{app_env["now_downloading"]}/{app_env["total_urls"]}{LWHITE}] '
+              f'{LRED}Error downloading music {LBLUE}"{music_title}"{LRED}! Error: {LBLUE}{e}\n')
 
 def get_yt_url_from_query(query: str) -> str:
     """
@@ -302,7 +355,8 @@ def get_yt_url_from_query(query: str) -> str:
         return results['search_result'][0]['link']
 
     except Exception as e:
-        print(f'{LWHITE}[{LRED}{app_env["now_downloading"]}/{app_env["total_urls"]}{LWHITE}] {LRED}Error when searching the song URL on YouTube! Error: {LBLUE}{e}\n')
+        print(f'{LWHITE}[{LRED}{app_env["now_downloading"]}/{app_env["total_urls"]}{LWHITE}] '
+              f'{LRED}Error when searching the song URL on YouTube! Error: {LBLUE}{e}\n')
 
 def get_musics_from_youtube_playlist_url(url: str) -> list:
     """
@@ -311,12 +365,7 @@ def get_musics_from_youtube_playlist_url(url: str) -> list:
     :return: list of the songs
     """
 
-    playlist_id = extract.playlist_id(url)
-    playlist_url = f'https://www.youtube.com/playlist?list={playlist_id}'
-
-    playlist = Playlist(playlist_url)
-    urls = list(playlist.video_urls)
-
+    urls = list(Playlist(f'https://www.youtube.com/playlist?list={extract.playlist_id(url)}').video_urls)
     return urls
 
 def get_musics_from_resso_playlist_url(url: str) -> list:
@@ -326,8 +375,11 @@ def get_musics_from_resso_playlist_url(url: str) -> list:
     :return: list of the songs
     """
 
-    website = get(url).content
-    music_tags = BeautifulSoup(website, 'html.parser').find_all('img', src=lambda value: value.startswith('https://p16.resso.me/img/') and value.endswith('.jpg'))
+    website_content = get(url).content
+    music_tags = BeautifulSoup(
+        website_content, 'html.parser').\
+        find_all('img', src=lambda value: value.startswith('https://p16.resso.me/img/') and value.endswith('.jpg'))
+
     musics = [music['alt'] for music in music_tags[2:]]
     return musics
 
@@ -351,8 +403,10 @@ def get_youtube_urls(query_list: list) -> list:
     """
 
     regexes = {
-        'youtube_playlist_url': r'^https?://(?:www\.|)youtu(?:\.be/|be\.com/(?:watch\?(?:.*&)?v=|embed/|v/)|\.com/(?:(?:m/)?user(?:/[^/]+)?|c/[^\s/]+))([\w-]{11})(?:\S+)?(?:\?|\&)list=([\w-]+)',
-        'youtube_video_url': r'^https?:\/\/(?:www\.)?youtube\.com\/watch\?v=[\w-]+(?![\w&=?+%-]*(?:list|playlist)[\w&=?+%-]*)',
+        'youtube_playlist_url': r'^https?://(?:www\.|)youtu(?:\.be/|be\.com/(?:watch\?(?:.*&)?v=|embed/|v/)|\.com/'
+                                r'(?:(?:m/)?user(?:/[^/]+)?|c/[^\s/]+))([\w-]{11})(?:\S+)?(?:\?|\&)list=([\w-]+)',
+        'youtube_video_url': r'^https?:\/\/(?:www\.)?youtube\.com\/watch\?v=[\w-]+(?![\w&=?+%-]*(?:list|playlist)'
+                             r'[\w&=?+%-]*)',
         'resso_playlist_url': r'^(?:https?://)?(?:www\.)?resso\.com/playlist/\d+.*|(?:https?://)?m\.resso\.com/\w+.*$',
         'resso_track_url': r'https:\/\/www\.resso\.com\/track\/[a-zA-Z0-9-]+\/[a-zA-Z0-9-_%?=&]+',
         'title': r'.*'
@@ -389,6 +443,12 @@ def get_youtube_urls(query_list: list) -> list:
     return youtube_urls
 
 
+# Check internet connection
+if not is_internet_connected():
+    input(f'{LWHITE}[{LRED}✖{LWHITE}] {LRED}Unstable internet connection! '
+          f'{LYELLOW}Press ENTER or anything else to exit...')
+    exit()
+
 # Download the necessary files for the program to run
 dep_download_assets()
 dep_download_ffmpeg()
@@ -403,20 +463,32 @@ app_env = {
 }
 
 def app():
+    # Resets the app_env
+    app_env['total_urls'] = 0
+    app_env['now_downloading'] = 0
+    app_env['success_downloads'] = 0
+    app_env['already_exists'] = 0
+    app_env['failed_downloads'] = 0
+    app_env['total_requests'] = 0
+
     # Asks if the user wants to download the songs from a text file or write them manually
-    print(f'\n{LWHITE}[{LYELLOW}?{LWHITE}] {LYELLOW}You can download the songs from a local {LCYAN}text file {LYELLOW}or {LCYAN}write manually{LYELLOW}.\n')
+    print(f'\n{LWHITE}[{LYELLOW}?{LWHITE}] {LYELLOW}You can download the songs from a local {LCYAN}text file '
+          f'{LYELLOW}or {LCYAN}write manually{LYELLOW}.\n')
 
     print(f'{LWHITE}[{LGREEN}!{LWHITE}] {LWHITE}To select a local text file, leave it blank and press ENTER.')
-    print(f'{LWHITE}[{LGREEN}!{LWHITE}] {LWHITE}To type manually, type in some URL (from YouTube) or song name and press ENTER.\n')
+    print(f'{LWHITE}[{LGREEN}!{LWHITE}] {LWHITE}To type manually, type in some URL (from YouTube) or song name and '
+          f'press ENTER.\n')
 
-    print(f'{LWHITE}[{LRED}#{LWHITE}] {LRED}List of URLs/Queries - To choose a local text file, leave it blank and press ENTER.')
+    print(f'{LWHITE}[{LRED}#{LWHITE}] {LRED}List of URLs/Queries - To choose a local text file, leave it blank and '
+          f'press ENTER.')
     user_response = input(f'{LWHITE} ›{LBLUE} ')
 
     user_response = user_response.strip()
     if len(user_response) == 0:
         cl(jump_lines=1)
 
-        print(f'{LWHITE}[{LYELLOW}!{LWHITE}] {LYELLOW}Opening the file explorer for you to select the local text file...\n')
+        print(f'{LWHITE}[{LYELLOW}!{LWHITE}] {LYELLOW}Opening the file explorer for you to select the local '
+              f'text file...\n')
 
         # Opens a dialog window for selecting the input file
         input_file_path = filedialog.askopenfilename(title='Select a text file with the URLs/Queries',
@@ -455,10 +527,14 @@ def app():
     # Deleting the temporary files folder
     rmtree(temp_dir, ignore_errors=True)
 
-    print(f'{LWHITE}[{LGREEN}T{LWHITE}] {LGREEN}Runtime: {LBLUE}{seconds_to_time(seconds=int(time() - start_time))}')
-    print(f'{LWHITE}[{LGREEN}|{LWHITE}] {LGREEN}Saved: {LBLUE}{app_env["success_downloads"]}')
-    print(f'{LWHITE}[{LGREEN}|{LWHITE}] {LGREEN}Ignored (they already existed): {LBLUE}{app_env["already_exists"]}')
-    print(f'{LWHITE}[{LGREEN}L{LWHITE}] {LGREEN}Fails: {LBLUE}{app_env["failed_downloads"]}')
+    print(f'{LWHITE}[{LGREEN}T{LWHITE}] {LGREEN}Runtime (total application execution time): '
+          f'{LBLUE}{seconds_to_time(seconds=int(time() - start_time))}')
+    print(f'{LWHITE}[{LGREEN}|{LWHITE}] {LGREEN}Saved (songs successfully downloaded and saved): '
+          f'{LBLUE}{app_env["success_downloads"]}')
+    print(f'{LWHITE}[{LGREEN}|{LWHITE}] {LGREEN}Ignored (songs that already existed in the output folder): '
+          f'{LBLUE}{app_env["already_exists"]}')
+    print(f'{LWHITE}[{LGREEN}L{LWHITE}] {LGREEN}Fails (songs not downloaded or unavailable): '
+          f'{LBLUE}{app_env["failed_downloads"]}')
 
 
 while True:
