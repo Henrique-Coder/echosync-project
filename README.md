@@ -23,7 +23,7 @@
 <br>
 <p align='center'>
     <a href='https://github.com/Henrique-Coder/batch-music-downloader'>
-        <img src='favicon.ico' width='72' height='72' alt='Favicon'></a>
+        <img src='.github/media/favicon.ico' width='72' height='72' alt='Favicon'></a>
 <br><br>
 
 
@@ -62,7 +62,7 @@ Later on, I plan to implement more music platforms, such as:
 
 #### Main Screen ↴
 <p align='left'>
-  <img src='.github/media_content/main_screen.png' alt='Main Screen' width="560" height="180"></p>
+  <img src='.github/media/main_screen.png' alt='Main Screen' width="560" height="180"></p>
 
 ---
 ### How to use? (running from the executable)
