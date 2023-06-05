@@ -27,7 +27,7 @@ from deps import (
 )
 
 # Application settings
-APP_VERSION = '1.1.0'
+APP_VERSION = '1.0.6'
 APP_NAME = 'BMD'
 APP_MAIN_DIR = Path(getcwd(), APP_NAME)
 APP_DEPS_DIR = Path(f'{APP_MAIN_DIR}/dependencies')
