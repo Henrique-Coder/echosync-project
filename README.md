@@ -8,17 +8,17 @@
     <a href='https://github.com/Henrique-Coder/batch-music-downloader/issues'>
         <img src='https://img.shields.io/github/issues/Henrique-Coder/batch-music-downloader?style=for-the-badge&logo=github&color=blue' alt='GitHub Issues'></a>
 
-
 <center>
 
 ## BMD ・ Batch Music Downloader
+
 </center>
 
  <center>
 
 **BMD** is an open source project originally created in [Python 3.11.3](https://www.python.org/downloads/release/python-3113/), which allows you to download music playlists in a fast and intuitive way. Using [YouTube](https://www.youtube.com/) as a music search source, the [PyTube](https://pytube.io/en/latest/) library to download the songs and [FFmpeg](https://ffmpeg.org/) to re-encode the songs, enhancing their metadata and overall file.
-</center>
 
+</center>
 
 <br>
 <p align='center'>
@@ -26,22 +26,26 @@
         <img src='.github/media/favicon.ico' width='72' height='72' alt='Favicon'></a>
 <br><br>
 
-
 ---
+
 <p align='center'>
   <a href='https://github.com/Henrique-Coder/batch-music-downloader/releases/latest'>
     <img src='https://img.shields.io/github/v/release/Henrique-Coder/batch-music-downloader?color=red&style=for-the-badge' alt='GitHub release (latest by date)'></a><p>
 
 ### Available features (v1.0.1)
+
 In the list below, it shows everything that **BMD** can do with each music platform...
 
 #### <img align="left" width="24" height="24" src=".github/music_platforms/youtube.png" alt="YouTube">ㅤYouTube
+
 - Supports downloading individual songs and playlists.
 
 #### <img align="left" width="24" height="24" src=".github/music_platforms/resso.png" alt="Spotify">ㅤResso
+
 - Supports downloading individual songs and playlists.
 
 ### _Possible_ future implementations
+
 Later on, I plan to implement more music platforms, such as:
 
 <p align='left'>
@@ -57,21 +61,27 @@ Later on, I plan to implement more music platforms, such as:
 <br>
 
 ---
+
 ### 📸 Screenshot(s) & Gif(s)
+
 <br>
 
 #### Main Screen ↴
+
 <p align='left'>
   <img src='.github/media/main_screen.png' alt='Main Screen' width="560" height="180"></p>
 
 ---
+
 ### How to use? (running from the executable)
+
 1. Download the latest version of the program [here](https://github.com/Henrique-Coder/batch-music-downloader/releases);
 2. Run the executable file;
 3. Follow the instructions on the terminal screen;
 4. Enjoy your music! :D
 
 ### How to use? (running from source code)
+
 1. Clone the repository to your local machine ・ `git clone https://github.com/Henrique-Coder/batch-music-downloader.git`;
 2. Go to the project directory ・ `cd "batch-music-downloader"`;
 3. Install the project dependencies ・ `pip install -r requirements.txt`;
@@ -84,9 +94,12 @@ Later on, I plan to implement more music platforms, such as:
 #### **# The program is designed for Windows 10/11, so it will not work on other operating systems. _Support for other operating systems will be added soon..._**
 
 ---
+
 ### Credits
+
 - Many thanks to my brother _Felipe_ for the gigantic help ❤️ ・ [GitHub](https://github.com/cidadedolag) & [LinkedIn](https://www.linkedin.com/in/cidadedolag/);
 - Some icons were based on [icons8](https://icons8.com/icons) (i used the desktop application).
 
 ### Disclaimer
+
 Please note that downloading copyrighted music may be illegal in your country. This tool is designed for educational purposes only, and to demonstrate how you can extract accurate song and author information from websites and music services. Please support the artists by purchasing their music and respecting copyrights.
