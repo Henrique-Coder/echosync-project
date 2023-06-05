@@ -1,6 +1,7 @@
 # PyCharm
 .idea/
 venv/
+__pycache__/
 
 # Folders
 songs/
