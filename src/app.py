@@ -196,7 +196,12 @@ def app():
         f'{TBracket(TColor.LBLUE, "RUNNING", 1)} {TColor.BLUE}Converting into YouTube URLs...'
     )
 
-    queries = [mup.get_musics_from_youtube_playlist(playlist_url) for playlist_url in MusicServiceURLs.youtube_playlist]
+    queries = list()
+
+    for playlist_url in MusicServiceURLs.youtube_playlist:
+        songs = mup.get_musics_from_youtube_playlist(playlist_url)
+        queries.extend(songs)
+
     MusicServiceURLs.all_urls.extend(queries)
     print(
         f'  {TColor.WHITE}Added {TColor.GREEN}{len(queries)}{TColor.WHITE} YouTube URL(s) from {TColor.GREEN}{len(MusicServiceURLs.youtube_playlist)}{TColor.WHITE} YouTube playlist(s)'
