@@ -23,7 +23,7 @@
 <br>
 <p align='center'>
     <a href='https://github.com/Henrique-Coder/batch-music-downloader'>
-        <img src='.github/media/favicon.ico' width='72' height='72' alt='Favicon'></a>
+        <img src='favicon.ico' width='72' height='72' alt='Favicon'></a>
 <br><br>
 
 ---
@@ -32,7 +32,7 @@
   <a href='https://github.com/Henrique-Coder/batch-music-downloader/releases/latest'>
     <img src='https://img.shields.io/github/v/release/Henrique-Coder/batch-music-downloader?color=red&style=for-the-badge' alt='GitHub release (latest by date)'></a><p>
 
-### Available features (v1.0.1)
+### Available features (v2.0.0)
 
 In the list below, it shows everything that **BMD** can do with each music platform...
 
@@ -62,20 +62,9 @@ Later on, I plan to implement more music platforms, such as:
 
 ---
 
-### 📸 Screenshot(s) & Gif(s)
-
-<br>
-
-#### Main Screen ↴
-
-<p align='left'>
-  <img src='.github/media/main_screen.png' alt='Main Screen' width="560" height="180"></p>
-
----
-
 ### How to use? (running from the executable)
 
-1. Download the latest version of the program [here](https://github.com/Henrique-Coder/batch-music-downloader/releases);
+1. Download the latest version of the program [here](https://github.com/Henrique-Coder/batch-music-downloader/releases/latest);
 2. Run the executable file;
 3. Follow the instructions on the terminal screen;
 4. Enjoy your music! :D
@@ -85,20 +74,18 @@ Later on, I plan to implement more music platforms, such as:
 1. Clone the repository to your local machine ・ `git clone https://github.com/Henrique-Coder/batch-music-downloader.git`;
 2. Go to the project directory ・ `cd "batch-music-downloader"`;
 3. Install the project dependencies ・ `pip install -r requirements.txt`;
-4. Run the main file ・ `py main.py`, `python main.py` or `python3 main.py`;
+4. Run the main file ・ `py main.py` or `python main.py`;
 5. Follow the instructions on the terminal screen;
 6. Enjoy your music! :D
 
 <br>
-
-#### **# The program is designed for Windows 10/11, so it will not work on other operating systems. _Support for other operating systems will be added soon..._**
 
 ---
 
 ### Credits
 
 - Many thanks to my brother _Felipe_ for the gigantic help ❤️ ・ [GitHub](https://github.com/cidadedolag) & [LinkedIn](https://www.linkedin.com/in/cidadedolag/);
-- Some icons were based on [icons8](https://icons8.com/icons) (i used the desktop application).
+- Some icons were based on [Icons8](https://icons8.com/icons) (i used the desktop application).
 
 ### Disclaimer
 
