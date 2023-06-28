@@ -1,9 +1,12 @@
-# PyCharm
+# Editor files/folders
 .idea/
 venv/
 __pycache__/
 
-# Folders
-.old/
-.tests/
+# Program files/folders
+*.bat
+*.example
 .compiler/
+.tests/
+media/
+src/queries_list.txt
