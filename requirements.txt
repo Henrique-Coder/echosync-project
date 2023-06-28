@@ -1,7 +1,8 @@
 colorama
-music-tag
-pytube
 requests
-youtube-search-python
-beautifulsoup4
 remotezip
+beautifulsoup4
+youtube-search-python
+yt-dlp
+music-tag
+Pillow
