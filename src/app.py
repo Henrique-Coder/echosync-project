@@ -13,7 +13,7 @@ from py_functions import (
 
 # Application settings
 class AppConfig:
-    VERSION = '2.0.0'
+    VERSION = '1.1.0'
     GITHUB_REPOSITORY = 'https://github.com/Henrique-Coder/batch-music-downloader'
     NAME = 'Batch Music Downloader'
     PATH = getcwd(), NAME.replace(' ', '')
@@ -44,7 +44,7 @@ if not is_updated:
         f'{TBracket(TColor.LYELLOW, "WARN")} {TColor.YELLOW}This app version is out of date, '
         f'the latest available version is {TColor.GREEN}{latest_version_available}'
         f'\n{TBracket(TColor.LYELLOW, "WARN")} {TColor.YELLOW}Download it at: '
-        f'{TColor.BLUE}{lastest_release_url}'
+        f'{TColor.BLUE}{lastest_release_url}\n'
     )
 
 # Creating app folders
