@@ -36,8 +36,8 @@
 
 In the list below, it shows everything that **BMD** can do with each music platform...
 - It can download a song just by its name;
-- Supports downloading individual songs and playlists;
-- Supports downloading individual songs and playlists.
+- Supports downloading individual songs and playlists from [YouTube](https://www.youtube.com/);
+- Supports downloading individual songs and playlists from [Resso](https://www.resso.com/).
 
 ### _Possible_ future implementations
 
