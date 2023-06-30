@@ -16,7 +16,7 @@ def sanitize_title(title: str) -> str:
     """
 
     normalized_title = normalize('NFKD', title).encode('ASCII', 'ignore').decode('utf-8')
-    sanitized_title = sub(r'[^a-zA-Z0-9\-_()[\]{}# ]', '', normalized_title)
+    sanitized_title = sub(r'[^a-zA-Z0-9\-_()[\]{}# ]', '', normalized_title).strip()
     return sanitized_title
 
 def get_youtube_url_from_query(query: str) -> Optional[str]:
@@ -83,7 +83,7 @@ def get_music_name_from_resso_track(url: str) -> str:
 
     return music_name
 
-def music_platform_categorizer(pyclass, query_list: list) -> list:
+def music_platform_categorizer(pyclass, query_list: list, TColor) -> list:
     platform_regexes = {
         'youtube_playlist': r'(?:https?://)?(?:www\.)?youtu(?:\.be/|be\.com/(?:watch\?(?:.*&)?v=|embed/|v/|user(?:/.+/)?|playlist(?:.+/)?|attribution_link(?:.+)?/))(?!videoseries)[\w-]{11}(?:(?:\?|\&)list=)[\w-]+',
         'youtube_track': r'^(https?://)?(www\.)?(youtube\.com/watch\?v=|youtu\.be/)[\w-]+$',
@@ -93,6 +93,9 @@ def music_platform_categorizer(pyclass, query_list: list) -> list:
     }
 
     for query in query_list:
+        now_processing_number = query_list.index(query) + 1
+        print(f'  {TColor.LYELLOW}Progress: {TColor.WHITE}{now_processing_number}/{TColor.WHITE}{len(query_list)}', end='\r')
+
         for source, regex in platform_regexes.items():
             match = findall(regex, query)
             if match:
@@ -107,7 +110,7 @@ def music_platform_categorizer(pyclass, query_list: list) -> list:
                 elif source == 'all':
                     pyclass.youtube_track.append(get_youtube_url_from_query(query=query))
                 break
-
+    print(f'  {TColor.LYELLOW}Successfully categorized: {TColor.WHITE}{len(query_list)} {TColor.YELLOW}queries')
     return pyclass
 
 def get_youtube_song_metadata(url: str) -> dict:
