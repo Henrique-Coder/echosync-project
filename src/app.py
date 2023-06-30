@@ -18,7 +18,7 @@ class AppConfig:
     NAME = 'Batch Music Downloader'
     PATH = getcwd(), NAME.replace(' ', '')
     ENV_PATH = Path(*PATH, 'assets/pathenv')
-    OUTPUT_PATH = Path(*PATH, 'songs')
+    OUTPUT_PATH = Path('songs')
 
 
 # Initializing Colorama and terminal functions
@@ -182,7 +182,7 @@ def app():
     print(
         f'{TBracket(TColor.LBLUE, "RUNNING")} {TColor.BLUE}Separating URLs/Queries by service...'
     )
-    mup.music_platform_categorizer(MusicServiceURLs, AppQueries.query_list)
+    mup.music_platform_categorizer(MusicServiceURLs, AppQueries.query_list, TColor)
     print(
         f'  {TColor.LWHITE}YouTube (Track): {TColor.GREEN}{len(MusicServiceURLs.youtube_track)}\n'
         f'  {TColor.LWHITE}YouTube (Playlist): {TColor.GREEN}{len(MusicServiceURLs.youtube_playlist)}\n'
@@ -246,7 +246,7 @@ def app():
         now_downloading = MusicServiceURLs.all_urls.index(url) + 1
 
         print(
-            f"{TBracket(TColor.LBLUE, 'RUNNING')} {TColor.BLUE}Downloading: {url}' - {TColor.LWHITE}[{TColor.BLUE}{now_downloading}{TColor.LWHITE}/{TColor.BLUE}{len(MusicServiceURLs.all_urls)}{TColor.LWHITE}]"
+            f"{TBracket(TColor.LBLUE, 'RUNNING')} {TColor.BLUE}Downloading: {url} - {TColor.LWHITE}[{TColor.BLUE}{now_downloading}{TColor.LWHITE}/{TColor.BLUE}{len(MusicServiceURLs.all_urls)}{TColor.LWHITE}]"
         )
         info = mup.get_youtube_song_metadata(url)
         music_path = mup.download_song_from_youtube(info, AppConfig.OUTPUT_PATH)
