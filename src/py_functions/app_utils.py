@@ -7,6 +7,7 @@ from typing import Optional
 from colorama import init, Fore
 from remotezip import RemoteZip
 from requests import get
+from time import time
 
 
 class TerminalTextColors:
@@ -42,6 +43,39 @@ class TerminalCustomBrackets(TerminalTextColors):
 
     def __str__(self):
         return '\n' * self.jump_lines + f'{TerminalTextColors.WHITE}[{self.color}{self.text}{TerminalTextColors.WHITE}]'
+
+class Timer:
+    """
+    Timer class
+    """
+
+    def __init__(self):
+        self.start_time = None
+        self.end_time = None
+
+    def start(self) -> None:
+        """
+        Start timer
+        :return:
+        """
+
+        self.start_time = time()
+
+    def stop(self) -> None:
+        """
+        Stop timer
+        :return:
+        """
+
+        self.end_time = time()
+
+    def get_time(self) -> float:
+        """
+        Get time
+        :return:  Time
+        """
+
+        return self.end_time - self.start_time
 
 def init_colorama(autoreset: bool = True) -> None:
     """
