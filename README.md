@@ -32,16 +32,11 @@
   <a href='https://github.com/Henrique-Coder/batch-music-downloader/releases/latest'>
     <img src='https://img.shields.io/github/v/release/Henrique-Coder/batch-music-downloader?color=red&style=for-the-badge' alt='GitHub release (latest by date)'></a><p>
 
-### Available features (v2.0.0)
+### Available features (v1.1.1)
 
 In the list below, it shows everything that **BMD** can do with each music platform...
-
-#### <img align="left" width="24" height="24" src=".github/music_platforms/youtube.png" alt="YouTube">ㅤYouTube
-
-- Supports downloading individual songs and playlists.
-
-#### <img align="left" width="24" height="24" src=".github/music_platforms/resso.png" alt="Spotify">ㅤResso
-
+- It can download a song just by its name;
+- Supports downloading individual songs and playlists;
 - Supports downloading individual songs and playlists.
 
 ### _Possible_ future implementations
