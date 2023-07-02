@@ -13,7 +13,7 @@ from py_functions import (
 
 # Application settings
 class AppConfig:
-    VERSION = '1.1.0'
+    VERSION = '1.1.1'
     GITHUB_REPOSITORY = 'https://github.com/Henrique-Coder/batch-music-downloader'
     NAME = 'Batch Music Downloader'
     PATH = getcwd(), NAME.replace(' ', '')
