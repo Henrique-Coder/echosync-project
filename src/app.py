@@ -13,7 +13,7 @@ from py_functions import (
 
 # Application settings
 class AppConfig:
-    VERSION = '1.1.1'
+    VERSION = '1.1.2'
     GITHUB_REPOSITORY = 'https://github.com/Henrique-Coder/batch-music-downloader'
     NAME = 'Batch Music Downloader'
     PATH = getcwd(), NAME.replace(' ', '')
@@ -74,11 +74,9 @@ if not ffmpeg_path.exists():
     environ['PATH'] += f';{AppConfig.ENV_PATH}'
 
     print(
-        f'{TBracket(TColor.LGREEN, "SUCCESS")} {TColor.GREEN}FFMPEG auto-download started at {start_time} '
-        f'and ended successfully at {datetime.now().strftime("%H:%M:%S:%f")}!'
+        f'{TBracket(TColor.LGREEN, "SUCCESS")} {TColor.GREEN}FFMPEG auto-download started at {TColor.YELLOW}{start_time} '
+        f'{TColor.GREEN}and ended successfully at {TColor.YELLOW}{datetime.now().strftime("%H:%M:%S:%f")}{TColor.GREEN}.\n'
     )
-    sleep(3)
-    app_utils.clsr(1)
 
 # Creating main query variables
 class AppQueries:
