@@ -5,8 +5,8 @@ __pycache__/
 
 # Program files/folders
 *.bat
-*.example
+src/*.txt
 .compiler/
 .tests/
 media/
-src/queries_list.txt
+BatchMusicDownloader/
