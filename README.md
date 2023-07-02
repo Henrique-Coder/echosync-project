@@ -1,8 +1,8 @@
 <p align='center'>
     <a href='https://github.com/Henrique-Coder/batch-music-downloader/blob/main/README.md'>
         <img src='https://img.shields.io/badge/DOCS-soon...-lightgray?style=for-the-badge' alt='Documentation'></a>
-    <a href='https://www.python.org/downloads/release/python-3113/'>
-        <img src='https://img.shields.io/badge/Python-3.11.3-blue?style=for-the-badge&logo=python' alt='Python 3.11.3'></a>
+    <a href='https://www.python.org/downloads/release/python-3114/'>
+        <img src='https://img.shields.io/badge/Python-3.11.4-blue?style=for-the-badge&logo=python' alt='Python 3.11.4'></a>
     <a href='https://opensource.org/license/mit/'>
         <img src='https://img.shields.io/github/license/Henrique-Coder/batch-music-downloader?style=for-the-badge&logo=github&color=blue' alt='GitHub License'></a>
     <a href='https://github.com/Henrique-Coder/batch-music-downloader/issues'>
