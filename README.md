@@ -32,7 +32,7 @@
   <a href='https://github.com/Henrique-Coder/batch-music-downloader/releases/latest'>
     <img src='https://img.shields.io/github/v/release/Henrique-Coder/batch-music-downloader?color=red&style=for-the-badge' alt='GitHub release (latest by date)'></a><p>
 
-### Available features (v1.1.1)
+### Available features (v1.1.2)
 
 In the list below, it shows everything that **BMD** can do with each music platform...
 - It can download a song just by its name;
