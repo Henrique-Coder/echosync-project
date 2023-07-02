@@ -3,9 +3,9 @@ from datetime import datetime
 from os import getcwd, environ
 from pathlib import Path
 from sys import exit
-from time import sleep
 
 from py_functions import (
+    base64_items as b64i,
     app_utils,
     music_platforms as mup,
 )
@@ -54,17 +54,19 @@ app_utils.create_dirs(app_folder, ['assets/media', 'assets/pathenv'])
 # Checking if app assets exists and downloading if not
 path_explorer_file_dialog_ico = Path(app_folder, 'assets/media/ExplorerFileDialog.ico')
 if not path_explorer_file_dialog_ico.exists():
-    base64_explorer_file_dialog_ico = 'AAABAAEAICAAAAEAIACoEAAAFgAAACgAAAAgAAAAQAAAAAEAIAAAAAAAgBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP///wT///9R////kv///6r///+k////cf///yAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD///8d////0////////////////////////////////f///5f///8KAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP///8b//////////////////////////////////////////////8r///8LAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD///8f/////////////////////////////////////////////////////////5YAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP///yf/////////////////////////////////////////////////////////+f///xAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD///8e////lP///9b////u////6P///8H///92////DwAAAAAAAAAAAAAAAAAAAAAAAAAA////Bf///+r/////////////////////////////////////////////////////////PwAAAAAAAAAAAAAAAAAAAAAAAAAA////OP///+7////////////////////////////////////n////SAAAAAAAAAAAAAAAAAAAAAAAAAAA////c/////////////////////////////////////////////////////////9KAAAAAAAAAAAAAAAAAAAAAP///wL////c///////////////////////////////////////////////8////TAAAAAAAAAAAAAAAAAAAAAD///8C////pf///////////////////////////////////////////////////0oAAAAAAAAAAAAAAAAAAAAA////JP/////////////////////////////////////////////////////////q////DgAAAAAAAAAAAAAAAAAAAAD///8C////ef////L/////////////////////////////////////////SgAAAAAAAAAAAAAAAAAAAAD///8i//////////////////////////////////////////////////////////////9dAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA////EP///2r///+o////u////7T///+O//////////////9KAAAAAAAAAAAAAAAAAAAAAP///wH////b/////////////////////////////////////////////////////////4UAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP///yL//////////////0oAAAAAAAAAAAAAAAAAAAAAAAAAAP///1H////+////////////////////////////////////////////////////iQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA////Iv//////////////SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP///3L////8//////////////////////////////////////////////+JAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD///8i//////////////9KAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP///zn///++/////////////////////////////////////////4kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP///yL//////////////0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD///8l////Vv///2b///9b////Jf///+T/////////iQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA////Iv//////////////SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA////5P////////+JAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD///8i//////////////9KAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD////k/////////4kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP///yL//////////////0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP///+T/////////iQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA////Iv//////////////SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA////5P////////+JAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD///8i//////////////9kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD////k/////////4kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP///yL//////////////+f///9I////AgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP///+T/////////iQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA////Iv/////////////////////////Z////iP///zz///8CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA////5P////////+JAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD///8i/////////////////////////////////////////+f///+R////RP///wgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD////k/////////4kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP///yL/////////////////////////////////////////////////////////+P///7X///9l////FgAAAAAAAAAAAAAAAP///+X/////////iQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA////If/////////////////////////////////////////////////////////////////////////9////w////3T///9m/////v////////+JAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD///8F////+P///////////////////////////////////////////////////////////////////////////////////////////////////4kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD///+e////////////////////////////////////////////////////////////////////////////////////////////////////iQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP///xD////J//////////////////////////////////////////////////////////////////////////////////////////////+JAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP///wn///9y////0////////////////////////////////////////////////////////////////////////////////////4kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA////M////4D////M/////f//////////////////////////////////////////////////////////////iQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD///8P////Vv///6P////t//////////////////////////////////////////////+GAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP///wP///8/////i////9n//////////////////////////////1YAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP///yb///90////vP///9n///+G////AQAAAAAAAAAA8f///8A///+AH///gA///4AP8H+AD+AfwA/AD8APwAfwD8AH/A/AA//P4AP/z/AD/8/4A//P/+P/z//j/8//4//P/+P/z//j/8//4//H/+P/wP/j/8Af4//AA+P/wABj/8AAA//AAAP/4AAD//gAA//+AAP//+AD///8B////8c='
+    base64_explorer_file_dialog_ico = b64i.base64_explorer_file_dialog_ico
     app_utils.base64_decoder(
         base64_data=base64_explorer_file_dialog_ico,
-        output_file_path=path_explorer_file_dialog_ico
+        output_file_path=path_explorer_file_dialog_ico,
     )
 
+# Checking if ffmpeg exists and downloading if not
 ffmpeg_path = Path(AppConfig.ENV_PATH / 'ffmpeg.exe')
 if not ffmpeg_path.exists():
     start_time = datetime.now().strftime('%H:%M:%S:%f')
     print(
-        f'{TBracket(TColor.LYELLOW, "WARN")} {TColor.YELLOW}FFMPEG auto-download started at {start_time}', end='\r'
+        f'{TBracket(TColor.LYELLOW, "WARN")} {TColor.YELLOW}FFMPEG auto-download started at {start_time}',
+        end='\r',
     )
 
     # Downloading ffmpeg
@@ -78,10 +80,12 @@ if not ffmpeg_path.exists():
         f'{TColor.GREEN}and ended successfully at {TColor.YELLOW}{datetime.now().strftime("%H:%M:%S:%f")}{TColor.GREEN}.\n'
     )
 
+
 # Creating main query variables
 class AppQueries:
     queries_file_path = None
     query_list = list()
+
 
 # Creating downloading status variables
 class AppStats:
@@ -92,6 +96,7 @@ class AppStats:
     failed_downloads = int()
     total_requests = int()
 
+
 # Creating service URLs
 class MusicServiceURLs:
     all_urls = list()
@@ -99,6 +104,7 @@ class MusicServiceURLs:
     youtube_track = list()
     resso_playlist = list()
     resso_track = list()
+
 
 def app():
     def reseting_variables() -> None:
@@ -124,6 +130,7 @@ def app():
         MusicServiceURLs.youtube_track = list()
         MusicServiceURLs.resso_playlist = list()
         MusicServiceURLs.resso_track = list()
+
     reseting_variables()
 
     # Asks if the user wants to download the songs from a text file or write manually
@@ -147,7 +154,7 @@ def app():
         queries_file_path = app_utils.filedialog_selector(
             window_title='Select a text file with the URLs/Queries',
             window_icon_path=path_explorer_file_dialog_ico,
-            allowed_file_types=[('Text files', '*.txt'), ('All files', '*.*')]
+            allowed_file_types=[('Text files', '*.txt'), ('All files', '*.*')],
         )
 
         # If the user has not selected any file, finish the program
@@ -162,21 +169,18 @@ def app():
             AppQueries.query_list = [
                 line.strip() for line in fi.readlines() if len(line.strip()) != 0
             ]
-
         AppStats.total_urls = len(AppQueries.query_list)
-
     else:
         # If the user has typed something, store the queries in a list
         while len(user_response) != 0:
             AppQueries.query_list.append(user_response)
             user_response = input(f'{TColor.LWHITE} ›{TColor.BLUE} ')
-
         AppStats.total_urls = len(AppQueries.query_list)
 
     # Clear the screen
     app_utils.clsr(1)
 
-    # Separa as URLs/Queries por serviço
+    # Separate URLs/Queries by service
     print(
         f'{TBracket(TColor.LBLUE, "RUNNING")} {TColor.BLUE}Separating URLs/Queries by service...'
     )
@@ -199,7 +203,6 @@ def app():
     for playlist_url in MusicServiceURLs.youtube_playlist:
         songs = mup.get_musics_from_youtube_playlist(playlist_url)
         queries.extend(songs)
-
     MusicServiceURLs.all_urls.extend(queries)
     print(
         f'  {TColor.WHITE}Added {TColor.GREEN}{len(queries)}{TColor.WHITE} YouTube URL(s) from {TColor.GREEN}{len(MusicServiceURLs.youtube_playlist)}{TColor.WHITE} YouTube playlist(s)'
@@ -210,24 +213,26 @@ def app():
         f'  {TColor.WHITE}Added {TColor.GREEN}{len(MusicServiceURLs.youtube_track)}{TColor.WHITE} YouTube URL(s) from {TColor.GREEN}{len(MusicServiceURLs.youtube_track)}{TColor.WHITE} YouTube track(s)'
     )
 
-    queries = [mup.get_youtube_url_from_query(music_name)
-               for playlist_url in MusicServiceURLs.resso_playlist
-               for music_name in mup.get_music_name_from_resso_playlist(playlist_url)]
+    queries = [
+        mup.get_youtube_url_from_query(music_name)
+        for playlist_url in MusicServiceURLs.resso_playlist
+        for music_name in mup.get_music_name_from_resso_playlist(playlist_url)
+    ]
     MusicServiceURLs.all_urls.extend(queries)
     print(
         f'  {TColor.WHITE}Added {TColor.GREEN}{len(queries)}{TColor.WHITE} YouTube URL(s) from {TColor.GREEN}{len(MusicServiceURLs.resso_playlist)}{TColor.WHITE} Resso playlist(s)'
     )
 
-    queries = [mup.get_youtube_url_from_query(mup.get_music_name_from_resso_track(music_url))
-               for music_url in MusicServiceURLs.resso_track]
+    queries = [
+        mup.get_youtube_url_from_query(mup.get_music_name_from_resso_track(music_url))
+        for music_url in MusicServiceURLs.resso_track
+    ]
     MusicServiceURLs.all_urls.extend(queries)
     print(
         f'  {TColor.WHITE}Added {TColor.GREEN}{len(queries)}{TColor.WHITE} YouTube URL(s) from {TColor.GREEN}{len(MusicServiceURLs.resso_track)}{TColor.WHITE} Resso track(s)'
     )
 
-    print(
-        f'  {TColor.LGREEN}Total of {len(MusicServiceURLs.all_urls)} YouTube URL(s)'
-    )
+    print(f'  {TColor.LGREEN}Total of {len(MusicServiceURLs.all_urls)} YouTube URL(s)')
 
     # Fixing URLs list
     for url in MusicServiceURLs.all_urls:
@@ -235,7 +240,9 @@ def app():
             MusicServiceURLs.all_urls.remove(url)
         elif url == str():  # If the URL is empty, remove it from the list
             MusicServiceURLs.all_urls.remove(url)
-        elif MusicServiceURLs.all_urls.count(url) > 1:  # If the URL is duplicated, remove it from the list
+        elif (
+            MusicServiceURLs.all_urls.count(url) > 1
+        ):  # If the URL is duplicated, remove it from the list
             MusicServiceURLs.all_urls.remove(url)
 
     # Downloading the songs
@@ -263,5 +270,4 @@ while True:
     )
     if key != str():
         break
-
     app_utils.clsr(1)
