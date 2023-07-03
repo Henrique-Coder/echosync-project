@@ -14,7 +14,7 @@
 
 </center>
 
- <center>
+<center>
 
 **BMD** is an open source project originally created in [Python 3.11.3](https://www.python.org/downloads/release/python-3113/), which allows you to download music playlists in a fast and intuitive way. Using [YouTube](https://www.youtube.com/) as a music search source, the [PyTube](https://pytube.io/en/latest/) library to download the songs and [FFmpeg](https://ffmpeg.org/) to re-encode the songs, enhancing their metadata and overall file.
 
@@ -33,14 +33,12 @@
     <img src='https://img.shields.io/github/v/release/Henrique-Coder/batch-music-downloader?color=red&style=for-the-badge' alt='GitHub release (latest by date)'></a><p>
 
 ### Available features (v1.1.2)
-
 In the list below, it shows everything that **BMD** can do with each music platform...
 - It can download a song just by its name;
 - Supports downloading individual songs and playlists from [YouTube](https://www.youtube.com/);
 - Supports downloading individual songs and playlists from [Resso](https://www.resso.com/).
 
 ### _Possible_ future implementations
-
 Later on, I plan to implement more music platforms, such as:
 
 <p align='left'>
@@ -57,19 +55,23 @@ Later on, I plan to implement more music platforms, such as:
 
 ---
 
-### How to use? (running from the executable)
+### Demonstration
+#### Baixando uma música do YouTube
+[https://files.catbox.moe/v82ch8.mp4](https://files.catbox.moe/v82ch8.mp4)
 
+---
+
+### How to use? (running from the executable)
 1. Download the latest version of the program [here](https://github.com/Henrique-Coder/batch-music-downloader/releases/latest);
 2. Run the executable file;
 3. Follow the instructions on the terminal screen;
 4. Enjoy your music! :D
 
 ### How to use? (running from source code)
-
 1. Clone the repository to your local machine ・ `git clone https://github.com/Henrique-Coder/batch-music-downloader.git`;
 2. Go to the project directory ・ `cd "batch-music-downloader"`;
 3. Install the project dependencies ・ `pip install -r requirements.txt`;
-4. Run the main file ・ `py main.py` or `python main.py`;
+4. Run the main file ・ `py app.py` or `python app.py`;
 5. Follow the instructions on the terminal screen;
 6. Enjoy your music! :D
 
@@ -78,10 +80,8 @@ Later on, I plan to implement more music platforms, such as:
 ---
 
 ### Credits
-
 - Many thanks to my brother _Felipe_ for the gigantic help ❤️ ・ [GitHub](https://github.com/cidadedolag) & [LinkedIn](https://www.linkedin.com/in/cidadedolag/);
 - Some icons were based on [Icons8](https://icons8.com/icons) (i used the desktop application).
 
 ### Disclaimer
-
 Please note that downloading copyrighted music may be illegal in your country. This tool is designed for educational purposes only, and to demonstrate how you can extract accurate song and author information from websites and music services. Please support the artists by purchasing their music and respecting copyrights.
