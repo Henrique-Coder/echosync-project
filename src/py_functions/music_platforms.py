@@ -26,8 +26,8 @@ def music_platform_categorizer(pyclass, query_list: list, TColor) -> list:
     platform_regexes = {
         'youtube_playlist': r'^https:\/\/(?:www\.)?(?:youtu\.be\/(?:playlist\?list=|[^\/]+\?list=)|youtube\.com\/.*\blist=[^&\s]+|music\.youtube\.com\/.*\blist=[^&\s]+).*$',
         'youtube_track': r'^https://(?:www\.)?(?:youtu\.be/|youtube\.com/watch\?v=|music\.youtube\.com/watch\?v=)([^/?&\s]+)$',
-        'resso_playlist': r'^(https?://)?(www\.)?resso\.com/playlist/[\w-]+$',
-        'resso_track': r'^(https?://)?(www\.)?resso\.com/track/[\w-]+/[\w-]+$',
+        'resso_playlist': r'^(https?://)?(www\.)?resso\.com/playlist/[\w%-]+$',
+        'resso_track': r'^https:\/\/www\.resso\.com\/track\/(?!.*playlist\/)\d+(?:\.\d+)?$',
         'queries': r'^(?!.*(?:https?://|www\.)[\w\-\.]+\.[a-zA-Z]{2,3}(/\S*)?$).*',
     }
 
