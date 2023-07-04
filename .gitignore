@@ -10,3 +10,4 @@ src/*.txt
 .tests/
 media/
 BatchMusicDownloader/
+songs/
