@@ -34,7 +34,7 @@
 
 ### Available features (v1.1.2)
 In the list below, it shows everything that **BMD** can do with each music platform...
-- It can download a song just by its name;
+- Can download songs just by song name with or without artist name;
 - Supports downloading individual songs and playlists from [YouTube](https://www.youtube.com/);
 - Supports downloading individual songs from [YouTube Music](https://music.youtube.com/), playlists are downloaded from [YouTube](https://www.youtube.com/) if exists;
 - Supports downloading individual songs and playlists from [Resso](https://www.resso.com/).
@@ -43,13 +43,12 @@ In the list below, it shows everything that **BMD** can do with each music platf
 Later on, I plan to implement more music platforms, such as:
 
 <p align='left'>
-    <img src=".github/music_platforms/youtube_music.png" alt="YouTube Music" style="display:inline-block; width:24px; height:24px; margin-right: 6px;">
-    <img src=".github/music_platforms/spotify.png" alt="Spotify" style="display:inline-block; width:24px; height:24px; margin-right: 6px;">
-    <img src=".github/music_platforms/soundcloud.png" alt="Soundcloud" style="display:inline-block; width:24px; height:24px; margin-right: 6px;">
-    <img src=".github/music_platforms/tidal.png" alt="Tidal" style="display:inline-block; width:24px; height:24px; margin-right: 6px;">
-    <img src=".github/music_platforms/apple_music.png" alt="Apple Music" style="display:inline-block; width:24px; height:24px; margin-right: 6px;">
-    <img src=".github/music_platforms/amazon_music.png" alt="Amazon Music" style="display:inline-block; width:24px; height:24px; margin-right: 6px;">
-    <img src=".github/music_platforms/napster.png" alt="Napster" style="display:inline-block; width:24px; height:24px; margin-right: 6px;">
+    <img src=".github/music_platforms/todo/spotify.png" alt="Spotify" style="display:inline-block; width:24px; height:24px; margin-right: 6px;">
+    <img src=".github/music_platforms/todo/soundcloud.png" alt="Soundcloud" style="display:inline-block; width:24px; height:24px; margin-right: 6px;">
+    <img src=".github/music_platforms/todo/tidal.png" alt="Tidal" style="display:inline-block; width:24px; height:24px; margin-right: 6px;">
+    <img src=".github/music_platforms/todo/apple_music.png" alt="Apple Music" style="display:inline-block; width:24px; height:24px; margin-right: 6px;">
+    <img src=".github/music_platforms/todo/amazon_music.png" alt="Amazon Music" style="display:inline-block; width:24px; height:24px; margin-right: 6px;">
+    <img src=".github/music_platforms/todo/napster.png" alt="Napster" style="display:inline-block; width:24px; height:24px; margin-right: 6px;">
 </p>
 <br>
 
