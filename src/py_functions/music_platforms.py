@@ -28,7 +28,7 @@ def music_platform_categorizer(pyclass, query_list: list, TColor) -> list:
         'youtube_track': r'^https://(?:www\.)?(?:youtu\.be/|youtube\.com/watch\?v=|music\.youtube\.com/watch\?v=)([^/?&\s]+)$',
         'resso_playlist': r'^(https?://)?(www\.)?resso\.com/playlist/[\w-]+$',
         'resso_track': r'^(https?://)?(www\.)?resso\.com/track/[\w-]+/[\w-]+$',
-        'other': r'^(?!.*(?:https?://|www\.)[\w\-\.]+\.[a-zA-Z]{2,3}(/\S*)?$).*',
+        'queries': r'^(?!.*(?:https?://|www\.)[\w\-\.]+\.[a-zA-Z]{2,3}(/\S*)?$).*',
     }
 
     for query in query_list:
@@ -53,7 +53,7 @@ def music_platform_categorizer(pyclass, query_list: list, TColor) -> list:
                     pyclass.resso_playlist.append(query)
                 elif source == 'resso_track':
                     pyclass.resso_track.append(query)
-                elif source == 'other':
+                elif source == 'queries':
                     pyclass.youtube_track.append(
                         get_youtube_url_from_query(query=query)
                     )
