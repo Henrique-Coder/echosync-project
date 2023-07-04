@@ -7,7 +7,8 @@ __pycache__/
 *.bat
 src/*.txt
 .compiler/
-.tests/
 media/
-BatchMusicDownloader/
-songs/
+src/BatchMusicDownloader/
+src/songs/
+.urls/
+.tests/
