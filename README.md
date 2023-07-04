@@ -55,12 +55,6 @@ Later on, I plan to implement more music platforms, such as:
 
 ---
 
-### Demonstration
-#### Baixando uma música do YouTube
-[https://files.catbox.moe/v82ch8.mp4](https://files.catbox.moe/v82ch8.mp4)
-
----
-
 ### How to use? (running from the executable)
 1. Download the latest version of the program [here](https://github.com/Henrique-Coder/batch-music-downloader/releases/latest);
 2. Run the executable file;
