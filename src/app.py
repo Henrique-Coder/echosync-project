@@ -1,4 +1,3 @@
-from PIL import Image  # type: ignore
 from datetime import datetime
 from os import getcwd, environ
 from pathlib import Path
@@ -13,7 +12,7 @@ from py_functions import (
 
 # Application settings
 class AppConfig:
-    VERSION = '1.1.2'
+    VERSION = '1.1.3'
     GITHUB_REPOSITORY = 'https://github.com/Henrique-Coder/batch-music-downloader'
     NAME = 'Batch Music Downloader'
     PATH = getcwd(), NAME.replace(' ', '')
@@ -28,7 +27,7 @@ TColor = app_utils.TerminalTextColors
 TBracket = app_utils.TerminalCustomBrackets
 
 # Checking internet connection
-if not app_utils.is_internet_connected('https://www.google.com', 5):
+if not app_utils.is_internet_connected('https://www.google.com', 4):
     input(
         f'{TBracket(TColor.LRED, "ERROR")} {TColor.RED}Very slow or non-existent internet connection - '
         f'Press ENTER to exit...'
@@ -90,20 +89,16 @@ class AppQueries:
 # Creating downloading status variables
 class AppStats:
     total_urls = int()
-    current_downloading = int()
-    successful_downloads = int()
-    existing_files = int()
-    failed_downloads = int()
-    total_requests = int()
 
 
 # Creating service URLs
 class MusicServiceURLs:
-    all_urls = list()
-    youtube_playlist = list()
-    youtube_track = list()
-    resso_playlist = list()
-    resso_track = list()
+    all_urls = list()  # All YouTube URLs
+
+    youtube_playlist = list()  # YouTube playlist URLs
+    youtube_track = list()  # YouTube track URLs
+    resso_playlist = list()  # Resso playlist URLs
+    resso_track = list()  # Resso track URLs
 
 
 def app():
@@ -119,10 +114,6 @@ def app():
 
         # Resetting downloading status variables
         AppStats.total_urls = 0
-        AppStats.current_downloading = 0
-        AppStats.successful_downloads = 0
-        AppStats.existing_files = 0
-        AppStats.failed_downloads = 0
 
         # Resetting service URLs
         MusicServiceURLs.all_urls = list()
@@ -154,7 +145,7 @@ def app():
         queries_file_path = app_utils.filedialog_selector(
             window_title='Select a text file with the URLs/Queries',
             window_icon_path=path_explorer_file_dialog_ico,
-            allowed_file_types=[('Text files', '*.txt'), ('All files', '*.*')],
+            allowed_file_types=[('Text files', '*.txt')],
         )
 
         # If the user has not selected any file, finish the program
@@ -186,10 +177,10 @@ def app():
     )
     mup.music_platform_categorizer(MusicServiceURLs, AppQueries.query_list, TColor)
     print(
-        f'  {TColor.LWHITE}YouTube (Track): {TColor.GREEN}{len(MusicServiceURLs.youtube_track)}\n'
         f'  {TColor.LWHITE}YouTube (Playlist): {TColor.GREEN}{len(MusicServiceURLs.youtube_playlist)}\n'
-        f'  {TColor.LWHITE}Resso (Track): {TColor.GREEN}{len(MusicServiceURLs.resso_track)}\n'
+        f'  {TColor.LWHITE}YouTube (Track): {TColor.GREEN}{len(MusicServiceURLs.youtube_track)}\n'
         f'  {TColor.LWHITE}Resso (Playlist): {TColor.GREEN}{len(MusicServiceURLs.resso_playlist)}\n'
+        f'  {TColor.LWHITE}Resso (Track): {TColor.GREEN}{len(MusicServiceURLs.resso_track)}\n'
         f'  {TColor.LGREEN}Total of {len(MusicServiceURLs.youtube_track + MusicServiceURLs.youtube_playlist + MusicServiceURLs.resso_track + MusicServiceURLs.resso_playlist)} items'
     )
 
@@ -232,21 +223,20 @@ def app():
         f'  {TColor.WHITE}Added {TColor.GREEN}{len(queries)}{TColor.WHITE} YouTube URL(s) from {TColor.GREEN}{len(MusicServiceURLs.resso_track)}{TColor.WHITE} Resso track(s)'
     )
 
-    print(f'  {TColor.LGREEN}Total of {len(MusicServiceURLs.all_urls)} YouTube URL(s)')
+    print(f'  {TColor.LGREEN}Fixing {len(MusicServiceURLs.all_urls)} URL(s)', end='\r')
 
-    # Fixing URLs list
-    for url in MusicServiceURLs.all_urls:
-        if url is None:  # If the URL is None, remove it from the list
-            MusicServiceURLs.all_urls.remove(url)
-        elif url == str():  # If the URL is empty, remove it from the list
-            MusicServiceURLs.all_urls.remove(url)
-        elif (
-            MusicServiceURLs.all_urls.count(url) > 1
-        ):  # If the URL is duplicated, remove it from the list
-            MusicServiceURLs.all_urls.remove(url)
+    # Removing duplicates and updating the list
+    all_urls = list(dict.fromkeys(MusicServiceURLs.all_urls))
+    removed_items = len(MusicServiceURLs.all_urls) - len(all_urls)
+    MusicServiceURLs.all_urls = all_urls
+
+    print(
+        f'  {TColor.LGREEN}Total of {len(MusicServiceURLs.all_urls)} URL(s) ready to download! {TColor.GREEN}[{TColor.RED}-{removed_items}{TColor.GREEN}]'
+    )
 
     # Downloading the songs
     print()
+    now_downloading = 0
     for url in MusicServiceURLs.all_urls:
         now_downloading = MusicServiceURLs.all_urls.index(url) + 1
 
