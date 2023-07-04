@@ -22,6 +22,48 @@ def sanitize_title(title: str) -> str:
     return sanitized_title
 
 
+def music_platform_categorizer(pyclass, query_list: list, TColor) -> list:
+    platform_regexes = {
+        'youtube_playlist': r'^https:\/\/(?:www\.)?(?:youtu\.be\/(?:playlist\?list=|[^\/]+\?list=)|youtube\.com\/.*\blist=[^&\s]+|music\.youtube\.com\/.*\blist=[^&\s]+).*$',
+        'youtube_track': r'^https://(?:www\.)?(?:youtu\.be/|youtube\.com/watch\?v=|music\.youtube\.com/watch\?v=)([^/?&\s]+)$',
+        'resso_playlist': r'^(https?://)?(www\.)?resso\.com/playlist/[\w-]+$',
+        'resso_track': r'^(https?://)?(www\.)?resso\.com/track/[\w-]+/[\w-]+$',
+        'other': r'^(?!.*(?:https?://|www\.)[\w\-\.]+\.[a-zA-Z]{2,3}(/\S*)?$).*',
+    }
+
+    for query in query_list:
+        now_processing_number = query_list.index(query) + 1
+        print(
+            f'  {TColor.LYELLOW}Progress: {TColor.WHITE}{now_processing_number}/{TColor.WHITE}{len(query_list)}',
+            end='\r',
+        )
+
+        matches = dict()
+        for source, regex in platform_regexes.items():
+            match = findall(regex, query)
+            matches[source] = bool(match)
+
+        for source, match in matches.items():
+            if match:
+                if source == 'youtube_playlist':
+                    pyclass.youtube_playlist.append(query)
+                elif source == 'youtube_track':
+                    pyclass.youtube_track.append(query)
+                elif source == 'resso_playlist':
+                    pyclass.resso_playlist.append(query)
+                elif source == 'resso_track':
+                    pyclass.resso_track.append(query)
+                elif source == 'other':
+                    pyclass.youtube_track.append(
+                        get_youtube_url_from_query(query=query)
+                    )
+                break
+    print(
+        f'  {TColor.LYELLOW}Successfully categorized: {TColor.WHITE}{len(query_list)} {TColor.YELLOW}queries'
+    )
+    return pyclass
+
+
 def get_youtube_url_from_query(query: str) -> Optional[str]:
     """
     Get youtube url from query
@@ -93,44 +135,6 @@ def get_music_name_from_resso_track(url: str) -> str:
     )
 
     return music_name
-
-
-def music_platform_categorizer(pyclass, query_list: list, TColor) -> list:
-    platform_regexes = {
-        'youtube_playlist': r'(?:https?://)?(?:www\.)?youtu(?:\.be/|be\.com/(?:watch\?(?:.*&)?v=|embed/|v/|user(?:/.+/)?|playlist(?:.+/)?|attribution_link(?:.+)?/))(?!videoseries)[\w-]{11}(?:(?:\?|\&)list=)[\w-]+',
-        'youtube_track': r'^(https?://)?(www\.)?(youtube\.com/watch\?v=|youtu\.be/)[\w-]+$',
-        'resso_playlist': r'^(https?://)?(www\.)?resso\.com/playlist/[\w-]+$',
-        'resso_track': r'^(https?://)?(www\.)?resso\.com/track/[\w-]+/[\w-]+$',
-        'all': r'.*',
-    }
-
-    for query in query_list:
-        now_processing_number = query_list.index(query) + 1
-        print(
-            f'  {TColor.LYELLOW}Progress: {TColor.WHITE}{now_processing_number}/{TColor.WHITE}{len(query_list)}',
-            end='\r',
-        )
-
-        for source, regex in platform_regexes.items():
-            match = findall(regex, query)
-            if match:
-                if source == 'youtube_playlist':
-                    pyclass.youtube_playlist.append(query)
-                elif source == 'youtube_track':
-                    pyclass.youtube_track.append(query)
-                elif source == 'resso_playlist':
-                    pyclass.resso_playlist.append(query)
-                elif source == 'resso_track':
-                    pyclass.resso_track.append(query)
-                elif source == 'all':
-                    pyclass.youtube_track.append(
-                        get_youtube_url_from_query(query=query)
-                    )
-                break
-    print(
-        f'  {TColor.LYELLOW}Successfully categorized: {TColor.WHITE}{len(query_list)} {TColor.YELLOW}queries'
-    )
-    return pyclass
 
 
 def get_youtube_song_metadata(url: str) -> dict:
