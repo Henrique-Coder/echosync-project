@@ -43,7 +43,6 @@ Later on, I plan to implement more music platforms, such as:
 
 <p align='left'>
     <img src=".github/music_platforms/youtube_music.png" alt="YouTube Music" style="display:inline-block; width:24px; height:24px; margin-right: 6px;">
-    <img src=".github/music_platforms/deezer.png" alt="Deezer" style="display:inline-block; width:24px; height:24px; margin-right: 6px;">
     <img src=".github/music_platforms/spotify.png" alt="Spotify" style="display:inline-block; width:24px; height:24px; margin-right: 6px;">
     <img src=".github/music_platforms/soundcloud.png" alt="Soundcloud" style="display:inline-block; width:24px; height:24px; margin-right: 6px;">
     <img src=".github/music_platforms/tidal.png" alt="Tidal" style="display:inline-block; width:24px; height:24px; margin-right: 6px;">
