@@ -32,7 +32,7 @@
   <a href='https://github.com/Henrique-Coder/batch-music-downloader/releases/latest'>
     <img src='https://img.shields.io/github/v/release/Henrique-Coder/batch-music-downloader?color=red&style=for-the-badge' alt='GitHub release (latest by date)'></a><p>
 
-### Available features (v1.1.2)
+### Available features (v1.1.3)
 In the list below, it shows everything that **BMD** can do with each music platform...
 - Can download songs just by song name with or without artist name;
 - Supports downloading individual songs and playlists from [YouTube](https://www.youtube.com/);
@@ -43,7 +43,6 @@ In the list below, it shows everything that **BMD** can do with each music platf
 Later on, I plan to implement more music platforms, such as:
 
 <p align='left'>
-    <img src=".github/music_platforms/todo/spotify.png" alt="Spotify" style="display:inline-block; width:24px; height:24px; margin-right: 6px;">
     <img src=".github/music_platforms/todo/soundcloud.png" alt="Soundcloud" style="display:inline-block; width:24px; height:24px; margin-right: 6px;">
     <img src=".github/music_platforms/todo/tidal.png" alt="Tidal" style="display:inline-block; width:24px; height:24px; margin-right: 6px;">
     <img src=".github/music_platforms/todo/apple_music.png" alt="Apple Music" style="display:inline-block; width:24px; height:24px; margin-right: 6px;">
