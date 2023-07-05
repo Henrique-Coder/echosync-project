@@ -28,6 +28,10 @@ def music_platform_categorizer(pyclass, query_list: list, TColor) -> list:
         'youtube_track': r'^https://(?:www\.)?(?:youtu\.be/|youtube\.com/watch\?v=|music\.youtube\.com/watch\?v=)([^/?&\s]+)$',
         'resso_playlist': r'^(https?://)?(www\.)?resso\.com/playlist/[\w%-]+$',
         'resso_track': r'^https:\/\/www\.resso\.com\/track\/(?!.*playlist\/)\d+(?:\.\d+)?$',
+        'deezer_playlist': r'https:\/\/www\.deezer\.com\/(?!track\/)\w{2}\/playlist\/\d+',
+        'deezer_track': r'https:\/\/www\.deezer\.com\/(?!playlist\/)\w{2}\/track\/\d+',
+        'spotify_playlist': r'https:\/\/open\.spotify\.com\/playlist\/[a-zA-Z0-9]+',
+        'spotify_track': r'https:\/\/open\.spotify\.com\/track\/[a-zA-Z0-9]+',
         'queries': r'^(?!.*(?:https?://|www\.)[\w\-\.]+\.[a-zA-Z]{2,3}(/\S*)?$).*',
     }
 
@@ -53,6 +57,14 @@ def music_platform_categorizer(pyclass, query_list: list, TColor) -> list:
                     pyclass.resso_playlist.append(query)
                 elif source == 'resso_track':
                     pyclass.resso_track.append(query)
+                elif source == 'deezer_playlist':
+                    pyclass.deezer_playlist.append(query)
+                elif source == 'deezer_track':
+                    pyclass.deezer_track.append(query)
+                elif source == 'spotify_playlist':
+                    pyclass.spotify_playlist.append(query)
+                elif source == 'spotify_track':
+                    pyclass.spotify_track.append(query)
                 elif source == 'queries':
                     pyclass.youtube_track.append(
                         get_youtube_url_from_query(query=query)
@@ -109,14 +121,13 @@ def get_music_name_from_resso_playlist(url: str) -> list:
     :return:  List of music names
     """
 
-    website_content = get(url).content
-    music_tags = BeautifulSoup(website_content, 'html.parser').find_all(
-        'img',
-        src=lambda value: value.startswith('https://p16.resso.me/img/')
-        and value.endswith('.jpg'),
-    )
-
-    return [music['alt'] for music in music_tags[2:]]
+    soup = BeautifulSoup(get(url).content, 'html.parser')
+    song_list = [
+        song.find('a', {'class': 'song-wrapper'})
+        for song in soup.find_all('li', {'class': 'song-item'})
+    ]
+    song_list = [song['title'] for song in song_list if song is not None]
+    return song_list
 
 
 def get_music_name_from_resso_track(url: str) -> str:
@@ -126,15 +137,68 @@ def get_music_name_from_resso_track(url: str) -> str:
     :return:  Music name
     """
 
-    web_content = get(url).content
-    music_name = (
-        BeautifulSoup(web_content, 'html.parser')
-        .find('title')
-        .text[:-30]
-        .replace('Official Resso', '\b')
-    )
+    soup = BeautifulSoup(get(url).content, 'html.parser')
+    title = soup.find('div', {'class': 'immersive-info-detail'}).find('h1').text.strip()
+    author = soup.find('div', {'class': 'subtitle'}).find('a').text.strip()
+    return title + ' - ' + author
 
-    return music_name
+
+def get_music_name_from_deezer_playlist(url: str) -> list:
+    soup = BeautifulSoup(get(url).content, 'html.parser')
+    title_list = [
+        song.find('span', {'itemprop': 'name'})
+        for song in soup.find_all('div', {'class': 'wrapper ellipsis'})
+    ]
+    title_list = [song.text.strip() for song in title_list if song is not None]
+    author_list = [
+        author.find('a', {'itemprop': 'byArtist'})
+        for author in soup.find_all('td', {'class': 'artist'})
+    ]
+    author_list = [author.text.strip() for author in author_list if author is not None]
+    formatted_song_list = [
+        song + ' - ' + author for song, author in zip(title_list, author_list)
+    ]
+    return formatted_song_list
+
+
+def get_music_name_from_deezer_track(url: str) -> str:
+    soup = BeautifulSoup(get(url).content, 'html.parser')
+    title = soup.find('h1').text.strip()
+    author = soup.find('meta', {'itemprop': 'description'})['content']
+    return title + ' - ' + author
+
+
+def get_music_name_from_spotify_playlist(url: str) -> list:
+    soup = BeautifulSoup(get(url).content, 'html.parser')
+    url_list = [
+        meta['content'] for meta in soup.find_all('meta', {'name': 'music:song'})
+    ]
+    formatted_song_list = [
+        song + ' - ' + author.split('·')[0].strip()
+        for url in url_list
+        for song, author in [
+            (
+                BeautifulSoup(get(url).content, 'html.parser')
+                .find('meta', {'property': 'og:title'})['content']
+                .strip(),
+                BeautifulSoup(get(url).content, 'html.parser').find(
+                    'meta', {'property': 'og:description'}
+                )['content'],
+            )
+        ]
+    ]
+    return formatted_song_list
+
+
+def get_music_name_from_spotify_track(url: str) -> str:
+    soup = BeautifulSoup(get(url).content, 'html.parser')
+    title = soup.find('meta', {'property': 'og:title'})['content'].strip()
+    author = (
+        soup.find('meta', {'property': 'og:description'})['content']
+        .split('·')[0]
+        .strip()
+    )
+    return title + ' - ' + author
 
 
 def get_youtube_song_metadata(url: str) -> dict:
