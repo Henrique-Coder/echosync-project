@@ -34,11 +34,11 @@
 
 ### Available features (v1.1.3)
 In the list below, it shows everything that **BMD** can do with each music platform...
-- Can download songs just by song name with or without artist name;
-- Supports downloading individual songs and playlists from [YouTube](https://www.youtube.com/);
-- Supports downloading individual songs from [YouTube Music](https://music.youtube.com/), playlists are downloaded from [YouTube](https://www.youtube.com/) if exists;
-- Supports downloading individual songs and playlists from [Resso](https://www.resso.com/).
-
+- It can download songs by song name only;
+- Can download a list of songs by a text file;
+- Supports downloading individual songs or playlists from [YouTube](https://www.youtube.com/), [YouTube Music](https://music.youtube.com/), [Resso](https://www.resso.com/), [Deezer](https://www.deezer.com/) and [Spotify](https://www.spotify.com/).
+* **Note 1:** _The program will automatically detect the music platform by the link used, so do not use link shorteners to modify it. Unavailable links or platforms will be automatically rejected. Texts detected as the title of a song will automatically be added to the download queue and the search for the song will take place via YouTube._
+* **Note 2:** _The program uses proprietary web scrapping techniques to extract the name/author of the song on the detected platform and will download it directly from YouTube._
 ### _Possible_ future implementations
 Later on, I plan to implement more music platforms, such as:
 
