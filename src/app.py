@@ -93,12 +93,15 @@ class AppStats:
 
 # Creating service URLs
 class MusicServiceURLs:
-    all_urls = list()  # All YouTube URLs
-
-    youtube_playlist = list()  # YouTube playlist URLs
-    youtube_track = list()  # YouTube track URLs
-    resso_playlist = list()  # Resso playlist URLs
-    resso_track = list()  # Resso track URLs
+    all_urls = list()
+    youtube_playlist = list()
+    youtube_track = list()
+    resso_playlist = list()
+    resso_track = list()
+    deezer_playlist = list()
+    deezer_track = list()
+    spotify_playlist = list()
+    spotify_track = list()
 
 
 def app():
@@ -121,6 +124,10 @@ def app():
         MusicServiceURLs.youtube_track = list()
         MusicServiceURLs.resso_playlist = list()
         MusicServiceURLs.resso_track = list()
+        MusicServiceURLs.deezer_playlist = list()
+        MusicServiceURLs.deezer_track = list()
+        MusicServiceURLs.spotify_playlist = list()
+        MusicServiceURLs.spotify_track = list()
 
     reseting_variables()
 
@@ -181,7 +188,11 @@ def app():
         f'  {TColor.LWHITE}YouTube (Track): {TColor.GREEN}{len(MusicServiceURLs.youtube_track)}\n'
         f'  {TColor.LWHITE}Resso (Playlist): {TColor.GREEN}{len(MusicServiceURLs.resso_playlist)}\n'
         f'  {TColor.LWHITE}Resso (Track): {TColor.GREEN}{len(MusicServiceURLs.resso_track)}\n'
-        f'  {TColor.LGREEN}Total of {len(MusicServiceURLs.youtube_track + MusicServiceURLs.youtube_playlist + MusicServiceURLs.resso_track + MusicServiceURLs.resso_playlist)} items'
+        f'  {TColor.LWHITE}Deezer (Playlist): {TColor.GREEN}{len(MusicServiceURLs.deezer_playlist)}\n'
+        f'  {TColor.LWHITE}Deezer (Track): {TColor.GREEN}{len(MusicServiceURLs.deezer_track)}\n'
+        f'  {TColor.LWHITE}Spotify (Playlist): {TColor.GREEN}{len(MusicServiceURLs.spotify_playlist)}\n'
+        f'  {TColor.LWHITE}Spotify (Track): {TColor.GREEN}{len(MusicServiceURLs.spotify_track)}\n'
+        f'  {TColor.LGREEN}Total of {len(MusicServiceURLs.youtube_track + MusicServiceURLs.youtube_playlist + MusicServiceURLs.resso_track + MusicServiceURLs.resso_playlist)} item(s)'
     )
 
     # Get YouTube URLs
@@ -191,6 +202,7 @@ def app():
 
     queries = list()
 
+    # Get YouTube URLs from YouTube playlists
     for playlist_url in MusicServiceURLs.youtube_playlist:
         songs = mup.get_musics_from_youtube_playlist(playlist_url)
         queries.extend(songs)
@@ -199,11 +211,13 @@ def app():
         f'  {TColor.WHITE}Added {TColor.GREEN}{len(queries)}{TColor.WHITE} YouTube URL(s) from {TColor.GREEN}{len(MusicServiceURLs.youtube_playlist)}{TColor.WHITE} YouTube playlist(s)'
     )
 
+    # Add YouTube URLs from YouTube tracks
     MusicServiceURLs.all_urls.extend(MusicServiceURLs.youtube_track)
     print(
         f'  {TColor.WHITE}Added {TColor.GREEN}{len(MusicServiceURLs.youtube_track)}{TColor.WHITE} YouTube URL(s) from {TColor.GREEN}{len(MusicServiceURLs.youtube_track)}{TColor.WHITE} YouTube track(s)'
     )
 
+    # Get YouTube URLs from Resso playlists
     queries = [
         mup.get_youtube_url_from_query(music_name)
         for playlist_url in MusicServiceURLs.resso_playlist
@@ -214,6 +228,7 @@ def app():
         f'  {TColor.WHITE}Added {TColor.GREEN}{len(queries)}{TColor.WHITE} YouTube URL(s) from {TColor.GREEN}{len(MusicServiceURLs.resso_playlist)}{TColor.WHITE} Resso playlist(s)'
     )
 
+    # Get YouTube URLs from Resso tracks
     queries = [
         mup.get_youtube_url_from_query(mup.get_music_name_from_resso_track(music_url))
         for music_url in MusicServiceURLs.resso_track
@@ -223,6 +238,7 @@ def app():
         f'  {TColor.WHITE}Added {TColor.GREEN}{len(queries)}{TColor.WHITE} YouTube URL(s) from {TColor.GREEN}{len(MusicServiceURLs.resso_track)}{TColor.WHITE} Resso track(s)'
     )
 
+    # Fixing YouTube URLs
     print(f'  {TColor.LGREEN}Fixing {len(MusicServiceURLs.all_urls)} URL(s)', end='\r')
 
     # Removing duplicates and updating the list
