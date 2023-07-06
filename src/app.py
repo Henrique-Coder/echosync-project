@@ -238,6 +238,48 @@ def app():
         f'  {TColor.WHITE}Added {TColor.GREEN}{len(queries)}{TColor.WHITE} YouTube URL(s) from {TColor.GREEN}{len(MusicServiceURLs.resso_track)}{TColor.WHITE} Resso track(s)'
     )
 
+    # Get YouTube URLs from Deezer playlists
+    queries = [
+        mup.get_youtube_url_from_query(music_name)
+        for playlist_url in MusicServiceURLs.deezer_playlist
+        for music_name in mup.get_music_name_from_deezer_playlist(playlist_url)
+    ]
+    MusicServiceURLs.all_urls.extend(queries)
+    print(
+        f'  {TColor.WHITE}Added {TColor.GREEN}{len(queries)}{TColor.WHITE} YouTube URL(s) from {TColor.GREEN}{len(MusicServiceURLs.deezer_playlist)}{TColor.WHITE} Deezer playlist(s)'
+    )
+
+    # Get YouTube URLs from Deezer tracks
+    queries = [
+        mup.get_youtube_url_from_query(mup.get_music_name_from_deezer_track(music_url))
+        for music_url in MusicServiceURLs.deezer_track
+    ]
+    MusicServiceURLs.all_urls.extend(queries)
+    print(
+        f'  {TColor.WHITE}Added {TColor.GREEN}{len(queries)}{TColor.WHITE} YouTube URL(s) from {TColor.GREEN}{len(MusicServiceURLs.deezer_track)}{TColor.WHITE} Deezer track(s)'
+    )
+
+    # Get YouTube URLs from Spotify playlists
+    queries = [
+        mup.get_youtube_url_from_query(music_name)
+        for playlist_url in MusicServiceURLs.spotify_playlist
+        for music_name in mup.get_music_name_from_spotify_playlist(playlist_url)
+    ]
+    MusicServiceURLs.all_urls.extend(queries)
+    print(
+        f'  {TColor.WHITE}Added {TColor.GREEN}{len(queries)}{TColor.WHITE} YouTube URL(s) from {TColor.GREEN}{len(MusicServiceURLs.spotify_playlist)}{TColor.WHITE} Spotify playlist(s)'
+    )
+
+    # Get YouTube URLs from Spotify tracks
+    queries = [
+        mup.get_youtube_url_from_query(mup.get_music_name_from_spotify_track(music_url))
+        for music_url in MusicServiceURLs.spotify_track
+    ]
+    MusicServiceURLs.all_urls.extend(queries)
+    print(
+        f'  {TColor.WHITE}Added {TColor.GREEN}{len(queries)}{TColor.WHITE} YouTube URL(s) from {TColor.GREEN}{len(MusicServiceURLs.spotify_track)}{TColor.WHITE} Spotify track(s)'
+    )
+
     # Fixing YouTube URLs
     print(f'  {TColor.LGREEN}Fixing {len(MusicServiceURLs.all_urls)} URL(s)', end='\r')
 
