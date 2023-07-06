@@ -1,3 +1,4 @@
+import PIL  # Used by music_tag
 from re import findall, sub
 from typing import Optional
 from bs4 import BeautifulSoup
@@ -28,10 +29,10 @@ def music_platform_categorizer(pyclass, query_list: list, TColor) -> list:
         'youtube_track': r'^https://(?:www\.)?(?:youtu\.be/|youtube\.com/watch\?v=|music\.youtube\.com/watch\?v=)([^/?&\s]+)$',
         'resso_playlist': r'^(https?://)?(www\.)?resso\.com/playlist/[\w%-]+$',
         'resso_track': r'^https:\/\/www\.resso\.com\/track\/(?!.*playlist\/)\d+(?:\.\d+)?$',
-        'deezer_playlist': r'https:\/\/www\.deezer\.com\/(?!track\/)\w{2}\/playlist\/\d+',
-        'deezer_track': r'https:\/\/www\.deezer\.com\/(?!playlist\/)\w{2}\/track\/\d+',
-        'spotify_playlist': r'https:\/\/open\.spotify\.com\/playlist\/[a-zA-Z0-9]+',
-        'spotify_track': r'https:\/\/open\.spotify\.com\/track\/[a-zA-Z0-9]+',
+        'deezer_playlist': r'^https:\/\/www\.deezer\.com\/(?:\w{2}\/)?playlist\/\d+$',
+        'deezer_track': r'https:\/\/www\.deezer\.com\/(?:[a-zA-Z]{2}\/)?track\/\d+',
+        'spotify_playlist': r'^(https:\/\/open\.spotify\.com\/playlist\/[A-Za-z0-9]+)$',
+        'spotify_track': r'^https:\/\/open\.spotify\.com\/track\/[a-zA-Z0-9]+$',
         'queries': r'^(?!.*(?:https?://|www\.)[\w\-\.]+\.[a-zA-Z]{2,3}(/\S*)?$).*',
     }
 
