@@ -5,3 +5,4 @@ beautifulsoup4
 youtube-search-python
 yt-dlp
 music-tag
+Pillow
