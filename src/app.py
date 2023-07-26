@@ -26,7 +26,7 @@ TColor = app_utils.TerminalTextColors
 TBracket = app_utils.TerminalCustomBrackets
 
 # Checking internet connection
-if  app_utils.is_internet_connected('https://www.google.com', 5):
+if not app_utils.is_internet_connected('https://www.google.com', 5):
     input(
         f'{TBracket(TColor.LYELLOW, "WARN")} {TColor.YELLOW}Very slow or non-existent internet connection - '
         f'If you want to continue anyway, press ENTER, otherwise press CTRL + C to exit...\n'
