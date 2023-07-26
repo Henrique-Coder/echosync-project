@@ -1,7 +1,6 @@
 from datetime import datetime
 from os import getcwd, environ
 from pathlib import Path
-from sys import exit
 
 from py_functions import (
     base64_items as b64i,
@@ -12,7 +11,7 @@ from py_functions import (
 
 # Application settings
 class AppConfig:
-    VERSION = '1.1.3'
+    VERSION = '1.1.4'
     GITHUB_REPOSITORY = 'https://github.com/Henrique-Coder/batch-music-downloader'
     NAME = 'Batch Music Downloader'
     PATH = getcwd(), NAME.replace(' ', '')
@@ -27,12 +26,11 @@ TColor = app_utils.TerminalTextColors
 TBracket = app_utils.TerminalCustomBrackets
 
 # Checking internet connection
-if not app_utils.is_internet_connected('https://www.google.com', 4):
+if  app_utils.is_internet_connected('https://www.google.com', 5):
     input(
-        f'{TBracket(TColor.LRED, "ERROR")} {TColor.RED}Very slow or non-existent internet connection - '
-        f'Press ENTER to exit...'
+        f'{TBracket(TColor.LYELLOW, "WARN")} {TColor.YELLOW}Very slow or non-existent internet connection - '
+        f'If you want to continue anyway, press ENTER, otherwise press CTRL + C to exit...\n'
     )
-    exit()
 
 # Checking if app is updated
 is_updated, latest_version_available, lastest_release_url = app_utils.is_app_updated(
