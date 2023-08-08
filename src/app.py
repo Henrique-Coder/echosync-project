@@ -31,7 +31,6 @@ if not app_utils.is_internet_connected('https://www.google.com', 5):
         f'{TBracket(TColor.LYELLOW, "WARN")} {TColor.YELLOW}Very slow or non-existent internet connection - '
         f'If you want to continue anyway, press ENTER, otherwise press CTRL + C to exit...\n'
     )
-
 # Checking if app is updated
 is_updated, latest_version_available, lastest_release_url = app_utils.is_app_updated(
     AppConfig.VERSION, AppConfig.GITHUB_REPOSITORY
@@ -43,7 +42,6 @@ if not is_updated:
         f'\n{TBracket(TColor.LYELLOW, "WARN")} {TColor.YELLOW}Download it at: '
         f'{TColor.BLUE}{lastest_release_url}\n'
     )
-
 # Creating app folders
 app_folder = Path(*AppConfig.PATH)
 app_utils.create_dirs(app_folder, ['assets/media', 'assets/pathenv'])
@@ -56,7 +54,6 @@ if not path_explorer_file_dialog_ico.exists():
         base64_data=base64_explorer_file_dialog_ico,
         output_file_path=path_explorer_file_dialog_ico,
     )
-
 # Checking if ffmpeg exists and downloading if not
 ffmpeg_path = Path(AppConfig.ENV_PATH / 'ffmpeg.exe')
 if not ffmpeg_path.exists():
@@ -159,7 +156,6 @@ def app():
                 f'{TBracket(TColor.LRED, "ERROR")} {TColor.RED}You have not selected any file, exiting...'
             )
             return
-
         # If the user has selected a file, read it and store the queries in a list
         with open(queries_file_path, 'r', encoding='utf-8') as fi:
             AppQueries.query_list = [
@@ -172,7 +168,6 @@ def app():
             AppQueries.query_list.append(user_response)
             user_response = input(f'{TColor.LWHITE} ›{TColor.BLUE} ')
         AppStats.total_urls = len(AppQueries.query_list)
-
     # Clear the screen
     app_utils.clsr(1)
 
@@ -292,7 +287,6 @@ def app():
 
     # Downloading the songs
     print()
-    now_downloading = 0
     for url in MusicServiceURLs.all_urls:
         now_downloading = MusicServiceURLs.all_urls.index(url) + 1
 
@@ -302,7 +296,6 @@ def app():
         info = mup.get_youtube_song_metadata(url)
         music_path = mup.download_song_from_youtube(info, AppConfig.OUTPUT_PATH)
         mup.add_song_metadata(info, music_path)
-
     # Finishing the program
     print(
         f'\n{TBracket(TColor.LGREEN, "SUCCESS")} {TColor.GREEN}All songs downloaded successfully!'
