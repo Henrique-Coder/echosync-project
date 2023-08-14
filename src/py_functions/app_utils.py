@@ -106,22 +106,6 @@ def clsr(jump_lines: int = 0) -> None:
         print()
 
 
-def is_internet_connected(host, timeout) -> bool:
-    """
-    Check if internet is connected
-    :param host:  Host to check
-    :param timeout:  Limit time to check
-    :return: True if connected, False if not
-    """
-
-    try:
-        response = get(host, timeout=timeout)
-        if response.status_code == 200:
-            return True
-    except Exception:
-        return False
-
-
 def is_app_updated(app_version, github_repository) -> tuple:
     """
     Check if app is updated
