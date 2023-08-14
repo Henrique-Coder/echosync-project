@@ -1,17 +1,15 @@
-# SO files/folders
+# OS generated folders/files
 *.ini
 
-# Editor files/folders
-.idea/
-venv/
-__pycache__/
+# IDE folders/files
+.idea
+venv
+__pycache__
 
-# Program files/folders
+# Other folders/files
+src/EchoSync Project
+src/app_media
+.compiler
+.tests
 *.bat
-src/*.txt
-.compiler/
-media/
-src/BatchMusicDownloader/
-src/songs/
-.urls/
-.tests/
+*.txt
