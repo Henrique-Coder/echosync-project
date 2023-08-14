@@ -33,6 +33,8 @@ def music_platform_categorizer(pyclass, query_list: list, TColor) -> list:
         'deezer_track': r'https:\/\/www\.deezer\.com\/(?:[a-zA-Z]{2}\/)?track\/\d+',
         'spotify_playlist': r'^(https:\/\/open\.spotify\.com\/playlist\/[A-Za-z0-9]+)$',
         'spotify_track': r'^https:\/\/open\.spotify\.com\/track\/[a-zA-Z0-9]+$',
+        'tiktokmusic_playlist': r'^https://music\.tiktok\.com/playlist/(?:_/)?\d+$',
+        'tiktokmusic_track': r'^https://music\.tiktok\.com/track/(?:_/)?\d+$',
         'queries': r'^(?!.*(?:https?://|www\.)[\w\-\.]+\.[a-zA-Z]{2,3}(/\S*)?$).*',
     }
 
@@ -66,6 +68,10 @@ def music_platform_categorizer(pyclass, query_list: list, TColor) -> list:
                     pyclass.spotify_playlist.append(query)
                 elif source == 'spotify_track':
                     pyclass.spotify_track.append(query)
+                elif source == 'tiktokmusic_playlist':
+                    pyclass.tiktokmusic_playlist.append(query)
+                elif source == 'tiktokmusic_track':
+                    pyclass.tiktokmusic_track.append(query)
                 elif source == 'queries':
                     pyclass.youtube_track.append(
                         get_youtube_url_from_query(query=query)
@@ -135,6 +141,35 @@ def get_music_name_from_resso_track(url: str) -> str:
     """
     Get name from resso track
     :param url:  Resso track url
+    :return:  Music name
+    """
+
+    soup = BeautifulSoup(get(url).content, 'html.parser')
+    title = soup.find('div', {'class': 'immersive-info-detail'}).find('h1').text.strip()
+    author = soup.find('div', {'class': 'subtitle'}).find('a').text.strip()
+    return title + ' - ' + author
+
+
+def get_music_name_from_tiktokmusic_playlist(url: str) -> list:
+    """
+    Get music name from tiktokmusic playlist
+    :param url:  Tiktok Music playlist url
+    :return:  List of music names
+    """
+
+    soup = BeautifulSoup(get(url).content, 'html.parser')
+    song_list = [
+        song.find('a', {'class': 'song-wrapper'})
+        for song in soup.find_all('li', {'class': 'song-item'})
+    ]
+    song_list = [song['title'] for song in song_list if song is not None]
+    return song_list
+
+
+def get_music_name_from_tiktokmusic_track(url: str) -> str:
+    """
+    Get name from tiktokmusic track
+    :param url:  Tiktok Music track url
     :return:  Music name
     """
 
@@ -262,7 +297,7 @@ def add_song_metadata(info: dict, music_path: str) -> None:
     publish_year = info['upload_date'][:4]
 
     # Get artwork data from youtube
-    artwork_url = f'https://img.youtube.com/vi/{info["id"]}/maxresdefault.jpg'
+    artwork_url = f'https://i.ytimg.com/vi/{info["id"]}/maxresdefault.jpg'
     artwork_data = get(artwork_url).content
 
     f = tag_load_file(music_path)

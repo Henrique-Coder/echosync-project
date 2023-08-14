@@ -6,8 +6,9 @@ from tkinter import Tk, filedialog
 from typing import Optional
 from colorama import init, Fore
 from remotezip import RemoteZip
-from requests import get
+from requests import get, head
 from time import time
+from os import system
 
 
 class Timer:
@@ -78,8 +79,8 @@ class TerminalCustomBrackets(TerminalTextColors):
 
     def __str__(self):
         return (
-            '\n' * self.jump_lines
-            + f'{TerminalTextColors.WHITE}[{self.color}{self.text}{TerminalTextColors.WHITE}]'
+                '\n' * self.jump_lines
+                + f'{TerminalTextColors.WHITE}[{self.color}{self.text}{TerminalTextColors.WHITE}]'
         )
 
 
@@ -129,7 +130,7 @@ def is_app_updated(app_version, github_repository) -> tuple:
     return is_updated, latest_version_available, lastest_release_url
 
 
-def base64_decoder(base64_data, output_file_path) -> None:
+def base64_decoder(base64_data: str, output_file_path) -> None:
     """
     Decode base64 data to file
     :param base64_data:  Base64 data
@@ -152,6 +153,16 @@ def create_dirs(main_dir, dirs_list: list) -> None:
         Path(main_dir, directory).mkdir(parents=True, exist_ok=True)
 
 
+def hide_windows_folder(folder_path) -> None:
+    """
+    Hide windows folder
+    :param folder_path:  Folder path
+    :return:
+    """
+
+    system(f'attrib +h "{folder_path}"')
+
+
 def download_latest_ffmpeg(output_file_dir, file_name) -> None:
     """
     Download latest ffmpeg build
@@ -167,7 +178,7 @@ def download_latest_ffmpeg(output_file_dir, file_name) -> None:
     build_name = f'ffmpeg-{latest_official_version}-essentials_build'
 
     with RemoteZip(
-        f'{github_repository}/releases/latest/download/{build_name}.zip'
+            f'{github_repository}/releases/latest/download/{build_name}.zip'
     ) as rzip:
         rzip.extract(f'{build_name}/bin/{file_name}.exe', output_file_dir)
 
@@ -207,3 +218,21 @@ def filedialog_selector(window_title: str, window_icon_path, allowed_file_types:
     if not input_file_path:
         return None
     return Path(input_file_path)
+
+
+def unshorten_url(short_url: str, remove_url_params: bool = True) -> str:
+    """
+    Get final link from short link
+    :param short_url:  Short link
+    :param remove_url_params:  Remove parameters from link
+    :return:
+    """
+
+    try:
+        response = head(short_url, allow_redirects=True)
+        unshortened_url = response.url
+        if remove_url_params:
+            unshortened_url = unshortened_url.split('?', 1)[0]
+    except Exception:
+        unshortened_url = short_url
+    return unshortened_url
