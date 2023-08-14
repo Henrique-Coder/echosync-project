@@ -12,11 +12,12 @@ from py_functions import (
 # Application settings
 class AppConfig:
     VERSION = '1.1.4'
-    GITHUB_REPOSITORY = 'https://github.com/Henrique-Coder/batch-music-downloader'
-    NAME = 'Batch Music Downloader'
-    PATH = getcwd(), NAME.replace(' ', '')
-    ENV_PATH = Path(*PATH, 'assets/pathenv')
-    OUTPUT_PATH = Path('songs')
+    GITHUB_REPOSITORY = 'https://github.com/Henrique-Coder/echosync-project'
+    NAME = 'EchoSync Project'
+    PATH = Path(getcwd(), NAME)
+    CONFIG_PATH = Path(PATH, '.config')
+    ENV_PATH = Path(CONFIG_PATH, 'pathenv')
+    OUTPUT_PATH = Path(PATH, 'songs')
 
 
 # Initializing Colorama and terminal functions
@@ -25,12 +26,6 @@ app_utils.init_colorama(autoreset=True)
 TColor = app_utils.TerminalTextColors
 TBracket = app_utils.TerminalCustomBrackets
 
-# Checking internet connection
-if not app_utils.is_internet_connected('https://www.google.com', 5):
-    input(
-        f'{TBracket(TColor.LYELLOW, "WARN")} {TColor.YELLOW}Very slow or non-existent internet connection - '
-        f'If you want to continue anyway, press ENTER, otherwise press CTRL + C to exit...\n'
-    )
 # Checking if app is updated
 is_updated, latest_version_available, lastest_release_url = app_utils.is_app_updated(
     AppConfig.VERSION, AppConfig.GITHUB_REPOSITORY
@@ -42,12 +37,13 @@ if not is_updated:
         f'\n{TBracket(TColor.LYELLOW, "WARN")} {TColor.YELLOW}Download it at: '
         f'{TColor.BLUE}{lastest_release_url}\n'
     )
+
 # Creating app folders
-app_folder = Path(*AppConfig.PATH)
-app_utils.create_dirs(app_folder, ['assets/media', 'assets/pathenv'])
+config_folder = AppConfig.CONFIG_PATH
+app_utils.create_dirs(config_folder, ['pathenv', 'media/icons'])
 
 # Checking if app assets exists and downloading if not
-path_explorer_file_dialog_ico = Path(app_folder, 'assets/media/ExplorerFileDialog.ico')
+path_explorer_file_dialog_ico = Path(config_folder, 'media/icons/ExplorerFileDialog.ico')
 if not path_explorer_file_dialog_ico.exists():
     base64_explorer_file_dialog_ico = b64i.base64_explorer_file_dialog_ico
     app_utils.base64_decoder(
