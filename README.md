@@ -10,7 +10,7 @@
 
 <center>
 
-## ECS-P ・ EchoSync Project
+## ECS-P ・ EchoSync Project (All for epic music!)
 
 </center>
 
