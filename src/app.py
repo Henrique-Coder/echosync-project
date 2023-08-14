@@ -2,8 +2,8 @@ from datetime import datetime
 from os import getcwd, environ
 from pathlib import Path
 
-from py_functions import (
-    base64_items as b64i,
+from app_functions import (
+    base64_items,
     app_utils,
     music_platforms as mup,
 )
@@ -17,7 +17,7 @@ class AppConfig:
     PATH = Path(getcwd(), NAME)
     CONFIG_PATH = Path(PATH, '.config')
     ENV_PATH = Path(CONFIG_PATH, 'pathenv')
-    OUTPUT_PATH = Path(PATH, 'songs')
+    OUTPUT_PATH = Path(PATH, 'output/musics')
 
 
 # Initializing Colorama and terminal functions
@@ -41,19 +41,21 @@ if not is_updated:
 # Creating app folders
 config_folder = AppConfig.CONFIG_PATH
 app_utils.create_dirs(config_folder, ['pathenv', 'media/icons'])
+app_utils.hide_windows_folder(config_folder)
 
 # Checking if app assets exists and downloading if not
 path_explorer_file_dialog_ico = Path(config_folder, 'media/icons/ExplorerFileDialog.ico')
 if not path_explorer_file_dialog_ico.exists():
-    base64_explorer_file_dialog_ico = b64i.base64_explorer_file_dialog_ico
+    base64_explorer_file_dialog_ico = base64_items.base64_explorer_file_dialog_ico
     app_utils.base64_decoder(
         base64_data=base64_explorer_file_dialog_ico,
         output_file_path=path_explorer_file_dialog_ico,
     )
+
 # Checking if ffmpeg exists and downloading if not
 ffmpeg_path = Path(AppConfig.ENV_PATH / 'ffmpeg.exe')
 if not ffmpeg_path.exists():
-    start_time = datetime.now().strftime('%H:%M:%S:%f')
+    start_time = datetime.now().strftime('%Hh%Mm%Ss')
     print(
         f'{TBracket(TColor.LYELLOW, "WARN")} {TColor.YELLOW}FFMPEG auto-download started at {start_time}',
         end='\r',
@@ -67,7 +69,7 @@ if not ffmpeg_path.exists():
 
     print(
         f'{TBracket(TColor.LGREEN, "SUCCESS")} {TColor.GREEN}FFMPEG auto-download started at {TColor.YELLOW}{start_time} '
-        f'{TColor.GREEN}and ended successfully at {TColor.YELLOW}{datetime.now().strftime("%H:%M:%S:%f")}{TColor.GREEN}.\n'
+        f'{TColor.GREEN}and ended successfully at {TColor.YELLOW}{datetime.now().strftime("%Hh%Mm%Ss")}{TColor.GREEN}.\n'
     )
 
 
@@ -93,6 +95,8 @@ class MusicServiceURLs:
     deezer_track = list()
     spotify_playlist = list()
     spotify_track = list()
+    tiktokmusic_playlist = list()
+    tiktokmusic_track = list()
 
 
 def app():
@@ -119,6 +123,8 @@ def app():
         MusicServiceURLs.deezer_track = list()
         MusicServiceURLs.spotify_playlist = list()
         MusicServiceURLs.spotify_track = list()
+        MusicServiceURLs.tiktokmusic_playlist = list()
+        MusicServiceURLs.tiktokmusic_track = list()
 
     reseting_variables()
 
@@ -131,7 +137,7 @@ def app():
         f'{TBracket(TColor.LRED, "#")} {TColor.RED}List of URLs/Queries must be separated by a new line, if last line is empty, program will start downloading.'
     )
 
-    user_response = input(f'{TColor.LWHITE} ›{TColor.BLUE} ')
+    user_response = app_utils.unshorten_url(input(f'{TColor.LWHITE} ›{TColor.BLUE} '), remove_url_params=True)
     if not len(user_response.strip()):
         # If the user has not typed anything, open the file explorer for him to select the file
         app_utils.clsr(1)
@@ -149,9 +155,10 @@ def app():
         # If the user has not selected any file, finish the program
         if not queries_file_path:
             print(
-                f'{TBracket(TColor.LRED, "ERROR")} {TColor.RED}You have not selected any file, exiting...'
+                f'{TBracket(TColor.LRED, "ERROR")} {TColor.RED}You have not selected any file, restarting the program...'
             )
             return
+
         # If the user has selected a file, read it and store the queries in a list
         with open(queries_file_path, 'r', encoding='utf-8') as fi:
             AppQueries.query_list = [
@@ -162,8 +169,9 @@ def app():
         # If the user has typed something, store the queries in a list
         while len(user_response) != 0:
             AppQueries.query_list.append(user_response)
-            user_response = input(f'{TColor.LWHITE} ›{TColor.BLUE} ')
+            user_response = app_utils.unshorten_url(input(f'{TColor.LWHITE} ›{TColor.BLUE} '), remove_url_params=True)
         AppStats.total_urls = len(AppQueries.query_list)
+
     # Clear the screen
     app_utils.clsr(1)
 
@@ -181,17 +189,21 @@ def app():
         f'  {TColor.LWHITE}Deezer (Track): {TColor.GREEN}{len(MusicServiceURLs.deezer_track)}\n'
         f'  {TColor.LWHITE}Spotify (Playlist): {TColor.GREEN}{len(MusicServiceURLs.spotify_playlist)}\n'
         f'  {TColor.LWHITE}Spotify (Track): {TColor.GREEN}{len(MusicServiceURLs.spotify_track)}\n'
+        f'  {TColor.LWHITE}TikTok Music (Playlist): {TColor.GREEN}{len(MusicServiceURLs.tiktokmusic_playlist)}\n'
+        f'  {TColor.LWHITE}TikTok Music (Track): {TColor.GREEN}{len(MusicServiceURLs.tiktokmusic_track)}\n'
         f'  {TColor.LGREEN}Total of {len(MusicServiceURLs.youtube_track + MusicServiceURLs.youtube_playlist + MusicServiceURLs.resso_track + MusicServiceURLs.resso_playlist)} item(s)'
     )
 
-    # Get YouTube URLs
+    # -----------------------------------------------------------------------------------------------------------------
+
+    # Get YouTube URLs ------------------------------------------------------------------------------------------------
     print(
         f'{TBracket(TColor.LBLUE, "RUNNING", 1)} {TColor.BLUE}Converting into YouTube URLs...'
     )
 
     queries = list()
 
-    # Get YouTube URLs from YouTube playlists
+    # Get YouTube URLs from YouTube playlists -------------------------------------------------------------------------
     for playlist_url in MusicServiceURLs.youtube_playlist:
         songs = mup.get_musics_from_youtube_playlist(playlist_url)
         queries.extend(songs)
@@ -200,13 +212,13 @@ def app():
         f'  {TColor.WHITE}Added {TColor.GREEN}{len(queries)}{TColor.WHITE} YouTube URL(s) from {TColor.GREEN}{len(MusicServiceURLs.youtube_playlist)}{TColor.WHITE} YouTube playlist(s)'
     )
 
-    # Add YouTube URLs from YouTube tracks
+    # Add YouTube URLs from YouTube tracks ----------------------------------------------------------------------------
     MusicServiceURLs.all_urls.extend(MusicServiceURLs.youtube_track)
     print(
         f'  {TColor.WHITE}Added {TColor.GREEN}{len(MusicServiceURLs.youtube_track)}{TColor.WHITE} YouTube URL(s) from {TColor.GREEN}{len(MusicServiceURLs.youtube_track)}{TColor.WHITE} YouTube track(s)'
     )
 
-    # Get YouTube URLs from Resso playlists
+    # Get YouTube URLs from Resso playlists ---------------------------------------------------------------------------
     queries = [
         mup.get_youtube_url_from_query(music_name)
         for playlist_url in MusicServiceURLs.resso_playlist
@@ -217,7 +229,7 @@ def app():
         f'  {TColor.WHITE}Added {TColor.GREEN}{len(queries)}{TColor.WHITE} YouTube URL(s) from {TColor.GREEN}{len(MusicServiceURLs.resso_playlist)}{TColor.WHITE} Resso playlist(s)'
     )
 
-    # Get YouTube URLs from Resso tracks
+    # Get YouTube URLs from Resso tracks ------------------------------------------------------------------------------
     queries = [
         mup.get_youtube_url_from_query(mup.get_music_name_from_resso_track(music_url))
         for music_url in MusicServiceURLs.resso_track
@@ -227,7 +239,7 @@ def app():
         f'  {TColor.WHITE}Added {TColor.GREEN}{len(queries)}{TColor.WHITE} YouTube URL(s) from {TColor.GREEN}{len(MusicServiceURLs.resso_track)}{TColor.WHITE} Resso track(s)'
     )
 
-    # Get YouTube URLs from Deezer playlists
+    # Get YouTube URLs from Deezer playlists --------------------------------------------------------------------------
     queries = [
         mup.get_youtube_url_from_query(music_name)
         for playlist_url in MusicServiceURLs.deezer_playlist
@@ -238,7 +250,7 @@ def app():
         f'  {TColor.WHITE}Added {TColor.GREEN}{len(queries)}{TColor.WHITE} YouTube URL(s) from {TColor.GREEN}{len(MusicServiceURLs.deezer_playlist)}{TColor.WHITE} Deezer playlist(s)'
     )
 
-    # Get YouTube URLs from Deezer tracks
+    # Get YouTube URLs from Deezer tracks -----------------------------------------------------------------------------
     queries = [
         mup.get_youtube_url_from_query(mup.get_music_name_from_deezer_track(music_url))
         for music_url in MusicServiceURLs.deezer_track
@@ -248,7 +260,7 @@ def app():
         f'  {TColor.WHITE}Added {TColor.GREEN}{len(queries)}{TColor.WHITE} YouTube URL(s) from {TColor.GREEN}{len(MusicServiceURLs.deezer_track)}{TColor.WHITE} Deezer track(s)'
     )
 
-    # Get YouTube URLs from Spotify playlists
+    # Get YouTube URLs from Spotify playlists -------------------------------------------------------------------------
     queries = [
         mup.get_youtube_url_from_query(music_name)
         for playlist_url in MusicServiceURLs.spotify_playlist
@@ -259,7 +271,7 @@ def app():
         f'  {TColor.WHITE}Added {TColor.GREEN}{len(queries)}{TColor.WHITE} YouTube URL(s) from {TColor.GREEN}{len(MusicServiceURLs.spotify_playlist)}{TColor.WHITE} Spotify playlist(s)'
     )
 
-    # Get YouTube URLs from Spotify tracks
+    # Get YouTube URLs from Spotify tracks ----------------------------------------------------------------------------
     queries = [
         mup.get_youtube_url_from_query(mup.get_music_name_from_spotify_track(music_url))
         for music_url in MusicServiceURLs.spotify_track
@@ -268,6 +280,29 @@ def app():
     print(
         f'  {TColor.WHITE}Added {TColor.GREEN}{len(queries)}{TColor.WHITE} YouTube URL(s) from {TColor.GREEN}{len(MusicServiceURLs.spotify_track)}{TColor.WHITE} Spotify track(s)'
     )
+
+    # Get YouTube URLs from TikTok Music playlists --------------------------------------------------------------------
+    queries = [
+        mup.get_youtube_url_from_query(music_name)
+        for playlist_url in MusicServiceURLs.tiktokmusic_playlist
+        for music_name in mup.get_music_name_from_tiktokmusic_playlist(playlist_url)
+    ]
+    MusicServiceURLs.all_urls.extend(queries)
+    print(
+        f'  {TColor.WHITE}Added {TColor.GREEN}{len(queries)}{TColor.WHITE} YouTube URL(s) from {TColor.GREEN}{len(MusicServiceURLs.tiktokmusic_playlist)}{TColor.WHITE} TikTok Music playlist(s)'
+    )
+
+    # Get YouTube URLs from TikTok Music tracks -----------------------------------------------------------------------
+    queries = [
+        mup.get_youtube_url_from_query(mup.get_music_name_from_tiktokmusic_track(music_url))
+        for music_url in MusicServiceURLs.tiktokmusic_track
+    ]
+    MusicServiceURLs.all_urls.extend(queries)
+    print(
+        f'  {TColor.WHITE}Added {TColor.GREEN}{len(queries)}{TColor.WHITE} YouTube URL(s) from {TColor.GREEN}{len(MusicServiceURLs.tiktokmusic_track)}{TColor.WHITE} TikTok Music track(s)'
+    )
+
+    # -----------------------------------------------------------------------------------------------------------------
 
     # Fixing YouTube URLs
     print(f'  {TColor.LGREEN}Fixing {len(MusicServiceURLs.all_urls)} URL(s)', end='\r')
@@ -292,16 +327,27 @@ def app():
         info = mup.get_youtube_song_metadata(url)
         music_path = mup.download_song_from_youtube(info, AppConfig.OUTPUT_PATH)
         mup.add_song_metadata(info, music_path)
+
     # Finishing the program
-    print(
-        f'\n{TBracket(TColor.LGREEN, "SUCCESS")} {TColor.GREEN}All songs downloaded successfully!'
-    )
+    total_songs_quantity = len(MusicServiceURLs.all_urls)
+    if total_songs_quantity == 0:
+        print(
+            f'\n{TBracket(TColor.LGREEN, "SUCCESS")} {TColor.GREEN}No songs were downloaded!'
+        )
+    elif total_songs_quantity == 1:
+        print(
+            f'\n{TBracket(TColor.LGREEN, "SUCCESS")} {TColor.GREEN}The song has been successfully downloaded!'
+        )
+    else:
+        print(
+            f'\n{TBracket(TColor.LGREEN, "SUCCESS")} {TColor.GREEN}All songs have been successfully downloaded!'
+        )
 
 
 while True:
     app()
     key = input(
-        f'{TBracket(TColor.LWHITE, "END", 1)} {TColor.WHITE}Press ENTER to continue or anything else to exit...'
+        f'{TBracket(TColor.LWHITE, "END", 1)} {TColor.WHITE}Press ENTER to restart or anything else to exit...'
     )
     if key != str():
         break
