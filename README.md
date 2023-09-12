@@ -90,7 +90,7 @@ Later on, I plan to implement more music platforms, such as:
 
 ### Credits
 
-- Many thanks to my brother _Felipe_ for the gigantic help ❤️ ・ [GitHub](https://github.com/cidadedolag) & [LinkedIn](https://www.linkedin.com/in/cidadedolag/).
+- Many thanks to my brother _Felipe_ for the gigantic help ❤️ ・ [GitHub](https://github.com/mindwired) & [LinkedIn](https://www.linkedin.com/in/cidadedolag).
 
 ### Disclaimer
 
