@@ -11,7 +11,7 @@ from app_functions import (
 
 # Application settings
 class AppConfig:
-    VERSION = '1.1.4'
+    VERSION = '1.1.5'
     GITHUB_REPOSITORY = 'https://github.com/Henrique-Coder/echosync-project'
     NAME = 'EchoSync Project'
     PATH = Path(getcwd(), NAME)
