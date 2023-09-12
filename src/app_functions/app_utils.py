@@ -7,42 +7,7 @@ from typing import Optional
 from colorama import init, Fore
 from remotezip import RemoteZip
 from requests import get, head
-from time import time
 from os import system
-
-
-class Timer:
-    """
-    Timer class (for debugging)
-    """
-
-    def __init__(self):
-        self.start_time = None
-        self.end_time = None
-
-    def start(self) -> None:
-        """
-        Start timer
-        :return:
-        """
-
-        self.start_time = time()
-
-    def stop(self) -> None:
-        """
-        Stop timer
-        :return:
-        """
-
-        self.end_time = time()
-
-    def get_time(self) -> float:
-        """
-        Get time
-        :return:  Time
-        """
-
-        return self.end_time - self.start_time
 
 
 class TerminalTextColors:
@@ -232,7 +197,7 @@ def unshorten_url(short_url: str, remove_url_params: bool = True) -> str:
         response = head(short_url, allow_redirects=True)
         unshortened_url = response.url
         if remove_url_params:
-            unshortened_url = unshortened_url.split('?', 1)[0]
+            unshortened_url = unshortened_url.split('&', 1)[0]
     except Exception:
         unshortened_url = short_url
     return unshortened_url
