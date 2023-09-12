@@ -35,7 +35,7 @@ re-encode the songs, enhancing their metadata and overall file.
   <a href='https://github.com/Henrique-Coder/echosync-project/releases/latest'>
     <img src='https://img.shields.io/github/v/release/Henrique-Coder/echosync-project?color=red&style=for-the-badge' alt='GitHub release (latest by date)'></a><p>
 
-### Available features (v1.1.4)
+### Available features (v1.1.5)
 
 In the list below, it shows everything that **ECS-P** can do with each music platform...
 
@@ -78,11 +78,12 @@ Later on, I plan to implement more music platforms, such as:
 ### How to use? (running from source code)
 
 1. Clone the repository to your local machine ・ `git clone https://github.com/Henrique-Coder/echosync-project.git`;
-2. Go to the project directory ・ `cd "echosync-project"`;
+2. Go to the main directory ・ `cd echosync-project`;
 3. Install the project dependencies ・ `pip install -r requirements.txt`;
-4. Run the main file ・ `python app.py`;
-5. Follow the instructions on the terminal screen;
-6. Enjoy your music! :D
+4. Go to the project source directory ・ `cd src`;
+5. Run the main file ・ `python app.py`;
+6. Follow the instructions on the terminal screen;
+7. Enjoy your music! :D
 
 <br>
 
