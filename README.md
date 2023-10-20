@@ -1,8 +1,8 @@
 <p align='center'>
     <a href='https://github.com/Henrique-Coder/echosync-project/blob/main/README.md'>
         <img src='https://img.shields.io/badge/DOCS-soon...-lightgray?style=for-the-badge' alt='Documentation'></a>
-    <a href='https://www.python.org/downloads/release/python-3114/'>
-        <img src='https://img.shields.io/badge/Python-3.11.4-blue?style=for-the-badge&logo=python' alt='Python 3.11.4'></a>
+    <a href='https://www.python.org/downloads/release/python-3120/'>
+        <img src='https://img.shields.io/badge/Python-3.12.0-blue?style=for-the-badge&logo=python' alt='Python 3.12.0'></a>
     <a href='https://opensource.org/license/mit/'>
         <img src='https://img.shields.io/github/license/Henrique-Coder/echosync-project?style=for-the-badge&logo=github&color=blue' alt='GitHub License'></a>
     <a href='https://github.com/Henrique-Coder/echosync-project/issues'>
@@ -16,7 +16,7 @@
 
 <center>
 
-**ECS-P** is an open source project originally created in Python 3.11.4, which allows you to download music playlists in
+**ECS-P** is an open source project that supports python latest version (3.12.0), which allows you to download music playlists in
 a fast and intuitive way. Using [YouTube](https://www.youtube.com/) as a music search source,
 the [yt-dlp](https://pypi.org/project/yt-dlp/) library to download the songs and [FFmpeg](https://ffmpeg.org/) to
 re-encode the songs, enhancing their metadata and overall file.
@@ -35,22 +35,22 @@ re-encode the songs, enhancing their metadata and overall file.
   <a href='https://github.com/Henrique-Coder/echosync-project/releases/latest'>
     <img src='https://img.shields.io/github/v/release/Henrique-Coder/echosync-project?color=red&style=for-the-badge' alt='GitHub release (latest by date)'></a><p>
 
-### Available features (v1.1.5)
+### Available features (v1.1.6)
 
-In the list below, it shows everything that **ECS-P** can do with each music platform...
+In the list below, it shows everything that **ECS-P** can do...
 
-- It can download songs by song name only;
+- It can download songs by any online supported music platform (with shortened links or not);
+- It can download songs by song name;
 - Can download a list of songs by a text file;
 - Supports downloading individual songs or playlists
   from [YouTube](https://www.youtube.com/), [YouTube Music](https://music.youtube.com/), [Resso](https://www.resso.com/), [Deezer](https://www.deezer.com/), [Spotify](https://www.spotify.com/)
   and [TikTok Music](https://music.tiktok.com/);
 - And much more!
 
-* **Note 1:** _The program will automatically detect the music platform by the link used, so do not use link shorteners
-  to modify it. Unavailable links or platforms will be automatically rejected. Texts detected as the title of a song
-  will automatically be added to the download queue and the search for the song will take place via YouTube._
-* **Note 2:** _The program uses proprietary web scrapping techniques to extract the name/author of the song on the
-  detected platform and will download it directly from YouTube._
+* **Note 1:** The program will automatically detect the music platform by the link used. Unavailable links or platforms will be automatically rejected. Texts detected as the title of a song
+  will automatically be added to the download queue and the search for the song will take place via YouTube.
+* **Note 2:** The program uses proprietary web scrapping techniques to extract the name/author of the song on the
+  detected platform and will download it directly from YouTube.
 
 ### _Possible_ future implementations
 
