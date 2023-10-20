@@ -7,7 +7,6 @@ from typing import Optional
 from colorama import init, Fore
 from remotezip import RemoteZip
 from requests import get, head
-from os import system
 
 
 class TerminalTextColors:
@@ -43,17 +42,14 @@ class TerminalCustomBrackets(TerminalTextColors):
         self.jump_lines = jump_lines
 
     def __str__(self):
-        return (
-                '\n' * self.jump_lines
-                + f'{TerminalTextColors.WHITE}[{self.color}{self.text}{TerminalTextColors.WHITE}]'
-        )
+        return '\n' * self.jump_lines + f'{TerminalTextColors.WHITE}[{self.color}{self.text}{TerminalTextColors.WHITE}]'
 
 
 def init_colorama(autoreset: bool = True) -> None:
     """
     Initialize colorama module
     :param autoreset:  Reset color after print
-    :return:
+    :return:  None
     """
 
     init(autoreset=autoreset)
@@ -63,7 +59,7 @@ def clsr(jump_lines: int = 0) -> None:
     """
     Clear terminal screen
     :param jump_lines:  Number of lines to jump after clear
-    :return:
+    :return:  None
     """
 
     run('cls || clear', shell=True)
@@ -72,89 +68,76 @@ def clsr(jump_lines: int = 0) -> None:
         print()
 
 
-def is_app_updated(app_version, github_repository) -> tuple:
+def is_app_updated(app_version: str, github_repository: str) -> tuple:
     """
     Check if app is updated
     :param app_version:  App version
     :param github_repository:  Github repository
-    :return:
+    :return:  Tuple with boolean value, latest version available and latest release url
     """
 
     github_latest_repository = github_repository + '/releases/latest'
-    latest_version_available = (
-        get(github_latest_repository).url.rsplit('/', 1)[-1].replace('v', '')
-    )
-    lastest_release_url = (
-        f'{github_repository}/releases/tag/v{latest_version_available}'
-    )
+    latest_version_available = get(github_latest_repository).url.rsplit('/', 1)[-1].replace('v', '')
+    lastest_release_url = f'{github_repository}/releases/tag/v{latest_version_available}'
 
-    if latest_version_available > app_version:
-        is_updated = False
-    else:
-        is_updated = True
+    is_updated = latest_version_available <= app_version
+
     return is_updated, latest_version_available, lastest_release_url
 
 
-def base64_decoder(base64_data: str, output_file_path) -> None:
+def base64_decoder(base64_data: str, output_file_path: Path) -> None:
     """
-    Decode base64 data to file
+    Decode base64 data and save it to file
     :param base64_data:  Base64 data
     :param output_file_path:  Output file path
-    :return:
+    :return:  None
     """
 
     output_file_path.write_bytes(b64decode(base64_data))
 
 
-def create_dirs(main_dir, dirs_list: list) -> None:
+def create_dirs(main_dir: Path, dirs_list: list) -> None:
     """
-    Create directories
+    Create main directory and subdirectories
     :param main_dir:  Main directory
     :param dirs_list:  List of directories to create
-    :return:
+    :return:  None
     """
 
     for directory in dirs_list:
         Path(main_dir, directory).mkdir(parents=True, exist_ok=True)
 
 
-def hide_windows_folder(folder_path) -> None:
+def hide_windows_folder(folder_path: Path) -> None:
     """
-    Hide windows folder
-    :param folder_path:  Folder path
-    :return:
+    Hide Windows folder from explorer
+    :param folder_path:  Folder path to hide
+    :return:  None
     """
 
-    system(f'attrib +h "{folder_path}"')
+    run(f'attrib +h "{folder_path}"', shell=True)
 
 
-def download_latest_ffmpeg(output_file_dir, file_name) -> None:
+def download_latest_ffmpeg(output_file_dir: Path, file_name: str = 'ffmpeg') -> None:
     """
-    Download latest ffmpeg build
+    Download latest ffmpeg build from official GitHub repository
     :param output_file_dir:  Output file directory
-    :param file_name:  File name
-    :return:
+    :param file_name:  File name (without extension)
+    :return:  None
     """
 
     github_repository = 'https://github.com/GyanD/codexffmpeg'
-    latest_official_version = get(github_repository + '/releases/latest').url.rsplit(
-        '/', 1
-    )[-1]
+    latest_official_version = get(github_repository + '/releases/latest').url.rsplit('/', 1)[-1]
     build_name = f'ffmpeg-{latest_official_version}-essentials_build'
 
-    with RemoteZip(
-            f'{github_repository}/releases/latest/download/{build_name}.zip'
-    ) as rzip:
+    with RemoteZip(f'{github_repository}/releases/latest/download/{build_name}.zip') as rzip:
         rzip.extract(f'{build_name}/bin/{file_name}.exe', output_file_dir)
 
-        Path(f'{output_file_dir}/{build_name}/bin/{file_name}.exe').rename(
-            Path(f'{output_file_dir}/{file_name}.exe')
-        )
-
+        Path(f'{output_file_dir}/{build_name}/bin/{file_name}.exe').rename(Path(f'{output_file_dir}/{file_name}.exe'))
         rmtree(Path(f'{output_file_dir}/{build_name}'), ignore_errors=True)
 
 
-def filedialog_selector(window_title: str, window_icon_path, allowed_file_types: list) -> Optional[Path]:
+def filedialog_selector(window_title: str, window_icon_path: Path, allowed_file_types: list) -> Optional[Path]:
     """
     File dialog selector
     :param window_title:  Window title
@@ -172,9 +155,7 @@ def filedialog_selector(window_title: str, window_icon_path, allowed_file_types:
     tkroot.update()
 
     # Opens a dialog window for selecting the input file
-    input_file_path = filedialog.askopenfilename(
-        title=window_title, filetypes=allowed_file_types
-    )
+    input_file_path = filedialog.askopenfilename(title=window_title, filetypes=allowed_file_types)
 
     # Destroys the dialog window
     tkroot.destroy()
@@ -182,22 +163,27 @@ def filedialog_selector(window_title: str, window_icon_path, allowed_file_types:
     # Returns the selected file path if it has been selected, otherwise returns None
     if not input_file_path:
         return None
+
     return Path(input_file_path)
 
 
-def unshorten_url(short_url: str, remove_url_params: bool = True) -> str:
+def unshorten_url(short_url: str, remove_url_params: bool = False) -> str:
     """
     Get final link from short link
     :param short_url:  Short link
     :param remove_url_params:  Remove parameters from link
-    :return:
+    :return:  Unshortened link
     """
 
+    if remove_url_params:
+        short_url = short_url.split('&', 1)[0]
+
     try:
-        response = head(short_url, allow_redirects=True)
-        unshortened_url = response.url
-        if remove_url_params:
-            unshortened_url = unshortened_url.split('&', 1)[0]
+        unshortened_url = head(short_url, allow_redirects=True).url
     except Exception:
         unshortened_url = short_url
+
+    if remove_url_params:
+        unshortened_url = unshortened_url.split('&', 1)[0]
+
     return unshortened_url

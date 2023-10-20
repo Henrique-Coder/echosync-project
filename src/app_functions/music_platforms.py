@@ -1,4 +1,3 @@
-import PIL  # Used by music_tag
 from re import findall, sub
 from typing import Optional
 from bs4 import BeautifulSoup
@@ -16,10 +15,10 @@ def sanitize_title(title: str) -> str:
     :return:  Sanitized title
     """
 
-    normalized_title = (
-        normalize('NFKD', title).encode('ASCII', 'ignore').decode('utf-8')
-    )
+    normalized_title = normalize('NFKD', title).encode('ASCII', 'ignore').decode('utf-8')
     sanitized_title = sub(r'[^a-zA-Z0-9\-_()[\]{}# ]', '', normalized_title).strip()
+    sanitized_title = sub(r'\s+', ' ', sanitized_title)
+
     return sanitized_title
 
 
@@ -40,10 +39,7 @@ def music_platform_categorizer(pyclass, query_list: list, TColor) -> list:
 
     for query in query_list:
         now_processing_number = query_list.index(query) + 1
-        print(
-            f'  {TColor.LYELLOW}Progress: {TColor.WHITE}{now_processing_number}/{TColor.WHITE}{len(query_list)}',
-            end='\r',
-        )
+        print(f'  {TColor.LYELLOW}Progress: {TColor.WHITE}{now_processing_number}/{TColor.WHITE}{len(query_list)}', end='\r',)
 
         matches = dict()
         for source, regex in platform_regexes.items():
@@ -77,9 +73,8 @@ def music_platform_categorizer(pyclass, query_list: list, TColor) -> list:
                         get_youtube_url_from_query(query=query)
                     )
                 break
-    print(
-        f'  {TColor.LYELLOW}Successfully categorized: {TColor.WHITE}{len(query_list)} {TColor.YELLOW}queries'
-    )
+    print(f'  {TColor.LYELLOW}Successfully categorized: {TColor.WHITE}{len(query_list)} {TColor.YELLOW}queries')
+
     return pyclass
 
 
@@ -91,9 +86,7 @@ def get_youtube_url_from_query(query: str) -> Optional[str]:
     """
 
     try:
-        scrapping_results = SearchVideos(
-            query, offset=1, mode='dict', max_results=1
-        ).result()
+        scrapping_results = SearchVideos(query, offset=1, mode='dict', max_results=1).result()
         return scrapping_results['search_result'][0]['link']
     except Exception:
         return None
@@ -118,6 +111,7 @@ def get_musics_from_youtube_playlist(url: str) -> list:
             video_list = list()
             for video in videos:
                 video_list.append(video['webpage_url'])
+
             return video_list
 
 
@@ -134,6 +128,7 @@ def get_music_name_from_resso_playlist(url: str) -> list:
         for song in soup.find_all('li', {'class': 'song-item'})
     ]
     song_list = [song['title'] for song in song_list if song is not None]
+
     return song_list
 
 
@@ -147,6 +142,7 @@ def get_music_name_from_resso_track(url: str) -> str:
     soup = BeautifulSoup(get(url).content, 'html.parser')
     title = soup.find('div', {'class': 'immersive-info-detail'}).find('h1').text.strip()
     author = soup.find('div', {'class': 'subtitle'}).find('a').text.strip()
+
     return title + ' - ' + author
 
 
@@ -163,6 +159,7 @@ def get_music_name_from_tiktokmusic_playlist(url: str) -> list:
         for song in soup.find_all('li', {'class': 'song-item'})
     ]
     song_list = [song['title'] for song in song_list if song is not None]
+
     return song_list
 
 
@@ -176,6 +173,7 @@ def get_music_name_from_tiktokmusic_track(url: str) -> str:
     soup = BeautifulSoup(get(url).content, 'html.parser')
     title = soup.find('div', {'class': 'immersive-info-detail'}).find('h1').text.strip()
     author = soup.find('div', {'class': 'subtitle'}).find('a').text.strip()
+
     return title + ' - ' + author
 
 
@@ -194,6 +192,7 @@ def get_music_name_from_deezer_playlist(url: str) -> list:
     formatted_song_list = [
         song + ' - ' + author for song, author in zip(title_list, author_list)
     ]
+
     return formatted_song_list
 
 
@@ -201,6 +200,7 @@ def get_music_name_from_deezer_track(url: str) -> str:
     soup = BeautifulSoup(get(url).content, 'html.parser')
     title = soup.find('h1').text.strip()
     author = soup.find('meta', {'itemprop': 'description'})['content']
+
     return title + ' - ' + author
 
 
@@ -223,21 +223,19 @@ def get_music_name_from_spotify_playlist(url: str) -> list:
             )
         ]
     ]
+
     return formatted_song_list
 
 
 def get_music_name_from_spotify_track(url: str) -> str:
     soup = BeautifulSoup(get(url).content, 'html.parser')
     title = soup.find('meta', {'property': 'og:title'})['content'].strip()
-    author = (
-        soup.find('meta', {'property': 'og:description'})['content']
-        .split('·')[0]
-        .strip()
-    )
+    author = soup.find('meta', {'property': 'og:description'})['content'].split('·')[0].strip()
+
     return title + ' - ' + author
 
 
-def get_youtube_song_metadata(url: str) -> dict:
+def get_youtube_song_metadata(url: str) -> Optional[dict]:
     """
     Get youtube song metadata
     :param url:  Youtube url
@@ -248,17 +246,29 @@ def get_youtube_song_metadata(url: str) -> dict:
         'quiet': True,
         'no_warnings': True,
     }
-    info = YoutubeDL(ydl_opts).extract_info(url, download=False)
+
+    try:
+        info = YoutubeDL(ydl_opts).extract_info(url, download=False)
+    except Exception:
+        return None
+
     return info
 
 
-def download_song_from_youtube(info: dict, output_dir) -> str:
+def download_song_from_youtube(info: dict, output_dir, now_downloading: int, all_urls: list, TBracket, TColor) -> Optional[str]:
     """
     Download song from youtube
     :param info:  Song metadata
     :param output_dir:  Output directory
+    :param now_downloading:  Now downloading number
+    :param all_urls:  All urls
+    :param TBracket:  TBracket class
+    :param TColor:  TColor class
     :return:  Music path
     """
+
+    queue = all_urls
+    this_queue = queue[now_downloading - 1]
 
     url = info['webpage_url']
     music_path_wo_ext = f'{output_dir}/{sanitize_title(info["title"])}'
@@ -273,13 +283,16 @@ def download_song_from_youtube(info: dict, output_dir) -> str:
             {
                 'key': 'FFmpegExtractAudio',
                 'preferredcodec': 'opus',
-                'preferredquality': '128',
+                'preferredquality': '320',
             }
         ],
     }
 
     with YoutubeDL(ydl_opts) as ydl:
         ydl.download([url])
+
+    print(f"{TBracket(TColor.LBLUE, 'RUNNING')} {TColor.BLUE}Downloaded YT-ID {TColor.LWHITE}{info['id'].strip()} {TColor.BLUE}which is {TColor.LWHITE}{info['title'].strip()} {TColor.BLUE}in position {TColor.LWHITE}{now_downloading}/{len(all_urls)}")
+
     return f'{music_path_wo_ext}.opus'
 
 
@@ -296,14 +309,20 @@ def add_song_metadata(info: dict, music_path: str) -> None:
     author = info['uploader']
     publish_year = info['upload_date'][:4]
 
-    # Get artwork data from youtube
-    artwork_url = f'https://i.ytimg.com/vi/{info["id"]}/maxresdefault.jpg'
-    artwork_data = get(artwork_url).content
+    # Get artwork data from YouTube
+    artwork_url = f'http://img.youtube.com/vi/{info["id"]}'
+    sizes = ['maxresdefault', 'hq720', 'sddefault']
+    artwork_data = None
+
+    for size in sizes:
+        response = get(f'{artwork_url}/{size}.jpg', allow_redirects=True)
+        if response.status_code == 200:
+            artwork_data = bytes(response.content)
+            break
 
     f = tag_load_file(music_path)
-    f['artwork'] = bytes(artwork_data)
+    f['artwork'] = artwork_data
     f['tracktitle'] = title
     f['artist'] = author
     f['year'] = publish_year
-    f['albumartist'] = author
     f.save()
