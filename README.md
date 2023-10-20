@@ -16,10 +16,7 @@
 
 <center>
 
-**ECS-P** is an open source project that supports python latest version (3.12.0), which allows you to download music playlists in
-a fast and intuitive way. Using [YouTube](https://www.youtube.com/) as a music search source,
-the [yt-dlp](https://pypi.org/project/yt-dlp/) library to download the songs and [FFmpeg](https://ffmpeg.org/) to
-re-encode the songs, enhancing their metadata and overall file.
+**ECS-P** is an open source project that supports python latest version (3.12.0), which allows you to download music playlists in a fast and intuitive way. Using [YouTube](https://www.youtube.com/) as a music search source, the [yt-dlp](https://pypi.org/project/yt-dlp/) library to download the songs and [FFmpeg](https://ffmpeg.org/) to re-encode the songs, enhancing their metadata and overall file.
 
 </center>
 
