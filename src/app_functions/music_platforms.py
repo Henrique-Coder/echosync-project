@@ -24,16 +24,16 @@ def sanitize_title(title: str) -> str:
 
 def music_platform_categorizer(pyclass, query_list: list, TColor) -> list:
     platform_regexes = {
-        'youtube_playlist': r'^https:\/\/(?:www\.)?(?:youtu\.be\/(?:playlist\?list=|[^\/]+\?list=)|youtube\.com\/.*\blist=[^&\s]+|music\.youtube\.com\/.*\blist=[^&\s]+).*$',
-        'youtube_track': r'^https://(?:www\.)?(?:youtu\.be/|youtube\.com/watch\?v=|music\.youtube\.com/watch\?v=)([^/?&\s]+)$',
-        'resso_playlist': r'^(https?://)?(www\.)?resso\.com/playlist/[\w%-]+$',
-        'resso_track': r'^https:\/\/www\.resso\.com\/track\/(?!.*playlist\/)\d+(?:\.\d+)?$',
-        'deezer_playlist': r'^https:\/\/www\.deezer\.com\/(?:\w{2}\/)?playlist\/\d+$',
-        'deezer_track': r'https:\/\/www\.deezer\.com\/(?:[a-zA-Z]{2}\/)?track\/\d+',
-        'spotify_playlist': r'^(https:\/\/open\.spotify\.com\/playlist\/[A-Za-z0-9]+)$',
-        'spotify_track': r'^https:\/\/open\.spotify\.com\/track\/[a-zA-Z0-9]+$',
-        'tiktokmusic_playlist': r'^https://music\.tiktok\.com/playlist/(?:_/)?\d+$',
-        'tiktokmusic_track': r'^https://music\.tiktok\.com/track/(?:_/)?\d+$',
+        'youtube_playlist': r'^https:\/\/(?:www\.)?(?:youtu\.be\/(?:playlist\?list=|[^\/]+\?list=)|youtube\.com\/.*\blist=[^&\s]+|music\.youtube\.com\/.*\blist=[^&\s]+)(?:&\bindex=\d+)?.*$',
+        'youtube_track': r'^https:\/\/(?:www\.)?(?:youtu\.be\/|youtube\.com\/watch\?v=|music\.youtube\.com\/watch\?v=)([^\/?&\s]+)(?:\?t=\d+)?$',
+        'deezer_playlist': r'^https:\/\/www\.deezer\.com\/(?:\w{2}\/)?playlist\/\d+(?:\/\w+)?$',
+        'deezer_track': r'https:\/\/(?:[a-zA-Z]{2}\/)?(www\.)?deezer\.com\/(?:\w+\/)?track\/\d+(?:\/\w+)?\??(?:[\w-]+=[\w-]+&?)*$',
+        'spotify_playlist': r'^(https:\/\/open\.spotify\.com\/playlist\/[A-Za-z0-9?=&]+)$',
+        'spotify_track': r'^https:\/\/open\.spotify\.com\/(?:[^\/]+\/)?track\/[a-zA-Z0-9?=&]+$',
+        'tiktokmusic_playlist': r'^https:\/\/music\.tiktok\.com\/(?:playlist|album)\/(?:[^\/?]+\/)?\d+(?:\?.+)?$',
+        'tiktokmusic_track': r'^https:\/\/music\.tiktok\.com\/track\/(?:[^\/]+\/)?\d+(?:\?.+)?$',
+        'soundcloud_playlist': r'^https:\/\/soundcloud\.com\/[a-zA-Z0-9-]+\/sets\/[a-zA-Z0-9-]+\?(?:\w+=\w+&?)+$',
+        'soundcloud_track': r'^https:\/\/soundcloud\.com\/[a-zA-Z0-9-]+\/[a-zA-Z0-9-]+\?(?:\w+=\w+&?)+$',
         'queries': r'^(?!.*(?:https?://|www\.)[\w\-\.]+\.[a-zA-Z]{2,3}(/\S*)?$).*',
     }
 
@@ -52,10 +52,6 @@ def music_platform_categorizer(pyclass, query_list: list, TColor) -> list:
                     pyclass.youtube_playlist.append(query)
                 elif source == 'youtube_track':
                     pyclass.youtube_track.append(query)
-                elif source == 'resso_playlist':
-                    pyclass.resso_playlist.append(query)
-                elif source == 'resso_track':
-                    pyclass.resso_track.append(query)
                 elif source == 'deezer_playlist':
                     pyclass.deezer_playlist.append(query)
                 elif source == 'deezer_track':
@@ -68,6 +64,10 @@ def music_platform_categorizer(pyclass, query_list: list, TColor) -> list:
                     pyclass.tiktokmusic_playlist.append(query)
                 elif source == 'tiktokmusic_track':
                     pyclass.tiktokmusic_track.append(query)
+                elif source == 'soundcloud_playlist':
+                    pyclass.soundcloud_playlist.append(query)
+                elif source == 'soundcloud_track':
+                    pyclass.soundcloud_track.append(query)
                 elif source == 'queries':
                     pyclass.youtube_track.append(
                         get_youtube_url_from_query(query=query)
@@ -115,64 +115,10 @@ def get_musics_from_youtube_playlist(url: str) -> list:
             return video_list
 
 
-def get_music_name_from_resso_playlist(url: str) -> list:
-    """
-    Get music name from resso playlist
-    :param url:  Resso playlist url
-    :return:  List of music names
-    """
-
+def get_music_name_from_deezer_track(url: str) -> str:
     soup = BeautifulSoup(get(url).content, 'html.parser')
-    song_list = [
-        song.find('a', {'class': 'song-wrapper'})
-        for song in soup.find_all('li', {'class': 'song-item'})
-    ]
-    song_list = [song['title'] for song in song_list if song is not None]
-
-    return song_list
-
-
-def get_music_name_from_resso_track(url: str) -> str:
-    """
-    Get name from resso track
-    :param url:  Resso track url
-    :return:  Music name
-    """
-
-    soup = BeautifulSoup(get(url).content, 'html.parser')
-    title = soup.find('div', {'class': 'immersive-info-detail'}).find('h1').text.strip()
-    author = soup.find('div', {'class': 'subtitle'}).find('a').text.strip()
-
-    return title + ' by ' + author
-
-
-def get_music_name_from_tiktokmusic_playlist(url: str) -> list:
-    """
-    Get music name from tiktokmusic playlist
-    :param url:  Tiktok Music playlist url
-    :return:  List of music names
-    """
-
-    soup = BeautifulSoup(get(url).content, 'html.parser')
-    song_list = [
-        song.find('a', {'class': 'song-wrapper'})
-        for song in soup.find_all('li', {'class': 'song-item'})
-    ]
-    song_list = [song['title'] for song in song_list if song is not None]
-
-    return song_list
-
-
-def get_music_name_from_tiktokmusic_track(url: str) -> str:
-    """
-    Get name from tiktokmusic track
-    :param url:  Tiktok Music track url
-    :return:  Music name
-    """
-
-    soup = BeautifulSoup(get(url).content, 'html.parser')
-    title = soup.find('div', {'class': 'immersive-info-detail'}).find('h1').text.strip()
-    author = soup.find('div', {'class': 'subtitle'}).find('a').text.strip()
+    title = soup.find('h1').text.strip()
+    author = soup.find('meta', {'itemprop': 'description'})['content']
 
     return title + ' by ' + author
 
@@ -196,10 +142,10 @@ def get_music_name_from_deezer_playlist(url: str) -> list:
     return formatted_song_list
 
 
-def get_music_name_from_deezer_track(url: str) -> str:
+def get_music_name_from_spotify_track(url: str) -> str:
     soup = BeautifulSoup(get(url).content, 'html.parser')
-    title = soup.find('h1').text.strip()
-    author = soup.find('meta', {'itemprop': 'description'})['content']
+    title = soup.find('meta', {'property': 'og:title'})['content'].strip()
+    author = soup.find('meta', {'property': 'og:description'})['content'].split('·')[0].strip()
 
     return title + ' by ' + author
 
@@ -227,12 +173,32 @@ def get_music_name_from_spotify_playlist(url: str) -> list:
     return formatted_song_list
 
 
-def get_music_name_from_spotify_track(url: str) -> str:
+def get_music_name_from_tiktokmusic_track(url: str) -> str:
+    """
+    Get name from tiktokmusic track
+    :param url:  Tiktok Music track url
+    :return:  Music name
+    """
+
     soup = BeautifulSoup(get(url).content, 'html.parser')
-    title = soup.find('meta', {'property': 'og:title'})['content'].strip()
-    author = soup.find('meta', {'property': 'og:description'})['content'].split('·')[0].strip()
+    title = soup.find('div', {'class': 'immersive-info-detail'}).find('h1').text.strip()
+    author = soup.find('div', {'class': 'subtitle'}).find('a').text.strip()
 
     return title + ' by ' + author
+
+
+def get_music_name_from_tiktokmusic_playlist(url: str) -> list:
+    """
+    Get music name from tiktokmusic playlist
+    :param url:  Tiktok Music playlist url
+    :return:  List of music names
+    """
+
+    soup = BeautifulSoup(get(url).content, 'html.parser')
+    song_list = [song.find('a', {'class': 'song-wrapper'}) for song in soup.find_all('li', {'class': 'song-item'})]
+    song_list = [song['title'] for song in song_list if song is not None]
+
+    return song_list
 
 
 def get_music_name_from_soundcloud_track(url: str) -> str:

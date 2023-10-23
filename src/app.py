@@ -88,8 +88,6 @@ class MusicServiceURLs:
     all_urls = list()
     youtube_track = list()
     youtube_playlist = list()
-    resso_track = list()
-    resso_playlist = list()
     deezer_track = list()
     deezer_playlist = list()
     spotify_track = list()
@@ -118,8 +116,6 @@ def app():
         MusicServiceURLs.all_urls = list()
         MusicServiceURLs.youtube_track = list()
         MusicServiceURLs.youtube_playlist = list()
-        MusicServiceURLs.resso_track = list()
-        MusicServiceURLs.resso_playlist = list()
         MusicServiceURLs.deezer_track = list()
         MusicServiceURLs.deezer_playlist = list()
         MusicServiceURLs.spotify_track = list()
@@ -177,8 +173,6 @@ def app():
     print(
         f'  {TColor.LWHITE}YouTube (Track): {TColor.GREEN}{len(MusicServiceURLs.youtube_track)}\n'
         f'  {TColor.LWHITE}YouTube (Playlist): {TColor.GREEN}{len(MusicServiceURLs.youtube_playlist)}\n'
-        f'  {TColor.LWHITE}Resso (Track): {TColor.GREEN}{len(MusicServiceURLs.resso_track)}\n'
-        f'  {TColor.LWHITE}Resso (Playlist): {TColor.GREEN}{len(MusicServiceURLs.resso_playlist)}\n'
         f'  {TColor.LWHITE}Deezer (Track): {TColor.GREEN}{len(MusicServiceURLs.deezer_track)}\n'
         f'  {TColor.LWHITE}Deezer (Playlist): {TColor.GREEN}{len(MusicServiceURLs.deezer_playlist)}\n'
         f'  {TColor.LWHITE}Spotify (Track): {TColor.GREEN}{len(MusicServiceURLs.spotify_track)}\n'
@@ -187,7 +181,7 @@ def app():
         f'  {TColor.LWHITE}TikTok Music (Playlist): {TColor.GREEN}{len(MusicServiceURLs.tiktokmusic_playlist)}\n'
         f'  {TColor.LWHITE}SoundCloud (Track): {TColor.GREEN}{len(MusicServiceURLs.soundcloud_track)}\n'
         f'  {TColor.LWHITE}SoundCloud (Playlist): {TColor.GREEN}{len(MusicServiceURLs.soundcloud_playlist)}\n'
-        f'  {TColor.LGREEN}Total of {len(MusicServiceURLs.youtube_track + MusicServiceURLs.youtube_playlist + MusicServiceURLs.resso_track + MusicServiceURLs.resso_playlist)} item(s)'
+        f'  {TColor.LGREEN}Total of {len(MusicServiceURLs.youtube_track + MusicServiceURLs.youtube_playlist + MusicServiceURLs.deezer_track + MusicServiceURLs.deezer_playlist + MusicServiceURLs.spotify_track + MusicServiceURLs.spotify_playlist + MusicServiceURLs.tiktokmusic_track + MusicServiceURLs.tiktokmusic_playlist + MusicServiceURLs.soundcloud_track + MusicServiceURLs.soundcloud_playlist)} item(s) separated by service!'
     )
 
     # Get YT-URLs (YouTube URLs)
@@ -205,23 +199,6 @@ def app():
     MusicServiceURLs.all_urls.extend(queries)
 
     print(f'  {TColor.WHITE}Added {TColor.GREEN}{len(queries)}{TColor.WHITE} YT-URL(s) from {TColor.GREEN}{len(MusicServiceURLs.youtube_playlist)}{TColor.WHITE} YouTube playlist(s)')
-
-    # Resso: get YT-URLs from Resso tracks
-    queries = [
-        mup.get_youtube_url_from_query(mup.get_music_name_from_resso_track(music_url))
-        for music_url in MusicServiceURLs.resso_track
-    ]
-    MusicServiceURLs.all_urls.extend(queries)
-    print(f'  {TColor.WHITE}Added {TColor.GREEN}{len(queries)}{TColor.WHITE} YT-URL(s) from {TColor.GREEN}{len(MusicServiceURLs.resso_track)}{TColor.WHITE} Resso track(s)')
-
-    # Resso: get YT-URLs from Resso playlists
-    queries = [
-        mup.get_youtube_url_from_query(music_name)
-        for playlist_url in MusicServiceURLs.resso_playlist
-        for music_name in mup.get_music_name_from_resso_playlist(playlist_url)
-    ]
-    MusicServiceURLs.all_urls.extend(queries)
-    print(f'  {TColor.WHITE}Added {TColor.GREEN}{len(queries)}{TColor.WHITE} YT-URL(s) from {TColor.GREEN}{len(MusicServiceURLs.resso_playlist)}{TColor.WHITE} Resso playlist(s)')
 
     # Deezer: get YT-URLs from Deezer tracks
     queries = [
