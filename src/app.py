@@ -57,7 +57,7 @@ if not path_explorer_file_dialog_ico.exists():
 # Checking if ffmpeg exists and downloading if not
 ffmpeg_path = Path(AppConfig.ENV_PATH / 'ffmpeg.exe')
 if not ffmpeg_path.exists():
-    start_time = datetime.now().strftime('%Hh%Mm%Ss')
+    start_time = datetime.now().strftime('%H:%M:%S')
     print(f'{TBracket(TColor.LYELLOW, "WARN")} {TColor.YELLOW}FFMPEG auto-download started at {start_time}', end='\r')
 
     # Downloading ffmpeg
@@ -65,7 +65,7 @@ if not ffmpeg_path.exists():
 
     print(
         f'{TBracket(TColor.LGREEN, "SUCCESS")} {TColor.GREEN}FFMPEG auto-download started at {TColor.YELLOW}{start_time} '
-        f'{TColor.GREEN}and ended successfully at {TColor.YELLOW}{datetime.now().strftime('%Hh%Mm%Ss')}{TColor.GREEN}.\n'
+        f'{TColor.GREEN}and ended successfully at {TColor.YELLOW}{datetime.now().strftime('%H:%M:%S')}{TColor.GREEN}.\n'
     )
 
 # Set environment path
@@ -86,18 +86,18 @@ class AppStats:
 # Creating service URLs
 class MusicServiceURLs:
     all_urls = list()
-    youtube_playlist = list()
     youtube_track = list()
-    resso_playlist = list()
+    youtube_playlist = list()
     resso_track = list()
-    deezer_playlist = list()
+    resso_playlist = list()
     deezer_track = list()
-    spotify_playlist = list()
+    deezer_playlist = list()
     spotify_track = list()
-    tiktokmusic_playlist = list()
+    spotify_playlist = list()
     tiktokmusic_track = list()
-    soundcloud_playlist = list()
+    tiktokmusic_playlist = list()
     soundcloud_track = list()
+    soundcloud_playlist = list()
 
 
 def app():
@@ -116,18 +116,18 @@ def app():
 
         # Resetting service URLs
         MusicServiceURLs.all_urls = list()
-        MusicServiceURLs.youtube_playlist = list()
         MusicServiceURLs.youtube_track = list()
-        MusicServiceURLs.resso_playlist = list()
+        MusicServiceURLs.youtube_playlist = list()
         MusicServiceURLs.resso_track = list()
-        MusicServiceURLs.deezer_playlist = list()
+        MusicServiceURLs.resso_playlist = list()
         MusicServiceURLs.deezer_track = list()
-        MusicServiceURLs.spotify_playlist = list()
+        MusicServiceURLs.deezer_playlist = list()
         MusicServiceURLs.spotify_track = list()
-        MusicServiceURLs.tiktokmusic_playlist = list()
+        MusicServiceURLs.spotify_playlist = list()
         MusicServiceURLs.tiktokmusic_track = list()
-        MusicServiceURLs.soundcloud_playlist = list()
+        MusicServiceURLs.tiktokmusic_playlist = list()
         MusicServiceURLs.soundcloud_track = list()
+        MusicServiceURLs.soundcloud_playlist = list()
 
     reseting_variables()
 
