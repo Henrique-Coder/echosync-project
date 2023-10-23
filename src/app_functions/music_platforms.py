@@ -143,7 +143,7 @@ def get_music_name_from_resso_track(url: str) -> str:
     title = soup.find('div', {'class': 'immersive-info-detail'}).find('h1').text.strip()
     author = soup.find('div', {'class': 'subtitle'}).find('a').text.strip()
 
-    return title + ' - ' + author
+    return title + ' by ' + author
 
 
 def get_music_name_from_tiktokmusic_playlist(url: str) -> list:
@@ -174,7 +174,7 @@ def get_music_name_from_tiktokmusic_track(url: str) -> str:
     title = soup.find('div', {'class': 'immersive-info-detail'}).find('h1').text.strip()
     author = soup.find('div', {'class': 'subtitle'}).find('a').text.strip()
 
-    return title + ' - ' + author
+    return title + ' by ' + author
 
 
 def get_music_name_from_deezer_playlist(url: str) -> list:
@@ -190,7 +190,7 @@ def get_music_name_from_deezer_playlist(url: str) -> list:
     ]
     author_list = [author.text.strip() for author in author_list if author is not None]
     formatted_song_list = [
-        song + ' - ' + author for song, author in zip(title_list, author_list)
+        song + ' by ' + author for song, author in zip(title_list, author_list)
     ]
 
     return formatted_song_list
@@ -201,7 +201,7 @@ def get_music_name_from_deezer_track(url: str) -> str:
     title = soup.find('h1').text.strip()
     author = soup.find('meta', {'itemprop': 'description'})['content']
 
-    return title + ' - ' + author
+    return title + ' by ' + author
 
 
 def get_music_name_from_spotify_playlist(url: str) -> list:
@@ -210,7 +210,7 @@ def get_music_name_from_spotify_playlist(url: str) -> list:
         meta['content'] for meta in soup.find_all('meta', {'name': 'music:song'})
     ]
     formatted_song_list = [
-        song + ' - ' + author.split('·')[0].strip()
+        song + ' by ' + author.split('·')[0].strip()
         for url in url_list
         for song, author in [
             (
@@ -232,7 +232,7 @@ def get_music_name_from_spotify_track(url: str) -> str:
     title = soup.find('meta', {'property': 'og:title'})['content'].strip()
     author = soup.find('meta', {'property': 'og:description'})['content'].split('·')[0].strip()
 
-    return title + ' - ' + author
+    return title + ' by ' + author
 
 
 def get_youtube_song_metadata(url: str) -> Optional[dict]:
