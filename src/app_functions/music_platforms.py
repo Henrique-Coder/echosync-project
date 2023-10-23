@@ -16,8 +16,7 @@ def sanitize_title(title: str) -> str:
     """
 
     normalized_title = normalize('NFKD', title).encode('ASCII', 'ignore').decode('utf-8')
-    sanitized_title = sub(r'[^a-zA-Z0-9\-_()[\]{}# ]', '', normalized_title).strip()
-    sanitized_title = sub(r'\s+', ' ', sanitized_title)
+    sanitized_title = sub(r'\s+', ' ', sub(r'[^a-zA-Z0-9\-_()[\]{}# ]', '', normalized_title).strip())
 
     return sanitized_title
 
