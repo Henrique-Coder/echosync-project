@@ -29,10 +29,10 @@ def music_platform_categorizer(pyclass, query_list: list, TColor) -> list:
         'deezer_track': r'https:\/\/(?:[a-zA-Z]{2}\/)?(www\.)?deezer\.com\/(?:\w+\/)?track\/\d+(?:\/\w+)?\??(?:[\w-]+=[\w-]+&?)*$',
         'spotify_playlist': r'^(https:\/\/open\.spotify\.com\/playlist\/[A-Za-z0-9?=&]+)$',
         'spotify_track': r'^https:\/\/open\.spotify\.com\/(?:[^\/]+\/)?track\/[a-zA-Z0-9?=&]+$',
-        'tiktokmusic_playlist': r'^https:\/\/music\.tiktok\.com\/(?:playlist|album)\/(?:[^\/?]+\/)?\d+(?:\?.+)?$',
-        'tiktokmusic_track': r'^https:\/\/music\.tiktok\.com\/track\/(?:[^\/]+\/)?\d+(?:\?.+)?$',
-        'soundcloud_playlist': r'^https:\/\/soundcloud\.com\/[a-zA-Z0-9-]+\/sets\/[a-zA-Z0-9-]+\?(?:\w+=\w+&?)+$',
-        'soundcloud_track': r'^https:\/\/soundcloud\.com\/[a-zA-Z0-9-]+\/[a-zA-Z0-9-]+\?(?:\w+=\w+&?)+$',
+        'tiktokmusic_playlist': r'^https:\/\/music\.tiktok\.com\/(?:playlist|album)\/(?:.+\/)?\d+(?:\?.+)?$',
+        'tiktokmusic_track': r'^https:\/\/music\.tiktok\.com\/track\/(?:.+\/)?\d+(?:\?.+)?$',
+        'soundcloud_playlist': r'^https:\/\/soundcloud\.com\/[a-zA-Z0-9-]+\/sets\/[a-zA-Z0-9-]+(?:\?.+)?$',
+        'soundcloud_track': r'^https:\/\/soundcloud\.com\/[a-zA-Z0-9-]+\/[a-zA-Z0-9-]+(?:\?.+)?$',
         'queries': r'^(?!.*(?:https?://|www\.)[\w\-\.]+\.[a-zA-Z]{2,3}(/\S*)?$).*',
     }
 
