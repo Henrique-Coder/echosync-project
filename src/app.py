@@ -65,7 +65,7 @@ if not ffmpeg_path.exists():
 
     print(
         f'{TBracket(TColor.LGREEN, "SUCCESS")} {TColor.GREEN}FFMPEG auto-download started at {TColor.YELLOW}{start_time} '
-        f'{TColor.GREEN}and ended successfully at {TColor.YELLOW}{datetime.now().strftime("%Hh%Mm%Ss")}{TColor.GREEN}.\n'
+        f'{TColor.GREEN}and ended successfully at {TColor.YELLOW}{datetime.now().strftime('%Hh%Mm%Ss')}{TColor.GREEN}.\n'
     )
 
 # Set environment path
@@ -96,6 +96,8 @@ class MusicServiceURLs:
     spotify_track = list()
     tiktokmusic_playlist = list()
     tiktokmusic_track = list()
+    soundcloud_playlist = list()
+    soundcloud_track = list()
 
 
 def app():
@@ -124,6 +126,8 @@ def app():
         MusicServiceURLs.spotify_track = list()
         MusicServiceURLs.tiktokmusic_playlist = list()
         MusicServiceURLs.tiktokmusic_track = list()
+        MusicServiceURLs.soundcloud_playlist = list()
+        MusicServiceURLs.soundcloud_track = list()
 
     reseting_variables()
 
@@ -142,11 +146,7 @@ def app():
         app_utils.clsr(1)
         print(f'{TBracket(TColor.LYELLOW, "+")} {TColor.YELLOW}Opening the file explorer for you to select the local text file...')
 
-        queries_file_path = app_utils.filedialog_selector(
-            'Select a text file with the URLs/Queries',
-            path_explorer_file_dialog_ico,
-            [('Text files', '*.txt'), ('All files', '*.*')],
-        )
+        queries_file_path = app_utils.filedialog_selector('Select a text file with the URLs/Queries', path_explorer_file_dialog_ico, [('Text files', '*.txt'), ('All files', '*.*')],)
 
         # If the user has not selected any file, finish the program
         if not queries_file_path:
@@ -175,101 +175,121 @@ def app():
     print(f'{TBracket(TColor.LBLUE, "RUNNING")} {TColor.BLUE}Separating URLs/Queries by service...')
     mup.music_platform_categorizer(MusicServiceURLs, AppQueries.query_list, TColor)
     print(
-        f'  {TColor.LWHITE}YouTube (Playlist): {TColor.GREEN}{len(MusicServiceURLs.youtube_playlist)}\n'
         f'  {TColor.LWHITE}YouTube (Track): {TColor.GREEN}{len(MusicServiceURLs.youtube_track)}\n'
-        f'  {TColor.LWHITE}Resso (Playlist): {TColor.GREEN}{len(MusicServiceURLs.resso_playlist)}\n'
+        f'  {TColor.LWHITE}YouTube (Playlist): {TColor.GREEN}{len(MusicServiceURLs.youtube_playlist)}\n'
         f'  {TColor.LWHITE}Resso (Track): {TColor.GREEN}{len(MusicServiceURLs.resso_track)}\n'
-        f'  {TColor.LWHITE}Deezer (Playlist): {TColor.GREEN}{len(MusicServiceURLs.deezer_playlist)}\n'
+        f'  {TColor.LWHITE}Resso (Playlist): {TColor.GREEN}{len(MusicServiceURLs.resso_playlist)}\n'
         f'  {TColor.LWHITE}Deezer (Track): {TColor.GREEN}{len(MusicServiceURLs.deezer_track)}\n'
-        f'  {TColor.LWHITE}Spotify (Playlist): {TColor.GREEN}{len(MusicServiceURLs.spotify_playlist)}\n'
+        f'  {TColor.LWHITE}Deezer (Playlist): {TColor.GREEN}{len(MusicServiceURLs.deezer_playlist)}\n'
         f'  {TColor.LWHITE}Spotify (Track): {TColor.GREEN}{len(MusicServiceURLs.spotify_track)}\n'
-        f'  {TColor.LWHITE}TikTok Music (Playlist): {TColor.GREEN}{len(MusicServiceURLs.tiktokmusic_playlist)}\n'
+        f'  {TColor.LWHITE}Spotify (Playlist): {TColor.GREEN}{len(MusicServiceURLs.spotify_playlist)}\n'
         f'  {TColor.LWHITE}TikTok Music (Track): {TColor.GREEN}{len(MusicServiceURLs.tiktokmusic_track)}\n'
+        f'  {TColor.LWHITE}TikTok Music (Playlist): {TColor.GREEN}{len(MusicServiceURLs.tiktokmusic_playlist)}\n'
+        f'  {TColor.LWHITE}SoundCloud (Track): {TColor.GREEN}{len(MusicServiceURLs.soundcloud_track)}\n'
+        f'  {TColor.LWHITE}SoundCloud (Playlist): {TColor.GREEN}{len(MusicServiceURLs.soundcloud_playlist)}\n'
         f'  {TColor.LGREEN}Total of {len(MusicServiceURLs.youtube_track + MusicServiceURLs.youtube_playlist + MusicServiceURLs.resso_track + MusicServiceURLs.resso_playlist)} item(s)'
     )
 
-    # Get YouTube URLs
+    # Get YT-URLs (YouTube URLs)
     print(f'{TBracket(TColor.LBLUE, "RUNNING", 1)} {TColor.BLUE}Converting into YouTube URLs...')
     queries = list()
 
-    # Get YouTube URLs from YouTube playlists
+    # YouTube: get YT-URLs from YouTube tracks
+    MusicServiceURLs.all_urls.extend(MusicServiceURLs.youtube_track)
+    print(f'  {TColor.WHITE}Added {TColor.GREEN}{len(MusicServiceURLs.youtube_track)}{TColor.WHITE} YT-URL(s) from {TColor.GREEN}{len(MusicServiceURLs.youtube_track)}{TColor.WHITE} YouTube track(s)')
+
+    # YouTube: get YT-URLs from YouTube playlists
     for playlist_url in MusicServiceURLs.youtube_playlist:
         songs = mup.get_musics_from_youtube_playlist(playlist_url)
         queries.extend(songs)
     MusicServiceURLs.all_urls.extend(queries)
-    print(f'  {TColor.WHITE}Added {TColor.GREEN}{len(queries)}{TColor.WHITE} YouTube URL(s) from {TColor.GREEN}{len(MusicServiceURLs.youtube_playlist)}{TColor.WHITE} YouTube playlist(s)')
 
-    # Add YouTube URLs from YouTube tracks
-    MusicServiceURLs.all_urls.extend(MusicServiceURLs.youtube_track)
-    print(f'  {TColor.WHITE}Added {TColor.GREEN}{len(MusicServiceURLs.youtube_track)}{TColor.WHITE} YouTube URL(s) from {TColor.GREEN}{len(MusicServiceURLs.youtube_track)}{TColor.WHITE} YouTube track(s)')
+    print(f'  {TColor.WHITE}Added {TColor.GREEN}{len(queries)}{TColor.WHITE} YT-URL(s) from {TColor.GREEN}{len(MusicServiceURLs.youtube_playlist)}{TColor.WHITE} YouTube playlist(s)')
 
-    # Get YouTube URLs from Resso playlists
+    # Resso: get YT-URLs from Resso tracks
+    queries = [
+        mup.get_youtube_url_from_query(mup.get_music_name_from_resso_track(music_url))
+        for music_url in MusicServiceURLs.resso_track
+    ]
+    MusicServiceURLs.all_urls.extend(queries)
+    print(f'  {TColor.WHITE}Added {TColor.GREEN}{len(queries)}{TColor.WHITE} YT-URL(s) from {TColor.GREEN}{len(MusicServiceURLs.resso_track)}{TColor.WHITE} Resso track(s)')
+
+    # Resso: get YT-URLs from Resso playlists
     queries = [
         mup.get_youtube_url_from_query(music_name)
         for playlist_url in MusicServiceURLs.resso_playlist
         for music_name in mup.get_music_name_from_resso_playlist(playlist_url)
     ]
     MusicServiceURLs.all_urls.extend(queries)
-    print(f'  {TColor.WHITE}Added {TColor.GREEN}{len(queries)}{TColor.WHITE} YouTube URL(s) from {TColor.GREEN}{len(MusicServiceURLs.resso_playlist)}{TColor.WHITE} Resso playlist(s)')
+    print(f'  {TColor.WHITE}Added {TColor.GREEN}{len(queries)}{TColor.WHITE} YT-URL(s) from {TColor.GREEN}{len(MusicServiceURLs.resso_playlist)}{TColor.WHITE} Resso playlist(s)')
 
-    # Get YouTube URLs from Resso tracks
+    # Deezer: get YT-URLs from Deezer tracks
     queries = [
-        mup.get_youtube_url_from_query(mup.get_music_name_from_resso_track(music_url))
-        for music_url in MusicServiceURLs.resso_track
+        mup.get_youtube_url_from_query(mup.get_music_name_from_deezer_track(music_url))
+        for music_url in MusicServiceURLs.deezer_track
     ]
     MusicServiceURLs.all_urls.extend(queries)
-    print(f'  {TColor.WHITE}Added {TColor.GREEN}{len(queries)}{TColor.WHITE} YouTube URL(s) from {TColor.GREEN}{len(MusicServiceURLs.resso_track)}{TColor.WHITE} Resso track(s)')
+    print(f'  {TColor.WHITE}Added {TColor.GREEN}{len(queries)}{TColor.WHITE} YT-URL(s) from {TColor.GREEN}{len(MusicServiceURLs.deezer_track)}{TColor.WHITE} Deezer track(s)')
 
-    # Get YouTube URLs from Deezer playlists
+    # Deezer: get YT-URLs from Deezer playlists
     queries = [
         mup.get_youtube_url_from_query(music_name)
         for playlist_url in MusicServiceURLs.deezer_playlist
         for music_name in mup.get_music_name_from_deezer_playlist(playlist_url)
     ]
     MusicServiceURLs.all_urls.extend(queries)
-    print(f'  {TColor.WHITE}Added {TColor.GREEN}{len(queries)}{TColor.WHITE} YouTube URL(s) from {TColor.GREEN}{len(MusicServiceURLs.deezer_playlist)}{TColor.WHITE} Deezer playlist(s)')
+    print(f'  {TColor.WHITE}Added {TColor.GREEN}{len(queries)}{TColor.WHITE} YT-URL(s) from {TColor.GREEN}{len(MusicServiceURLs.deezer_playlist)}{TColor.WHITE} Deezer playlist(s)')
 
-    # Get YouTube URLs from Deezer tracks
+    # Spotify: get YT-URLs from Spotify tracks
     queries = [
-        mup.get_youtube_url_from_query(mup.get_music_name_from_deezer_track(music_url))
-        for music_url in MusicServiceURLs.deezer_track
+        mup.get_youtube_url_from_query(mup.get_music_name_from_spotify_track(music_url))
+        for music_url in MusicServiceURLs.spotify_track
     ]
     MusicServiceURLs.all_urls.extend(queries)
-    print(f'  {TColor.WHITE}Added {TColor.GREEN}{len(queries)}{TColor.WHITE} YouTube URL(s) from {TColor.GREEN}{len(MusicServiceURLs.deezer_track)}{TColor.WHITE} Deezer track(s)')
+    print(f'  {TColor.WHITE}Added {TColor.GREEN}{len(queries)}{TColor.WHITE} YT-URL(s) from {TColor.GREEN}{len(MusicServiceURLs.spotify_track)}{TColor.WHITE} Spotify track(s)')
 
-    # Get YouTube URLs from Spotify playlists
+    # Spotify: get YT-URLs from Spotify playlists
     queries = [
         mup.get_youtube_url_from_query(music_name)
         for playlist_url in MusicServiceURLs.spotify_playlist
         for music_name in mup.get_music_name_from_spotify_playlist(playlist_url)
     ]
     MusicServiceURLs.all_urls.extend(queries)
-    print(f'  {TColor.WHITE}Added {TColor.GREEN}{len(queries)}{TColor.WHITE} YouTube URL(s) from {TColor.GREEN}{len(MusicServiceURLs.spotify_playlist)}{TColor.WHITE} Spotify playlist(s)')
+    print(f'  {TColor.WHITE}Added {TColor.GREEN}{len(queries)}{TColor.WHITE} YT-URL(s) from {TColor.GREEN}{len(MusicServiceURLs.spotify_playlist)}{TColor.WHITE} Spotify playlist(s)')
 
-    # Get YouTube URLs from Spotify tracks
+    # TikTok Music: get YT-URLs from TikTok Music tracks
     queries = [
-        mup.get_youtube_url_from_query(mup.get_music_name_from_spotify_track(music_url))
-        for music_url in MusicServiceURLs.spotify_track
+        mup.get_youtube_url_from_query(mup.get_music_name_from_tiktokmusic_track(music_url))
+        for music_url in MusicServiceURLs.tiktokmusic_track
     ]
     MusicServiceURLs.all_urls.extend(queries)
-    print(f'  {TColor.WHITE}Added {TColor.GREEN}{len(queries)}{TColor.WHITE} YouTube URL(s) from {TColor.GREEN}{len(MusicServiceURLs.spotify_track)}{TColor.WHITE} Spotify track(s)')
+    print(f'  {TColor.WHITE}Added {TColor.GREEN}{len(queries)}{TColor.WHITE} YT-URL(s) from {TColor.GREEN}{len(MusicServiceURLs.tiktokmusic_track)}{TColor.WHITE} TikTok Music track(s)')
 
-    # Get YouTube URLs from TikTok Music playlists
+    # TikTok Music: get YT-URLs from TikTok Music playlists
     queries = [
         mup.get_youtube_url_from_query(music_name)
         for playlist_url in MusicServiceURLs.tiktokmusic_playlist
         for music_name in mup.get_music_name_from_tiktokmusic_playlist(playlist_url)
     ]
     MusicServiceURLs.all_urls.extend(queries)
-    print(f'  {TColor.WHITE}Added {TColor.GREEN}{len(queries)}{TColor.WHITE} YouTube URL(s) from {TColor.GREEN}{len(MusicServiceURLs.tiktokmusic_playlist)}{TColor.WHITE} TikTok Music playlist(s)')
+    print(f'  {TColor.WHITE}Added {TColor.GREEN}{len(queries)}{TColor.WHITE} YT-URL(s) from {TColor.GREEN}{len(MusicServiceURLs.tiktokmusic_playlist)}{TColor.WHITE} TikTok Music playlist(s)')
 
-    # Get YouTube URLs from TikTok Music tracks
+    # SoundCloud: get YT-URLs from SoundCloud tracks
     queries = [
-        mup.get_youtube_url_from_query(mup.get_music_name_from_tiktokmusic_track(music_url))
-        for music_url in MusicServiceURLs.tiktokmusic_track
+        mup.get_youtube_url_from_query(mup.get_music_name_from_soundcloud_track(music_url))
+        for music_url in MusicServiceURLs.soundcloud_track
     ]
     MusicServiceURLs.all_urls.extend(queries)
-    print(f'  {TColor.WHITE}Added {TColor.GREEN}{len(queries)}{TColor.WHITE} YouTube URL(s) from {TColor.GREEN}{len(MusicServiceURLs.tiktokmusic_track)}{TColor.WHITE} TikTok Music track(s)')
+    print(f'  {TColor.WHITE}Added {TColor.GREEN}{len(queries)}{TColor.WHITE} YT-URL(s) from {TColor.GREEN}{len(MusicServiceURLs.soundcloud_track)}{TColor.WHITE} SoundCloud track(s)')
+
+    # SoundCloud: get YT-URLs from SoundCloud playlists
+    queries = [
+        mup.get_youtube_url_from_query(music_name)
+        for playlist_url in MusicServiceURLs.soundcloud_playlist
+        for music_name in mup.get_music_name_from_soundcloud_playlist(playlist_url)
+    ]
+    MusicServiceURLs.all_urls.extend(queries)
+    print(f'  {TColor.WHITE}Added {TColor.GREEN}{len(queries)}{TColor.WHITE} YT-URL(s) from {TColor.GREEN}{len(MusicServiceURLs.soundcloud_playlist)}{TColor.WHITE} SoundCloud playlist(s)')
 
     # Fixing YouTube URLs
     print(f'  {TColor.LGREEN}Fixing {len(MusicServiceURLs.all_urls)} URL(s)', end='\r')
