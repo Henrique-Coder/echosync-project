@@ -167,23 +167,17 @@ def filedialog_selector(window_title: str, window_icon_path: Path, allowed_file_
     return Path(input_file_path)
 
 
-def unshorten_url(short_url: str, remove_url_params: bool = False) -> str:
+def unshorten_url(short_url: str) -> str:
     """
     Get final link from short link
     :param short_url:  Short link
-    :param remove_url_params:  Remove parameters from link
     :return:  Unshortened link
     """
-
-    if remove_url_params:
-        short_url = short_url.split('&', 1)[0]
 
     try:
         unshortened_url = head(short_url, allow_redirects=True).url
     except Exception:
         unshortened_url = short_url
 
-    if remove_url_params:
-        unshortened_url = unshortened_url.split('&', 1)[0]
-
+    print(f'URL: {unshortened_url}')
     return unshortened_url

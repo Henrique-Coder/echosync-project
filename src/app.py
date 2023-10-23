@@ -140,7 +140,7 @@ def app():
         f'{TBracket(TColor.LRED, "#")} {TColor.RED}List of URLs/Queries must be separated by a new line, if last line is empty, program will start downloading.'
     )
 
-    user_response = app_utils.unshorten_url(input(f'{TColor.LWHITE} ›{TColor.BLUE} '), True)
+    user_response = app_utils.unshorten_url(input(f'{TColor.LWHITE} ›{TColor.BLUE} '))
     if not len(user_response.strip()):
         # If the user has not typed anything, open the file explorer for him to select the file
         app_utils.clsr(1)
@@ -167,7 +167,7 @@ def app():
         # If the user has typed something, store the queries in a list
         while len(user_response) != 0:
             AppQueries.query_list.append(user_response)
-            user_response = app_utils.unshorten_url(input(f'{TColor.LWHITE} ›{TColor.BLUE} '), True)
+            user_response = app_utils.unshorten_url(input(f'{TColor.LWHITE} ›{TColor.BLUE} '))
         AppStats.total_urls = len(AppQueries.query_list)
 
     # Separate URLs/Queries by service
