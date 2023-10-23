@@ -235,6 +235,26 @@ def get_music_name_from_spotify_track(url: str) -> str:
     return title + ' by ' + author
 
 
+def get_music_name_from_soundcloud_track(url: str) -> str:
+    soup = BeautifulSoup(get(url).content, 'html.parser')
+    title = soup.find('meta', {'property': 'og:title'})['content'].strip()
+    author = soup.find('meta', {'property': 'og:description'})['content'].split('·')[0].strip()
+
+    return title + ' by ' + author
+
+
+def get_music_name_from_soundcloud_playlist(url: str) -> list:
+    soup = BeautifulSoup(get(url).content, 'html.parser')
+    songs = soup.find_all('article', {'itemprop': 'track'})
+    formatted_song_list = list()
+    for song in songs:
+        song_title = song.find('h2', {'itemprop': 'name'}).find('a').text.strip()
+        song_author = song.find('h2', {'itemprop': 'name'}).find_all('a')[1].text.strip()
+        formatted_song_list.append(song_title + ' by ' + song_author)
+
+    return formatted_song_list
+
+
 def get_youtube_song_metadata(url: str) -> Optional[dict]:
     """
     Get youtube song metadata
