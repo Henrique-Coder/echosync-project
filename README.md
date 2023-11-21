@@ -1,8 +1,8 @@
 <p align='center'>
     <a href='https://github.com/Henrique-Coder/echosync-project/blob/main/README.md'>
         <img src='https://img.shields.io/badge/DOCS-soon...-lightgray?style=for-the-badge' alt='Documentation'></a>
-    <a href='https://www.python.org/downloads/release/python-3120/'>
-        <img src='https://img.shields.io/badge/Python-3.12.0-blue?style=for-the-badge&logo=python' alt='Python 3.12.0'></a>
+    <a href='https://www.python.org/downloads/release/python-3116/'>
+        <img src='https://img.shields.io/badge/Python-3.11.6-blue?style=for-the-badge&logo=python' alt='Python 3.11.6'></a>
     <a href='https://opensource.org/license/mit/'>
         <img src='https://img.shields.io/github/license/Henrique-Coder/echosync-project?style=for-the-badge&logo=github&color=blue' alt='GitHub License'></a>
     <a href='https://github.com/Henrique-Coder/echosync-project/issues'>
@@ -16,7 +16,7 @@
 
 <center>
 
-**ECS-P** is an open source project that supports python latest version (3.12.0), which allows you to download music playlists in a fast and intuitive way. Using [YouTube](https://www.youtube.com/) as a music search source, the [yt-dlp](https://pypi.org/project/yt-dlp/) library to download the songs and [FFmpeg](https://ffmpeg.org/) to re-encode the songs, enhancing their metadata and overall file.
+**ECS-P** is an open source project that supports python latest stable version (3.11.6), which allows you to download music playlists in a fast and intuitive way. Using [YouTube](https://www.youtube.com/) as a music search source, the [yt-dlp](https://pypi.org/project/yt-dlp/) library to download the songs and [FFmpeg](https://ffmpeg.org/) to re-encode the songs, enhancing their metadata and overall file.
 
 </center>
 
@@ -88,7 +88,7 @@ Later on, I plan to implement more music platforms, such as:
 
 ### Credits
 
-- Many thanks to my brother _Felipe_ for the gigantic help ❤️ ・ [GitHub](https://github.com/mindwired) & [LinkedIn](https://www.linkedin.com/in/cidadedolag).
+- Many thanks to my brother **Felipe** for the gigantic help ❤️ ・ [GitHub](https://github.com/mindwired) & [LinkedIn](https://www.linkedin.com/in/cidadedolag).
 
 ### Disclaimer
 
