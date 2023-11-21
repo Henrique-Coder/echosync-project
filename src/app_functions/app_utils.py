@@ -179,5 +179,4 @@ def unshorten_url(short_url: str) -> str:
     except Exception:
         unshortened_url = short_url
 
-    print(f'URL: {unshortened_url}')
     return unshortened_url

@@ -65,7 +65,7 @@ if not ffmpeg_path.exists():
 
     print(
         f'{TBracket(TColor.LGREEN, "SUCCESS")} {TColor.GREEN}FFMPEG auto-download started at {TColor.YELLOW}{start_time} '
-        f'{TColor.GREEN}and ended successfully at {TColor.YELLOW}{datetime.now().strftime('%H:%M:%S')}{TColor.GREEN}.\n'
+        f'{TColor.GREEN}and ended successfully at {TColor.YELLOW}{datetime.now().strftime("%H:%M:%S")}{TColor.GREEN}.\n'
     )
 
 # Set environment path
