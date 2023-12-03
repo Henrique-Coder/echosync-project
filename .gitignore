@@ -1,15 +1,14 @@
-# OS generated folders/files
-*.ini
-
-# IDE folders/files
+# IDE
 .idea
 venv
 __pycache__
 
-# Other folders/files
-src/EchoSync Project
-src/app_media
+# Custom directories
 .compiler
 .tests
+src/EchoSync Project
+src/app_media
+
+# Custom extensions/files
 *.bat
 *.txt
