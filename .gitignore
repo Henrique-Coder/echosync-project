@@ -1,14 +1,10 @@
 # IDE
 .idea
-venv
+.venv
 __pycache__
 
 # Custom directories
-.compiler
-.tests
-src/EchoSync Project
-src/app_media
+.old
 
 # Custom extensions/files
 *.bat
-*.txt
