@@ -1,0 +1,424 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>mainWindow</class>
+ <widget class="QMainWindow" name="mainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>600</width>
+    <height>410</height>
+   </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>600</width>
+    <height>410</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>600</width>
+    <height>410</height>
+   </size>
+  </property>
+  <property name="font">
+   <font>
+    <stylestrategy>PreferAntialias</stylestrategy>
+   </font>
+  </property>
+  <property name="mouseTracking">
+   <bool>true</bool>
+  </property>
+  <property name="contextMenuPolicy">
+   <enum>Qt::NoContextMenu</enum>
+  </property>
+  <property name="acceptDrops">
+   <bool>false</bool>
+  </property>
+  <property name="windowTitle">
+   <string notr="true">mainWindow</string>
+  </property>
+  <property name="toolTip">
+   <string notr="true"/>
+  </property>
+  <property name="toolTipDuration">
+   <number>0</number>
+  </property>
+  <property name="statusTip">
+   <string notr="true"/>
+  </property>
+  <property name="whatsThis">
+   <string notr="true"/>
+  </property>
+  <property name="accessibleName">
+   <string notr="true"/>
+  </property>
+  <property name="accessibleDescription">
+   <string notr="true"/>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: #1e1f22;</string>
+  </property>
+  <property name="locale">
+   <locale language="English" country="UnitedStates"/>
+  </property>
+  <property name="windowFilePath">
+   <string notr="true"/>
+  </property>
+  <property name="iconSize">
+   <size>
+    <width>64</width>
+    <height>64</height>
+   </size>
+  </property>
+  <widget class="QWidget" name="urlListPickerWindow">
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <property name="font">
+    <font>
+     <stylestrategy>PreferAntialias</stylestrategy>
+    </font>
+   </property>
+   <property name="mouseTracking">
+    <bool>true</bool>
+   </property>
+   <property name="contextMenuPolicy">
+    <enum>Qt::NoContextMenu</enum>
+   </property>
+   <property name="acceptDrops">
+    <bool>false</bool>
+   </property>
+   <property name="toolTip">
+    <string notr="true"/>
+   </property>
+   <property name="statusTip">
+    <string notr="true"/>
+   </property>
+   <property name="whatsThis">
+    <string notr="true"/>
+   </property>
+   <property name="accessibleName">
+    <string notr="true"/>
+   </property>
+   <property name="accessibleDescription">
+    <string notr="true"/>
+   </property>
+   <widget class="QLabel" name="background">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>600</width>
+      <height>500</height>
+     </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="font">
+     <font>
+      <stylestrategy>PreferAntialias</stylestrategy>
+     </font>
+    </property>
+    <property name="mouseTracking">
+     <bool>true</bool>
+    </property>
+    <property name="contextMenuPolicy">
+     <enum>Qt::NoContextMenu</enum>
+    </property>
+    <property name="acceptDrops">
+     <bool>true</bool>
+    </property>
+    <property name="toolTip">
+     <string notr="true"/>
+    </property>
+    <property name="statusTip">
+     <string notr="true"/>
+    </property>
+    <property name="whatsThis">
+     <string notr="true"/>
+    </property>
+    <property name="accessibleName">
+     <string notr="true"/>
+    </property>
+    <property name="accessibleDescription">
+     <string notr="true"/>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: #1e1f22;</string>
+    </property>
+    <property name="text">
+     <string notr="true"/>
+    </property>
+    <property name="textInteractionFlags">
+     <set>Qt::NoTextInteraction</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="applicationName">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>20</y>
+      <width>600</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="font">
+     <font>
+      <family>Sitka Small</family>
+      <pointsize>8</pointsize>
+      <weight>75</weight>
+      <italic>false</italic>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="mouseTracking">
+     <bool>true</bool>
+    </property>
+    <property name="contextMenuPolicy">
+     <enum>Qt::NoContextMenu</enum>
+    </property>
+    <property name="acceptDrops">
+     <bool>false</bool>
+    </property>
+    <property name="toolTip">
+     <string notr="true"/>
+    </property>
+    <property name="statusTip">
+     <string notr="true"/>
+    </property>
+    <property name="whatsThis">
+     <string notr="true"/>
+    </property>
+    <property name="accessibleName">
+     <string notr="true"/>
+    </property>
+    <property name="accessibleDescription">
+     <string notr="true"/>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: bold 8pt &quot;Sitka Small&quot;; background-color: #1e1f22; border-style: outset; border-width: 0px; border-radius: 8px;</string>
+    </property>
+    <property name="text">
+     <string notr="true">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:14pt; font-weight:600; color:#ffffff;&quot;&gt;ECHOSYNC PROJECT&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
+    <property name="textInteractionFlags">
+     <set>Qt::NoTextInteraction</set>
+    </property>
+   </widget>
+   <widget class="QTextEdit" name="inputUrlList">
+    <property name="geometry">
+     <rect>
+      <x>60</x>
+      <y>120</y>
+      <width>480</width>
+      <height>180</height>
+     </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="font">
+     <font>
+      <family>Cascadia Code</family>
+      <pointsize>8</pointsize>
+      <weight>50</weight>
+      <italic>false</italic>
+      <bold>false</bold>
+      <stylestrategy>PreferAntialias</stylestrategy>
+     </font>
+    </property>
+    <property name="mouseTracking">
+     <bool>true</bool>
+    </property>
+    <property name="focusPolicy">
+     <enum>Qt::StrongFocus</enum>
+    </property>
+    <property name="contextMenuPolicy">
+     <enum>Qt::NoContextMenu</enum>
+    </property>
+    <property name="toolTip">
+     <string notr="true"/>
+    </property>
+    <property name="statusTip">
+     <string notr="true"/>
+    </property>
+    <property name="whatsThis">
+     <string notr="true"/>
+    </property>
+    <property name="accessibleName">
+     <string notr="true"/>
+    </property>
+    <property name="accessibleDescription">
+     <string notr="true"/>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 8pt &quot;Cascadia Code&quot;; color: #ffffff; background-color: rgba(225, 255, 255, 100); border-style: outset; border-width: 0px; border-radius: 6px;</string>
+    </property>
+    <property name="documentTitle">
+     <string notr="true"/>
+    </property>
+    <property name="undoRedoEnabled">
+     <bool>true</bool>
+    </property>
+    <property name="html">
+     <string notr="true">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Cascadia Code'; font-size:8pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
+    <property name="acceptRichText">
+     <bool>false</bool>
+    </property>
+    <property name="textInteractionFlags">
+     <set>Qt::TextEditorInteraction</set>
+    </property>
+    <property name="placeholderText">
+     <string notr="true">https://www.example.com/music?id=0123456789</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="msgAskForUrls">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>70</y>
+      <width>600</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="font">
+     <font>
+      <family>Quicksand Medium</family>
+      <pointsize>10</pointsize>
+      <weight>50</weight>
+      <italic>false</italic>
+      <bold>false</bold>
+      <stylestrategy>PreferAntialias</stylestrategy>
+     </font>
+    </property>
+    <property name="mouseTracking">
+     <bool>true</bool>
+    </property>
+    <property name="contextMenuPolicy">
+     <enum>Qt::NoContextMenu</enum>
+    </property>
+    <property name="acceptDrops">
+     <bool>false</bool>
+    </property>
+    <property name="toolTip">
+     <string notr="true"/>
+    </property>
+    <property name="statusTip">
+     <string notr="true"/>
+    </property>
+    <property name="whatsThis">
+     <string notr="true"/>
+    </property>
+    <property name="accessibleName">
+     <string notr="true"/>
+    </property>
+    <property name="accessibleDescription">
+     <string notr="true"/>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 10pt &quot;Quicksand Medium&quot;; background-color: #1e1f22; border-style: outset; border-width: 0px; border-radius: 8px;</string>
+    </property>
+    <property name="text">
+     <string notr="true">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:10pt; color:#ffffff;&quot;&gt;Enter the URLs of the songs you want to download (one url per line)&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
+    <property name="textInteractionFlags">
+     <set>Qt::NoTextInteraction</set>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton">
+    <property name="geometry">
+     <rect>
+      <x>218</x>
+      <y>340</y>
+      <width>161</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="font">
+     <font>
+      <family>Quicksand Medium</family>
+      <pointsize>10</pointsize>
+      <weight>75</weight>
+      <italic>false</italic>
+      <bold>true</bold>
+      <stylestrategy>PreferAntialias</stylestrategy>
+     </font>
+    </property>
+    <property name="mouseTracking">
+     <bool>true</bool>
+    </property>
+    <property name="contextMenuPolicy">
+     <enum>Qt::NoContextMenu</enum>
+    </property>
+    <property name="toolTip">
+     <string notr="true"/>
+    </property>
+    <property name="statusTip">
+     <string notr="true"/>
+    </property>
+    <property name="whatsThis">
+     <string notr="true"/>
+    </property>
+    <property name="accessibleName">
+     <string notr="true"/>
+    </property>
+    <property name="accessibleDescription">
+     <string notr="true"/>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton {font: bold 10pt &quot;Quicksand Medium&quot;; color: rgb(255, 255, 255); background-color: rgba(4, 201, 149, 200); border-color: rgba(4, 201, 149, 200); border-style: outset; border-width: 1px; border-radius: 5px;}
+QPushButton:hover {font: bold 10pt &quot;Quicksand Medium&quot;; color: rgb(255, 255, 255); background-color: rgba(4, 201, 149, 200); border-color: rgba(4, 201, 149, 200); border-style: inset; border-width: 1px; border-radius: 5px;}</string>
+    </property>
+    <property name="text">
+     <string notr="true">CONTINUE</string>
+    </property>
+    <property name="shortcut">
+     <string notr="true"/>
+    </property>
+   </widget>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
