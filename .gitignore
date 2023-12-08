@@ -8,3 +8,4 @@ __pycache__
 
 # Custom extensions/files
 *.bat
+dev_app.py
