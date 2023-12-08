@@ -78,7 +78,7 @@
     <height>64</height>
    </size>
   </property>
-  <widget class="QWidget" name="urlListPickerWindow">
+  <widget class="QWidget" name="urlListInputWindow">
    <property name="sizePolicy">
     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
      <horstretch>0</horstretch>
@@ -114,10 +114,13 @@
    <property name="accessibleDescription">
     <string notr="true"/>
    </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: #1e1f22;</string>
+   </property>
    <widget class="QLabel" name="background">
     <property name="geometry">
      <rect>
-      <x>0</x>
+      <x>-1</x>
       <y>0</y>
       <width>600</width>
       <height>500</height>
@@ -186,7 +189,7 @@
     <property name="font">
      <font>
       <family>Sitka Small</family>
-      <pointsize>8</pointsize>
+      <pointsize>16</pointsize>
       <weight>75</weight>
       <italic>false</italic>
       <bold>true</bold>
@@ -217,10 +220,13 @@
      <string notr="true"/>
     </property>
     <property name="styleSheet">
-     <string notr="true">font: bold 8pt &quot;Sitka Small&quot;; background-color: #1e1f22; border-style: outset; border-width: 0px; border-radius: 8px;</string>
+     <string notr="true">font: bold 16pt &quot;Sitka Small&quot;; color: #ffffff; background-color: #1e1f22; border-style: outset; border-width: 0px; border-radius: 8px;</string>
     </property>
     <property name="text">
-     <string notr="true">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:14pt; font-weight:600; color:#ffffff;&quot;&gt;ECHOSYNC PROJECT&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     <string notr="true">EchoSync Project</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
     </property>
     <property name="textInteractionFlags">
      <set>Qt::NoTextInteraction</set>
@@ -276,7 +282,7 @@
      <string notr="true"/>
     </property>
     <property name="styleSheet">
-     <string notr="true">font: 8pt &quot;Cascadia Code&quot;; color: #ffffff; background-color: rgba(225, 255, 255, 100); border-style: outset; border-width: 0px; border-radius: 6px;</string>
+     <string notr="true">font: 8pt &quot;Cascadia Code&quot;; color: #ffffff; background-color: rgba(255, 255, 255, 100); border-style: outset; border-width: 0px; border-radius: 6px;</string>
     </property>
     <property name="documentTitle">
      <string notr="true"/>
@@ -360,12 +366,12 @@ p, li { white-space: pre-wrap; }
      <set>Qt::NoTextInteraction</set>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton">
+   <widget class="QPushButton" name="btnNext">
     <property name="geometry">
      <rect>
       <x>218</x>
       <y>340</y>
-      <width>161</width>
+      <width>160</width>
       <height>30</height>
      </rect>
     </property>
@@ -407,15 +413,120 @@ p, li { white-space: pre-wrap; }
      <string notr="true"/>
     </property>
     <property name="styleSheet">
-     <string notr="true">QPushButton {font: bold 10pt &quot;Quicksand Medium&quot;; color: rgb(255, 255, 255); background-color: rgba(4, 201, 149, 200); border-color: rgba(4, 201, 149, 200); border-style: outset; border-width: 1px; border-radius: 5px;}
-QPushButton:hover {font: bold 10pt &quot;Quicksand Medium&quot;; color: rgb(255, 255, 255); background-color: rgba(4, 201, 149, 200); border-color: rgba(4, 201, 149, 200); border-style: inset; border-width: 1px; border-radius: 5px;}</string>
+     <string notr="true">QPushButton {font: bold 10pt &quot;Quicksand Medium&quot;; color: rgb(255, 255, 255); background-color: rgba(4, 201, 149, 200); border-color: rgba(4, 201, 149, 200); border-style: outset; border-width: 1px; border-radius: 5px;} QPushButton:hover {font: bold 10pt &quot;Quicksand Medium&quot;; color: rgb(255, 255, 255); background-color: rgba(4, 201, 149, 200); border-color: rgba(4, 201, 149, 200); border-style: inset; border-width: 1px; border-radius: 5px;}</string>
     </property>
     <property name="text">
-     <string notr="true">CONTINUE</string>
+     <string notr="true">NEXT</string>
     </property>
     <property name="shortcut">
      <string notr="true"/>
     </property>
+   </widget>
+   <widget class="QWidget" name="settingsInputWindow" native="true">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>600</width>
+      <height>410</height>
+     </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="font">
+     <font>
+      <stylestrategy>PreferAntialias</stylestrategy>
+     </font>
+    </property>
+    <property name="mouseTracking">
+     <bool>true</bool>
+    </property>
+    <property name="contextMenuPolicy">
+     <enum>Qt::NoContextMenu</enum>
+    </property>
+    <property name="toolTip">
+     <string notr="true"/>
+    </property>
+    <property name="statusTip">
+     <string notr="true"/>
+    </property>
+    <property name="whatsThis">
+     <string notr="true"/>
+    </property>
+    <property name="accessibleName">
+     <string notr="true"/>
+    </property>
+    <property name="accessibleDescription">
+     <string notr="true"/>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: #1e1f22;</string>
+    </property>
+    <widget class="QLabel" name="settingsTitle">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>20</y>
+       <width>600</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="font">
+      <font>
+       <family>Sitka Small</family>
+       <pointsize>14</pointsize>
+       <weight>75</weight>
+       <italic>false</italic>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="mouseTracking">
+      <bool>true</bool>
+     </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::NoContextMenu</enum>
+     </property>
+     <property name="acceptDrops">
+      <bool>false</bool>
+     </property>
+     <property name="toolTip">
+      <string notr="true"/>
+     </property>
+     <property name="statusTip">
+      <string notr="true"/>
+     </property>
+     <property name="whatsThis">
+      <string notr="true"/>
+     </property>
+     <property name="accessibleName">
+      <string notr="true"/>
+     </property>
+     <property name="accessibleDescription">
+      <string notr="true"/>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">font: bold 14pt &quot;Sitka Small&quot;; color: #ffffff; background-color: #1e1f22; border-style: outset; border-width: 0px; border-radius: 8px;</string>
+     </property>
+     <property name="text">
+      <string notr="true">Download settings</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+     <property name="textInteractionFlags">
+      <set>Qt::NoTextInteraction</set>
+     </property>
+    </widget>
    </widget>
   </widget>
  </widget>
