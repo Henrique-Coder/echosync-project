@@ -284,6 +284,15 @@
     <property name="styleSheet">
      <string notr="true">font: 8pt &quot;Cascadia Code&quot;; color: #ffffff; background-color: rgba(255, 255, 255, 100); border-style: outset; border-width: 0px; border-radius: 6px;</string>
     </property>
+    <property name="verticalScrollBarPolicy">
+     <enum>Qt::ScrollBarAlwaysOff</enum>
+    </property>
+    <property name="horizontalScrollBarPolicy">
+     <enum>Qt::ScrollBarAlwaysOff</enum>
+    </property>
+    <property name="sizeAdjustPolicy">
+     <enum>QAbstractScrollArea::AdjustIgnored</enum>
+    </property>
     <property name="documentTitle">
      <string notr="true"/>
     </property>
@@ -530,7 +539,7 @@ p, li { white-space: pre-wrap; }
       <set>Qt::NoTextInteraction</set>
      </property>
     </widget>
-    <widget class="QLabel" name="dA_msgCodec">
+    <widget class="QLabel" name="msgCodec">
      <property name="geometry">
       <rect>
        <x>120</x>
@@ -592,7 +601,7 @@ p, li { white-space: pre-wrap; }
       <set>Qt::NoTextInteraction</set>
      </property>
     </widget>
-    <widget class="QLabel" name="dA_msgTabFile">
+    <widget class="QLabel" name="msgTabFile">
      <property name="geometry">
       <rect>
        <x>100</x>
@@ -653,7 +662,7 @@ p, li { white-space: pre-wrap; }
       <set>Qt::NoTextInteraction</set>
      </property>
     </widget>
-    <widget class="QComboBox" name="dA_listCodecType">
+    <widget class="QComboBox" name="listCodecType">
      <property name="geometry">
       <rect>
        <x>400</x>
@@ -734,7 +743,7 @@ p, li { white-space: pre-wrap; }
       </property>
      </item>
     </widget>
-    <widget class="QLabel" name="dA_msgTabMetadata">
+    <widget class="QLabel" name="msgTabMetadata">
      <property name="geometry">
       <rect>
        <x>100</x>
@@ -795,7 +804,7 @@ p, li { white-space: pre-wrap; }
       <set>Qt::NoTextInteraction</set>
      </property>
     </widget>
-    <widget class="QLabel" name="dA_msgBitrate">
+    <widget class="QLabel" name="msgBitrate">
      <property name="geometry">
       <rect>
        <x>120</x>
@@ -857,7 +866,7 @@ p, li { white-space: pre-wrap; }
       <set>Qt::NoTextInteraction</set>
      </property>
     </widget>
-    <widget class="QComboBox" name="dA_listBitrateValue">
+    <widget class="QComboBox" name="listBitrateValue">
      <property name="geometry">
       <rect>
        <x>400</x>
@@ -950,7 +959,7 @@ p, li { white-space: pre-wrap; }
       </property>
      </item>
     </widget>
-    <widget class="QLabel" name="dA_msgIncludeAllYTMetadata">
+    <widget class="QLabel" name="msgIncludeAllYTMetadata">
      <property name="geometry">
       <rect>
        <x>120</x>
@@ -1012,7 +1021,7 @@ p, li { white-space: pre-wrap; }
       <set>Qt::NoTextInteraction</set>
      </property>
     </widget>
-    <widget class="QComboBox" name="dA_listIncludeAllYTMetadata">
+    <widget class="QComboBox" name="listIncludeAllYTMetadata">
      <property name="geometry">
       <rect>
        <x>400</x>
@@ -1068,7 +1077,7 @@ p, li { white-space: pre-wrap; }
       <string notr="true">font: 10pt &quot;Quicksand Mediuml&quot;; color: #ffffff; background-color: rgba(245, 212, 176, 100); border-color: rgb(11, 32, 39); border-style: outset; border-width: 1px; border-radius: 4px;</string>
      </property>
      <property name="currentText">
-      <string notr="true">YES</string>
+      <string notr="true">Yes</string>
      </property>
      <property name="maxVisibleItems">
       <number>11</number>
@@ -1081,16 +1090,16 @@ p, li { white-space: pre-wrap; }
      </property>
      <item>
       <property name="text">
-       <string notr="true">YES</string>
+       <string notr="true">Yes</string>
       </property>
      </item>
      <item>
       <property name="text">
-       <string notr="true">NO</string>
+       <string notr="true">No</string>
       </property>
      </item>
     </widget>
-    <widget class="QLabel" name="dA_msgIncludeHQYTThumbnail">
+    <widget class="QLabel" name="msgIncludeHQYTThumbnail">
      <property name="geometry">
       <rect>
        <x>120</x>
@@ -1152,7 +1161,7 @@ p, li { white-space: pre-wrap; }
       <set>Qt::NoTextInteraction</set>
      </property>
     </widget>
-    <widget class="QComboBox" name="dA_listIncludeHQYTThumbnail">
+    <widget class="QComboBox" name="listIncludeHQYTThumbnail">
      <property name="geometry">
       <rect>
        <x>400</x>
@@ -1208,7 +1217,7 @@ p, li { white-space: pre-wrap; }
       <string notr="true">font: 10pt &quot;Quicksand Mediuml&quot;; color: #ffffff; background-color: rgba(245, 212, 176, 100); border-color: rgb(11, 32, 39); border-style: outset; border-width: 1px; border-radius: 4px;</string>
      </property>
      <property name="currentText">
-      <string notr="true">YES</string>
+      <string notr="true">Yes</string>
      </property>
      <property name="maxVisibleItems">
       <number>11</number>
@@ -1221,12 +1230,12 @@ p, li { white-space: pre-wrap; }
      </property>
      <item>
       <property name="text">
-       <string notr="true">YES</string>
+       <string notr="true">Yes</string>
       </property>
      </item>
      <item>
       <property name="text">
-       <string notr="true">NO</string>
+       <string notr="true">No</string>
       </property>
      </item>
     </widget>
@@ -1295,8 +1304,8 @@ p, li { white-space: pre-wrap; }
      <rect>
       <x>0</x>
       <y>-1</y>
-      <width>581</width>
-      <height>541</height>
+      <width>580</width>
+      <height>540</height>
      </rect>
     </property>
     <property name="sizePolicy">
@@ -1388,14 +1397,518 @@ p, li { white-space: pre-wrap; }
       <set>Qt::NoTextInteraction</set>
      </property>
     </widget>
+    <widget class="QLabel" name="taskProgressTitle">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>20</y>
+       <width>600</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="font">
+      <font>
+       <family>Sitka Small</family>
+       <pointsize>14</pointsize>
+       <weight>75</weight>
+       <italic>false</italic>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="mouseTracking">
+      <bool>true</bool>
+     </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::NoContextMenu</enum>
+     </property>
+     <property name="acceptDrops">
+      <bool>false</bool>
+     </property>
+     <property name="toolTip">
+      <string notr="true"/>
+     </property>
+     <property name="statusTip">
+      <string notr="true"/>
+     </property>
+     <property name="whatsThis">
+      <string notr="true"/>
+     </property>
+     <property name="accessibleName">
+      <string notr="true"/>
+     </property>
+     <property name="accessibleDescription">
+      <string notr="true"/>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">font: bold 14pt &quot;Sitka Small&quot;; color: #ffffff;</string>
+     </property>
+     <property name="text">
+      <string notr="true">Task progress</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+     <property name="textInteractionFlags">
+      <set>Qt::NoTextInteraction</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="msgSearchingURLsByTitle">
+     <property name="geometry">
+      <rect>
+       <x>50</x>
+       <y>140</y>
+       <width>150</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="font">
+      <font>
+       <family>Quicksand Mediuml</family>
+       <pointsize>10</pointsize>
+       <weight>50</weight>
+       <italic>false</italic>
+       <bold>false</bold>
+       <stylestrategy>PreferAntialias</stylestrategy>
+      </font>
+     </property>
+     <property name="cursor">
+      <cursorShape>ArrowCursor</cursorShape>
+     </property>
+     <property name="mouseTracking">
+      <bool>true</bool>
+     </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::NoContextMenu</enum>
+     </property>
+     <property name="acceptDrops">
+      <bool>false</bool>
+     </property>
+     <property name="toolTip">
+      <string notr="true"/>
+     </property>
+     <property name="statusTip">
+      <string notr="true"/>
+     </property>
+     <property name="whatsThis">
+      <string notr="true"/>
+     </property>
+     <property name="accessibleName">
+      <string notr="true"/>
+     </property>
+     <property name="accessibleDescription">
+      <string notr="true"/>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">font: 10pt &quot;Quicksand Mediuml&quot;; color: #ffffff;</string>
+     </property>
+     <property name="text">
+      <string notr="true">Searching songs by title:</string>
+     </property>
+     <property name="textInteractionFlags">
+      <set>Qt::NoTextInteraction</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="msgSortingLinksStrings">
+     <property name="geometry">
+      <rect>
+       <x>50</x>
+       <y>100</y>
+       <width>130</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="font">
+      <font>
+       <family>Quicksand Mediuml</family>
+       <pointsize>10</pointsize>
+       <weight>50</weight>
+       <italic>false</italic>
+       <bold>false</bold>
+       <stylestrategy>PreferAntialias</stylestrategy>
+      </font>
+     </property>
+     <property name="cursor">
+      <cursorShape>ArrowCursor</cursorShape>
+     </property>
+     <property name="mouseTracking">
+      <bool>true</bool>
+     </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::NoContextMenu</enum>
+     </property>
+     <property name="acceptDrops">
+      <bool>false</bool>
+     </property>
+     <property name="toolTip">
+      <string notr="true"/>
+     </property>
+     <property name="statusTip">
+      <string notr="true"/>
+     </property>
+     <property name="whatsThis">
+      <string notr="true"/>
+     </property>
+     <property name="accessibleName">
+      <string notr="true"/>
+     </property>
+     <property name="accessibleDescription">
+      <string notr="true"/>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">font: 10pt &quot;Quicksand Mediuml&quot;; color: #ffffff;</string>
+     </property>
+     <property name="text">
+      <string notr="true">Sorting links/strings:</string>
+     </property>
+     <property name="textInteractionFlags">
+      <set>Qt::NoTextInteraction</set>
+     </property>
+    </widget>
+    <widget class="QProgressBar" name="pbSortingLinks">
+     <property name="geometry">
+      <rect>
+       <x>220</x>
+       <y>110</y>
+       <width>330</width>
+       <height>14</height>
+      </rect>
+     </property>
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="font">
+      <font>
+       <family>Quicksand Mediuml</family>
+       <pointsize>9</pointsize>
+       <weight>50</weight>
+       <italic>false</italic>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="cursor">
+      <cursorShape>WaitCursor</cursorShape>
+     </property>
+     <property name="mouseTracking">
+      <bool>true</bool>
+     </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::NoContextMenu</enum>
+     </property>
+     <property name="toolTip">
+      <string notr="true"/>
+     </property>
+     <property name="statusTip">
+      <string notr="true"/>
+     </property>
+     <property name="whatsThis">
+      <string notr="true"/>
+     </property>
+     <property name="accessibleName">
+      <string notr="true"/>
+     </property>
+     <property name="accessibleDescription">
+      <string notr="true"/>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">font:9pt &quot;Quicksand Mediuml&quot;; background-color: rgba(255, 255, 255, 200); border-color: rgba(0, 0, 0, 0); border-style: outset; border-width: 1px; border-radius: 4px;</string>
+     </property>
+     <property name="value">
+      <number>0</number>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+     <property name="format">
+      <string notr="true">%p%</string>
+     </property>
+    </widget>
+    <widget class="QProgressBar" name="pbSearchingURLsByTitle">
+     <property name="geometry">
+      <rect>
+       <x>220</x>
+       <y>150</y>
+       <width>330</width>
+       <height>14</height>
+      </rect>
+     </property>
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="font">
+      <font>
+       <family>Quicksand Mediuml</family>
+       <pointsize>9</pointsize>
+       <weight>50</weight>
+       <italic>false</italic>
+       <bold>false</bold>
+       <stylestrategy>PreferAntialias</stylestrategy>
+      </font>
+     </property>
+     <property name="cursor">
+      <cursorShape>WaitCursor</cursorShape>
+     </property>
+     <property name="mouseTracking">
+      <bool>true</bool>
+     </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::NoContextMenu</enum>
+     </property>
+     <property name="toolTip">
+      <string notr="true"/>
+     </property>
+     <property name="statusTip">
+      <string notr="true"/>
+     </property>
+     <property name="whatsThis">
+      <string notr="true"/>
+     </property>
+     <property name="accessibleName">
+      <string notr="true"/>
+     </property>
+     <property name="accessibleDescription">
+      <string notr="true"/>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">font:9pt &quot;Quicksand Mediuml&quot;; background-color: rgba(255, 255, 255, 200); border-color: rgba(0, 0, 0, 0); border-style: outset; border-width: 1px; border-radius: 4px;</string>
+     </property>
+     <property name="value">
+      <number>0</number>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+     <property name="invertedAppearance">
+      <bool>false</bool>
+     </property>
+     <property name="textDirection">
+      <enum>QProgressBar::TopToBottom</enum>
+     </property>
+     <property name="format">
+      <string notr="true">%p%</string>
+     </property>
+    </widget>
+    <widget class="QProgressBar" name="pbDownloadingSongsByUrl">
+     <property name="geometry">
+      <rect>
+       <x>220</x>
+       <y>190</y>
+       <width>330</width>
+       <height>14</height>
+      </rect>
+     </property>
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="font">
+      <font>
+       <family>Quicksand Mediuml</family>
+       <pointsize>9</pointsize>
+       <weight>50</weight>
+       <italic>false</italic>
+       <bold>false</bold>
+       <stylestrategy>PreferAntialias</stylestrategy>
+      </font>
+     </property>
+     <property name="cursor">
+      <cursorShape>WaitCursor</cursorShape>
+     </property>
+     <property name="mouseTracking">
+      <bool>true</bool>
+     </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::NoContextMenu</enum>
+     </property>
+     <property name="toolTip">
+      <string notr="true"/>
+     </property>
+     <property name="statusTip">
+      <string notr="true"/>
+     </property>
+     <property name="whatsThis">
+      <string notr="true"/>
+     </property>
+     <property name="accessibleName">
+      <string notr="true"/>
+     </property>
+     <property name="accessibleDescription">
+      <string notr="true"/>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">font:9pt &quot;Quicksand Mediuml&quot;; background-color: rgba(255, 255, 255, 200); border-color: rgba(0, 0, 0, 0); border-style: outset; border-width: 1px; border-radius: 4px;</string>
+     </property>
+     <property name="value">
+      <number>0</number>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+     <property name="invertedAppearance">
+      <bool>false</bool>
+     </property>
+     <property name="textDirection">
+      <enum>QProgressBar::TopToBottom</enum>
+     </property>
+     <property name="format">
+      <string notr="true">%p%</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="msgDownloadingSongsByUrl">
+     <property name="geometry">
+      <rect>
+       <x>50</x>
+       <y>180</y>
+       <width>160</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="font">
+      <font>
+       <family>Quicksand Mediuml</family>
+       <pointsize>10</pointsize>
+       <weight>50</weight>
+       <italic>false</italic>
+       <bold>false</bold>
+       <stylestrategy>PreferAntialias</stylestrategy>
+      </font>
+     </property>
+     <property name="cursor">
+      <cursorShape>ArrowCursor</cursorShape>
+     </property>
+     <property name="mouseTracking">
+      <bool>true</bool>
+     </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::NoContextMenu</enum>
+     </property>
+     <property name="acceptDrops">
+      <bool>false</bool>
+     </property>
+     <property name="toolTip">
+      <string notr="true"/>
+     </property>
+     <property name="statusTip">
+      <string notr="true"/>
+     </property>
+     <property name="whatsThis">
+      <string notr="true"/>
+     </property>
+     <property name="accessibleName">
+      <string notr="true"/>
+     </property>
+     <property name="accessibleDescription">
+      <string notr="true"/>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">font: 10pt &quot;Quicksand Mediuml&quot;; color: #ffffff;</string>
+     </property>
+     <property name="text">
+      <string notr="true">Downloading songs by url:</string>
+     </property>
+     <property name="textInteractionFlags">
+      <set>Qt::NoTextInteraction</set>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QPushButton" name="btnImportFromFile">
+    <property name="geometry">
+     <rect>
+      <x>500</x>
+      <y>260</y>
+      <width>31</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="font">
+     <font>
+      <family>Quicksand Medium</family>
+      <pointsize>10</pointsize>
+      <weight>75</weight>
+      <italic>false</italic>
+      <bold>true</bold>
+      <stylestrategy>PreferAntialias</stylestrategy>
+     </font>
+    </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
+    </property>
+    <property name="mouseTracking">
+     <bool>true</bool>
+    </property>
+    <property name="contextMenuPolicy">
+     <enum>Qt::NoContextMenu</enum>
+    </property>
+    <property name="toolTip">
+     <string notr="true"/>
+    </property>
+    <property name="statusTip">
+     <string notr="true"/>
+    </property>
+    <property name="whatsThis">
+     <string notr="true"/>
+    </property>
+    <property name="accessibleName">
+     <string notr="true"/>
+    </property>
+    <property name="accessibleDescription">
+     <string notr="true"/>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgba(68, 68, 69, 200); border-color: rgba(68, 68, 69, 200); border-style: outset; border-width: 1px; border-radius: 5px;</string>
+    </property>
+    <property name="text">
+     <string notr="true"/>
+    </property>
+    <property name="shortcut">
+     <string notr="true"/>
+    </property>
    </widget>
    <zorder>settingsInputWindow</zorder>
+   <zorder>downloadProgress</zorder>
    <zorder>background0</zorder>
    <zorder>applicationName</zorder>
    <zorder>inputUrlList</zorder>
    <zorder>msgAskForUrls</zorder>
    <zorder>btnNext</zorder>
-   <zorder>downloadProgress</zorder>
+   <zorder>btnImportFromFile</zorder>
   </widget>
  </widget>
  <resources/>
