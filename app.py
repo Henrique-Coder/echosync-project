@@ -488,68 +488,6 @@ class Ui_mainWindow(object):
         self.listIncludeAllYTMetadata.setItemText(0, 'Yes')
         self.listIncludeAllYTMetadata.addItem(str())
         self.listIncludeAllYTMetadata.setItemText(1, 'No')
-        self.msgIncludeHQYTThumbnail = QtWidgets.QLabel(parent=self.settingsInputWindow)
-        self.msgIncludeHQYTThumbnail.setGeometry(QtCore.QRect(120, 250, 270, 30))
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.msgIncludeHQYTThumbnail.sizePolicy().hasHeightForWidth())
-        self.msgIncludeHQYTThumbnail.setSizePolicy(sizePolicy)
-        font = QtGui.QFont()
-        font.setFamily('Quicksand Mediuml')
-        font.setPointSize(10)
-        font.setBold(False)
-        font.setItalic(False)
-        font.setWeight(50)
-        font.setStyleStrategy(QtGui.QFont.StyleStrategy.PreferAntialias)
-        self.msgIncludeHQYTThumbnail.setFont(font)
-        self.msgIncludeHQYTThumbnail.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.ArrowCursor))
-        self.msgIncludeHQYTThumbnail.setMouseTracking(True)
-        self.msgIncludeHQYTThumbnail.setContextMenuPolicy(QtCore.Qt.ContextMenuPolicy.NoContextMenu)
-        self.msgIncludeHQYTThumbnail.setAcceptDrops(False)
-        self.msgIncludeHQYTThumbnail.setToolTip(str())
-        self.msgIncludeHQYTThumbnail.setStatusTip(str())
-        self.msgIncludeHQYTThumbnail.setWhatsThis(str())
-        self.msgIncludeHQYTThumbnail.setAccessibleName(str())
-        self.msgIncludeHQYTThumbnail.setAccessibleDescription(str())
-        self.msgIncludeHQYTThumbnail.setStyleSheet('font: 10pt \'Quicksand Mediuml\'; color: #ffffff;')
-        self.msgIncludeHQYTThumbnail.setText('Include HQ thumbnail from YouTube         →')
-        self.msgIncludeHQYTThumbnail.setTextInteractionFlags(QtCore.Qt.TextInteractionFlag.NoTextInteraction)
-        self.msgIncludeHQYTThumbnail.setObjectName('msgIncludeHQYTThumbnail')
-        self.listIncludeHQYTThumbnail = QtWidgets.QComboBox(parent=self.settingsInputWindow)
-        self.listIncludeHQYTThumbnail.setGeometry(QtCore.QRect(400, 255, 80, 20))
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.listIncludeHQYTThumbnail.sizePolicy().hasHeightForWidth())
-        self.listIncludeHQYTThumbnail.setSizePolicy(sizePolicy)
-        font = QtGui.QFont()
-        font.setFamily('Quicksand Mediuml')
-        font.setPointSize(10)
-        font.setBold(False)
-        font.setItalic(False)
-        font.setWeight(50)
-        font.setStyleStrategy(QtGui.QFont.StyleStrategy.PreferAntialias)
-        self.listIncludeHQYTThumbnail.setFont(font)
-        self.listIncludeHQYTThumbnail.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
-        self.listIncludeHQYTThumbnail.setMouseTracking(True)
-        self.listIncludeHQYTThumbnail.setContextMenuPolicy(QtCore.Qt.ContextMenuPolicy.NoContextMenu)
-        self.listIncludeHQYTThumbnail.setToolTip(str())
-        self.listIncludeHQYTThumbnail.setStatusTip(str())
-        self.listIncludeHQYTThumbnail.setWhatsThis(str())
-        self.listIncludeHQYTThumbnail.setAccessibleName(str())
-        self.listIncludeHQYTThumbnail.setAccessibleDescription(str())
-        self.listIncludeHQYTThumbnail.setLayoutDirection(QtCore.Qt.LayoutDirection.RightToLeft)
-        self.listIncludeHQYTThumbnail.setStyleSheet('font: 10pt \'Quicksand Mediuml\'; color: #ffffff; background-color: rgba(245, 212, 176, 100); border-color: rgb(11, 32, 39); border-style: outset; border-width: 1px; border-radius: 4px;')
-        self.listIncludeHQYTThumbnail.setCurrentText('Yes')
-        self.listIncludeHQYTThumbnail.setMaxVisibleItems(11)
-        self.listIncludeHQYTThumbnail.setDuplicatesEnabled(False)
-        self.listIncludeHQYTThumbnail.setFrame(True)
-        self.listIncludeHQYTThumbnail.setObjectName('listIncludeHQYTThumbnail')
-        self.listIncludeHQYTThumbnail.addItem(str())
-        self.listIncludeHQYTThumbnail.setItemText(0, 'Yes')
-        self.listIncludeHQYTThumbnail.addItem(str())
-        self.listIncludeHQYTThumbnail.setItemText(1, 'No')
         self.btnDownload = QtWidgets.QPushButton(parent=self.settingsInputWindow)
         self.btnDownload.setGeometry(QtCore.QRect(210, 340, 160, 30))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed)
@@ -917,19 +855,13 @@ class Ui_mainWindow(object):
             url_query_list.extend(query_dict['links'])
             return url_query_list
 
-        def download_song(url_query_list: list, codec_type: str, bitrate_value: int, include_all_yt_metadata: str, include_hq_yt_thumbnail: str) -> None:
+        def download_song(url_query_list: list, codec_type: str, bitrate_value: int, include_all_yt_metadata: str) -> None:
             self.pbDownloadingSongsByUrl.setValue(0)
 
             if include_all_yt_metadata.lower() == 'yes':
                 include_all_yt_metadata = True
             else:
                 include_all_yt_metadata = False
-
-            if include_hq_yt_thumbnail.lower() == 'yes':
-                include_hq_yt_thumbnail = True
-            else:
-                include_hq_yt_thumbnail = False
-
 
             def fix_title(title: str) -> str:
                 normalized_title = normalize('NFKD', title).encode('ASCII', 'ignore').decode('utf-8')
@@ -999,7 +931,7 @@ class Ui_mainWindow(object):
             self.pbSearchingURLsByTitle.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.ArrowCursor))
 
             self.pbDownloadingSongsByUrl.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.WaitCursor))
-            download_song(url_query_list, str(self.listCodecType.currentText()), int(self.listBitrateValue.currentText()), str(self.listIncludeAllYTMetadata.currentText()), str(self.listIncludeHQYTThumbnail.currentText()))
+            download_song(url_query_list, str(self.listCodecType.currentText()), int(self.listBitrateValue.currentText()), str(self.listIncludeAllYTMetadata.currentText()))
             self.pbDownloadingSongsByUrl.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.ArrowCursor))
 
         self.btnDownload.clicked.connect(go_to_progress)
