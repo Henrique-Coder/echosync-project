@@ -1,1 +1,5 @@
 pyqt6-tools
+requests
+music-tag
+youtube-search-python
+yt-dlp
