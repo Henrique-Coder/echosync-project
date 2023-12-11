@@ -1,10 +1,17 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
+from pathlib import Path
+from requests import get
+from music_tag import load_file as tag_load_file
+from unicodedata import normalize
+from youtubesearchpython import SearchVideos
+from yt_dlp import YoutubeDL
+from re import sub
 from sys import argv, exit
 
 
 class Ui_mainWindow(object):
     def setupUi(self, mainWindow):
-        mainWindow.setObjectName('mainWindow')
+        mainWindow.setObjectName('EchoSyncProject')
         mainWindow.resize(600, 410)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed)
         sizePolicy.setHorizontalStretch(0)
@@ -19,7 +26,7 @@ class Ui_mainWindow(object):
         mainWindow.setMouseTracking(True)
         mainWindow.setContextMenuPolicy(QtCore.Qt.ContextMenuPolicy.NoContextMenu)
         mainWindow.setAcceptDrops(False)
-        mainWindow.setWindowTitle('mainWindow')
+        mainWindow.setWindowTitle('EchoSync Project')
         mainWindow.setToolTip(str())
         mainWindow.setToolTipDuration(0)
         mainWindow.setStatusTip(str())
@@ -317,15 +324,13 @@ class Ui_mainWindow(object):
         self.listCodecType.setLayoutDirection(QtCore.Qt.LayoutDirection.RightToLeft)
         self.listCodecType.setStyleSheet('font: 10pt \'Quicksand Mediuml\'; color: #ffffff; background-color: rgba(245, 212, 176, 100); border-color: rgb(11, 32, 39); border-style: outset; border-width: 1px; border-radius: 4px;')
         self.listCodecType.setLocale(QtCore.QLocale(QtCore.QLocale.Language.English, QtCore.QLocale.Country.UnitedStates))
-        self.listCodecType.setCurrentText('OPUS')
+        self.listCodecType.setCurrentText('Opus')
         self.listCodecType.setMaxVisibleItems(11)
         self.listCodecType.setDuplicatesEnabled(False)
         self.listCodecType.setFrame(True)
         self.listCodecType.setObjectName('listCodecType')
         self.listCodecType.addItem(str())
-        self.listCodecType.setItemText(0, 'OPUS')
-        self.listCodecType.addItem(str())
-        self.listCodecType.setItemText(1, 'MP3')
+        self.listCodecType.setItemText(0, 'Opus')
         self.msgTabMetadata = QtWidgets.QLabel(parent=self.settingsInputWindow)
         self.msgTabMetadata.setGeometry(QtCore.QRect(100, 190, 81, 30))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed)
@@ -848,11 +853,156 @@ class Ui_mainWindow(object):
         self.btnImportFromFile.raise_()
         mainWindow.setCentralWidget(self.urlListInputWindow)
 
-        self.retranslateUi(mainWindow)
+        self.main(mainWindow)
         QtCore.QMetaObject.connectSlotsByName(mainWindow)
 
-    def retranslateUi(self, mainWindow) -> None:
-        pass
+    def main(self, mainWindow) -> None:
+        self.inputUrlList.setText('https://www.youtube.com/watch?v=SivKcsEDNNY')
+
+        def import_queries_from_file() -> None:
+            def set_ui_input_list(queries: list) -> None:
+                existing_queries = set(query.strip() for query in self.inputUrlList.toPlainText().split('\n'))
+                queries = '\n'.join(filter(None, set(existing_queries.union(map(str.strip, queries)))))
+                self.inputUrlList.setText(queries)
+
+            input_file_path = Path(QtWidgets.QFileDialog.getOpenFileName(mainWindow, 'Select a text file with the URLs/Queries', str(), 'Text and CSV files (*.txt *.csv)')[0]).absolute()
+
+            if input_file_path.is_file():
+                with open(input_file_path, 'r', encoding='utf-8') as fi:
+                    queries = fi.readlines()
+
+                queries = [query.strip() for query in queries]
+                set_ui_input_list(queries)
+
+        self.btnImportFromFile.clicked.connect(import_queries_from_file)
+
+        def go_to_settings() -> None:
+            if not self.inputUrlList.toPlainText().strip():
+                self.inputUrlList.clear()
+                self.inputUrlList.setFocus()
+                return
+
+            self.settingsInputWindow.show()
+            self.settingsInputWindow.raise_()
+
+        self.btnNext.clicked.connect(go_to_settings)
+
+        def sort_links(query_list: list) -> dict:
+            query_dict = {'links': list(), 'titles': list()}
+
+            self.pbSortingLinks.setValue(0)
+            for query in query_list:
+                self.pbSortingLinks.setValue(int((query_list.index(query) + 1) / len(query_list) * 100))
+                if query.startswith('http'):
+                    query_dict['links'].append(query)
+                else:
+                    query_dict['titles'].append(query)
+
+            self.pbSortingLinks.setValue(100)
+
+            return query_dict
+
+        def search_songs_by_title(query_dict: dict) -> list:
+            url_query_list = list()
+
+            self.pbSearchingURLsByTitle.setValue(0)
+
+            for query in query_dict['titles']:
+                query_url = str(SearchVideos(query, offset=1, mode='dict', max_results=1).result()['search_result'][0]['link'])
+                url_query_list.append(query_url)
+                self.pbSearchingURLsByTitle.setValue(int((query_dict['titles'].index(query) + 1) / len(query_dict['titles']) * 100))
+
+            self.pbSearchingURLsByTitle.setValue(100)
+
+            url_query_list.extend(query_dict['links'])
+            return url_query_list
+
+        def download_song(url_query_list: list, codec_type: str, bitrate_value: int, include_all_yt_metadata: str, include_hq_yt_thumbnail: str) -> None:
+            self.pbDownloadingSongsByUrl.setValue(0)
+
+            if include_all_yt_metadata.lower() == 'yes':
+                include_all_yt_metadata = True
+            else:
+                include_all_yt_metadata = False
+
+            if include_hq_yt_thumbnail.lower() == 'yes':
+                include_hq_yt_thumbnail = True
+            else:
+                include_hq_yt_thumbnail = False
+
+
+            def fix_title(title: str) -> str:
+                normalized_title = normalize('NFKD', title).encode('ASCII', 'ignore').decode('utf-8')
+                sanitized_title = sub(r'\s+', ' ', sub(r'[^a-zA-Z0-9\-_()[\]{}# ]', str(), normalized_title).strip())
+
+                return sanitized_title
+
+            ydl_opts_info = {
+                'quiet': True,
+                'no_warnings': True,
+            }
+
+            for url in url_query_list:
+                song_info = YoutubeDL(ydl_opts_info).extract_info(url, download=False)
+                output_file_path_wo_ext = Path(Path.cwd(), 'songs', fix_title(song_info['title']))
+
+                ydl_opts_download = {
+                    'format': 'bestaudio/best',
+                    'outtmpl': f'{output_file_path_wo_ext}',
+                    'quiet': True,
+                    'no_warnings': True,
+                    'nooverwrites': True,
+                    'postprocessors': [
+                        {
+                            'key': 'FFmpegExtractAudio',
+                            'preferredcodec': codec_type.lower(),
+                            'preferredquality': str(bitrate_value),
+                        }
+                    ],
+                }
+
+                with YoutubeDL(ydl_opts_download) as ydl:
+                    ydl.download([url])
+
+                output_file_path = Path(f'{output_file_path_wo_ext}.{codec_type.lower()}').absolute()
+
+                if include_all_yt_metadata:
+                    artwork_url = f'http://img.youtube.com/vi/{song_info["id"]}'
+                    sizes = ['maxresdefault', 'hq720', 'sddefault']
+                    artwork_data = None
+
+                    for size in sizes:
+                        response = get(f'{artwork_url}/{size}.jpg', allow_redirects=True)
+                        if response.status_code == 200:
+                            artwork_data = bytes(response.content)
+                            break
+
+                    f = tag_load_file(output_file_path)
+                    f['artwork'] = artwork_data
+                    f['tracktitle'] = fix_title(song_info['title'])
+                    f['artist'] = song_info['uploader']
+                    f['year'] = song_info['upload_date'][:4]
+                    f.save()
+
+                self.pbDownloadingSongsByUrl.setValue(int((url_query_list.index(url) + 1) / len(url_query_list) * 100))
+
+        def go_to_progress() -> None:
+            self.downloadProgress.show()
+            self.downloadProgress.raise_()
+
+            self.pbSortingLinks.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.WaitCursor))
+            query_dict = sort_links(self.inputUrlList.toPlainText().split('\n'))
+            self.pbSortingLinks.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.ArrowCursor))
+
+            self.pbSearchingURLsByTitle.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.WaitCursor))
+            url_query_list = search_songs_by_title(query_dict)
+            self.pbSearchingURLsByTitle.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.ArrowCursor))
+
+            self.pbDownloadingSongsByUrl.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.WaitCursor))
+            download_song(url_query_list, str(self.listCodecType.currentText()), int(self.listBitrateValue.currentText()), str(self.listIncludeAllYTMetadata.currentText()), str(self.listIncludeHQYTThumbnail.currentText()))
+            self.pbDownloadingSongsByUrl.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.ArrowCursor))
+
+        self.btnDownload.clicked.connect(go_to_progress)
 
 
 if __name__ == '__main__':
