@@ -721,7 +721,7 @@ p, li { white-space: pre-wrap; }
       <locale language="English" country="UnitedStates"/>
      </property>
      <property name="currentText">
-      <string notr="true">OPUS</string>
+      <string notr="true">Opus</string>
      </property>
      <property name="maxVisibleItems">
       <number>11</number>
@@ -734,7 +734,7 @@ p, li { white-space: pre-wrap; }
      </property>
      <item>
       <property name="text">
-       <string notr="true">OPUS</string>
+       <string notr="true">Opus</string>
       </property>
      </item>
      <item>
@@ -1026,146 +1026,6 @@ p, li { white-space: pre-wrap; }
       <rect>
        <x>400</x>
        <y>225</y>
-       <width>80</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="font">
-      <font>
-       <family>Quicksand Mediuml</family>
-       <pointsize>10</pointsize>
-       <weight>50</weight>
-       <italic>false</italic>
-       <bold>false</bold>
-       <stylestrategy>PreferAntialias</stylestrategy>
-      </font>
-     </property>
-     <property name="cursor">
-      <cursorShape>PointingHandCursor</cursorShape>
-     </property>
-     <property name="mouseTracking">
-      <bool>true</bool>
-     </property>
-     <property name="contextMenuPolicy">
-      <enum>Qt::NoContextMenu</enum>
-     </property>
-     <property name="toolTip">
-      <string notr="true"/>
-     </property>
-     <property name="statusTip">
-      <string notr="true"/>
-     </property>
-     <property name="whatsThis">
-      <string notr="true"/>
-     </property>
-     <property name="accessibleName">
-      <string notr="true"/>
-     </property>
-     <property name="accessibleDescription">
-      <string notr="true"/>
-     </property>
-     <property name="layoutDirection">
-      <enum>Qt::RightToLeft</enum>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">font: 10pt &quot;Quicksand Mediuml&quot;; color: #ffffff; background-color: rgba(245, 212, 176, 100); border-color: rgb(11, 32, 39); border-style: outset; border-width: 1px; border-radius: 4px;</string>
-     </property>
-     <property name="currentText">
-      <string notr="true">Yes</string>
-     </property>
-     <property name="maxVisibleItems">
-      <number>11</number>
-     </property>
-     <property name="duplicatesEnabled">
-      <bool>false</bool>
-     </property>
-     <property name="frame">
-      <bool>true</bool>
-     </property>
-     <item>
-      <property name="text">
-       <string notr="true">Yes</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string notr="true">No</string>
-      </property>
-     </item>
-    </widget>
-    <widget class="QLabel" name="msgIncludeHQYTThumbnail">
-     <property name="geometry">
-      <rect>
-       <x>120</x>
-       <y>250</y>
-       <width>270</width>
-       <height>30</height>
-      </rect>
-     </property>
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="font">
-      <font>
-       <family>Quicksand Mediuml</family>
-       <pointsize>10</pointsize>
-       <weight>50</weight>
-       <italic>false</italic>
-       <bold>false</bold>
-       <stylestrategy>PreferAntialias</stylestrategy>
-      </font>
-     </property>
-     <property name="cursor">
-      <cursorShape>ArrowCursor</cursorShape>
-     </property>
-     <property name="mouseTracking">
-      <bool>true</bool>
-     </property>
-     <property name="contextMenuPolicy">
-      <enum>Qt::NoContextMenu</enum>
-     </property>
-     <property name="acceptDrops">
-      <bool>false</bool>
-     </property>
-     <property name="toolTip">
-      <string notr="true"/>
-     </property>
-     <property name="statusTip">
-      <string notr="true"/>
-     </property>
-     <property name="whatsThis">
-      <string notr="true"/>
-     </property>
-     <property name="accessibleName">
-      <string notr="true"/>
-     </property>
-     <property name="accessibleDescription">
-      <string notr="true"/>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">font: 10pt &quot;Quicksand Mediuml&quot;; color: #ffffff;</string>
-     </property>
-     <property name="text">
-      <string notr="true">Include HQ thumbnail from YouTube         →</string>
-     </property>
-     <property name="textInteractionFlags">
-      <set>Qt::NoTextInteraction</set>
-     </property>
-    </widget>
-    <widget class="QComboBox" name="listIncludeHQYTThumbnail">
-     <property name="geometry">
-      <rect>
-       <x>400</x>
-       <y>255</y>
        <width>80</width>
        <height>20</height>
       </rect>
@@ -1901,14 +1761,14 @@ p, li { white-space: pre-wrap; }
      <string notr="true"/>
     </property>
    </widget>
-   <zorder>settingsInputWindow</zorder>
-   <zorder>downloadProgress</zorder>
    <zorder>background0</zorder>
    <zorder>applicationName</zorder>
    <zorder>inputUrlList</zorder>
    <zorder>msgAskForUrls</zorder>
    <zorder>btnNext</zorder>
    <zorder>btnImportFromFile</zorder>
+   <zorder>downloadProgress</zorder>
+   <zorder>settingsInputWindow</zorder>
   </widget>
  </widget>
  <resources/>
