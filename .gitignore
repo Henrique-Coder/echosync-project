@@ -4,8 +4,8 @@
 __pycache__
 
 # Custom directories
-.old
+.debug
 songs
 
 # Custom extensions/files
-*.bat
+# ...
