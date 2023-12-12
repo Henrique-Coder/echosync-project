@@ -8,4 +8,4 @@ __pycache__
 songs
 
 # Custom extensions/files
-# ...
+*.exe
