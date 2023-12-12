@@ -588,7 +588,7 @@ class Ui_EchoSyncProject(object):
                 temp_output_file_path = Path(f'{temp_output_file_path_wo_ext}.mp3').absolute()
                 output_file_path = Path(f'{output_file_path_wo_ext}.opus').absolute()
 
-                ffmpeg_proc = Popen(f'"ffmpeg.exe" -i "{temp_output_file_path}" -c:a libopus -b:a 192k -y -hide_banner -loglevel quiet "{output_file_path}"', shell=True)
+                ffmpeg_proc = Popen(f'"_internal/ffmpeg.exe" -i "{temp_output_file_path}" -c:a libopus -b:a 192k -y -hide_banner -loglevel quiet "{output_file_path}"', shell=True)
                 ffmpeg_proc.wait()
 
                 temp_output_file_path.unlink(missing_ok=True)
@@ -607,7 +607,7 @@ class Ui_EchoSyncProject(object):
 if __name__ == '__main__':
     app = QtWidgets.QApplication(argv)
     EchoSyncProject = QtWidgets.QMainWindow()
-    EchoSyncProject.setWindowIcon(QtGui.QIcon('icon.ico'))
+    EchoSyncProject.setWindowIcon(QtGui.QIcon('_internal/icon.ico'))
     ui = Ui_EchoSyncProject()
     ui.setupUi(EchoSyncProject)
     EchoSyncProject.show()
