@@ -1,12 +1,9 @@
 <p align='center'>
-    <a href='https://github.com/Henrique-Coder/echosync-project/blob/main/README.md'>
-        <img src='https://img.shields.io/badge/DOCS-soon...-lightgray?style=for-the-badge' alt='Documentation'></a>
-    <a href='https://www.python.org/downloads/release/python-3116/'>
-        <img src='https://img.shields.io/badge/Python-3.11.6-blue?style=for-the-badge&logo=python' alt='Python 3.11.6'></a>
-    <a href='https://opensource.org/license/mit/'>
-        <img src='https://img.shields.io/github/license/Henrique-Coder/echosync-project?style=for-the-badge&logo=github&color=blue' alt='GitHub License'></a>
-    <a href='https://github.com/Henrique-Coder/echosync-project/issues'>
-        <img src='https://img.shields.io/github/issues/Henrique-Coder/echosync-project?style=for-the-badge&logo=github&color=blue' alt='GitHub Issues'></a>
+    <img alt="Python 3.11.6" src="https://img.shields.io/badge/Python-3.11.6-blue?style=for-the-badge&logo=python&color=pink">
+    <img alt="GitHub repository size" src="https://img.shields.io/github/repo-size/Henrique-Coder/echosync-project?style=for-the-badge&logo=github&color=pink">
+    <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/Henrique-Coder/echosync-project?style=for-the-badge&logo=github&color=pink">
+    <img alt="GitHub" src="https://img.shields.io/github/license/Henrique-Coder/echosync-project?style=for-the-badge&logo=github&color=pink">
+
 
 <center>
 
