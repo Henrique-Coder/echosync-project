@@ -3,9 +3,11 @@
 .venv
 __pycache__
 
-# Custom directories
+# Directories
 .debug
-songs
 
-# Custom extensions/files
-*.exe
+# Files
+# ...
+
+# Extensions
+# ...
