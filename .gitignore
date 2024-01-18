@@ -3,6 +3,13 @@
 .vscode
 
 # Directories
+web
+windows/runner
+linux
+macos
+android
+ios
+test
 build
 migrate_working_dir
 android/app/debug
