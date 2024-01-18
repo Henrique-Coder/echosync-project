@@ -3,10 +3,7 @@
 .vscode
 
 # Directories
-web
 windows/runner
-android
-ios
 test
 build
 migrate_working_dir
