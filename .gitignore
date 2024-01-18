@@ -5,8 +5,6 @@
 # Directories
 web
 windows/runner
-linux
-macos
 android
 ios
 test
