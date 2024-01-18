@@ -1,4 +1,0 @@
-pyqt6-tools
-yt-dlp
-youtube-search-python
-music-tag
