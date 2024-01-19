@@ -3,7 +3,12 @@
 .vscode
 
 # Directories
-windows/runner
+android
+ios
+linux
+macos
+web
+windows
 test
 build
 migrate_working_dir
@@ -26,6 +31,7 @@ android/app/release
 
 # Files
 run-vscode.bat
+compiler.bat
 app.*.symbols
 app.*.map.json
 
