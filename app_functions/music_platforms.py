@@ -233,8 +233,6 @@ def get_youtube_song_metadata(url: str) -> Optional[dict]:
         'no_warnings': True,
     }
 
-    YoutubeDL(ydl_opts)
-
     try:
         info = YoutubeDL(ydl_opts).extract_info(url, download=False)
     except Exception:
