@@ -29,7 +29,7 @@
   <a href='https://github.com/Henrique-Coder/echosync-project/releases/latest'>
     <img src='https://img.shields.io/github/v/release/Henrique-Coder/echosync-project?color=red&style=for-the-badge' alt='GitHub release (latest by date)'></a><p>
 
-### Available features (v1.1.7)
+### Available features (v1.1.6)
 
 In the list below, it shows everything that **ECS-P** can do...
 
