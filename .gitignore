@@ -1,45 +1,13 @@
 # IDE
 .idea
-.vscode
+.venv
+__pycache__
 
 # Directories
-android
-ios
-linux
-macos
-web
-windows
-test
-build
-migrate_working_dir
-android/app/debug
-android/app/profile
-android/app/release
-**/doc/api
-**/ios/Flutter/.last_build_id
 .debug
-.DS_Store
-.atom
-.buildlog
-.history
-.svn
-.dart_tool
-.flutter-plugins
-.flutter-plugins-dependencies
-.pub-cache
-.pub
 
 # Files
-run-vscode.bat
-compiler.bat
-app.*.symbols
-app.*.map.json
+# ...
 
 # Extensions
-*.class
-*.log
-*.pyc
-*.swp
-*.iml
-*.ipr
-*.iws
+# ...
