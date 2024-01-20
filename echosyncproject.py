@@ -2,6 +2,7 @@ from datetime import datetime
 from os import getcwd, environ
 from pathlib import Path
 from subprocess import run
+import PIL  # Image handling
 
 from app_functions import (
     base64_items,
@@ -13,8 +14,9 @@ from app_functions import (
 # Application settings
 class AppConfig:
     VERSION = '1.1.7'
-    GITHUB_REPOSITORY = 'https://github.com/Henrique-Coder/echosync-project'
-    NAME = 'EchoSync Project'
+    GITHUB_REPOSITORY_OWNER = 'Henrique-Coder'
+    GITHUB_REPOSITORY_NAME = 'echosync-project'
+    NAME = 'EchoSync-Project'
     PATH = Path(getcwd(), NAME)
     CONFIG_PATH = Path(PATH, '.config')
     ENV_PATH = Path(CONFIG_PATH, 'pathenv')
@@ -34,13 +36,13 @@ TBracket = app_utils.TerminalCustomBrackets
 TColor = app_utils.TerminalTextColors
 
 # Checking if app is updated
-is_updated, latest_version_available, lastest_release_url = app_utils.is_app_updated(AppConfig.VERSION, AppConfig.GITHUB_REPOSITORY)
+is_updated, latest_version_available, latest_release_url = app_utils.is_app_updated(AppConfig.VERSION, AppConfig.GITHUB_REPOSITORY_OWNER, AppConfig.GITHUB_REPOSITORY_NAME)
 if not is_updated:
     print(
         f'{TBracket(TColor.LYELLOW, "WARN")} {TColor.YELLOW}This app version is out of date, '
         f'the latest available version is {TColor.GREEN}{latest_version_available}'
         f'\n{TBracket(TColor.LYELLOW, "WARN")} {TColor.YELLOW}Download it at: '
-        f'{TColor.BLUE}{lastest_release_url}\n'
+        f'{TColor.BLUE}{latest_release_url}\n'
     )
 
 # Creating app folders
@@ -55,7 +57,7 @@ if not path_explorer_file_dialog_ico.exists():
     app_utils.base64_decoder(base64_explorer_file_dialog_ico, path_explorer_file_dialog_ico,)
 
 # Checking if ffmpeg exists and downloading if not
-ffmpeg_path = Path(AppConfig.ENV_PATH / 'ffmpeg.exe')
+ffmpeg_path = Path(AppConfig.ENV_PATH, 'ffmpeg.exe')
 if not ffmpeg_path.exists():
     start_time = datetime.now().strftime('%H:%M:%S')
     print(f'{TBracket(TColor.LYELLOW, "WARN")} {TColor.YELLOW}FFMPEG auto-download started at {start_time}', end='\r')
@@ -151,7 +153,7 @@ def app():
 
         # If the user has selected a file, read it and store the queries in a list
         try:
-            with open(queries_file_path, 'r', encoding='utf-8') as fi:
+            with open(queries_file_path, 'r') as fi:
                 AppQueries.query_list = [
                     line.strip() for line in fi.readlines() if len(line.strip()) != 0
                 ]
