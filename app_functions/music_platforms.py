@@ -99,8 +99,9 @@ def get_musics_from_youtube_playlist(url: str) -> list:
     """
 
     ydl_opts = {
-        'ignoreerrors': True,
         'quiet': True,
+        'no_warnings': True,
+        'ignoreerrors': True,
     }
 
     with YoutubeDL(ydl_opts) as ydl:
@@ -232,6 +233,8 @@ def get_youtube_song_metadata(url: str) -> Optional[dict]:
         'no_warnings': True,
     }
 
+    YoutubeDL(ydl_opts)
+
     try:
         info = YoutubeDL(ydl_opts).extract_info(url, download=False)
     except Exception:
@@ -251,9 +254,6 @@ def download_song_from_youtube(info: dict, output_dir, now_downloading: int, all
     :param TColor:  TColor class
     :return:  Music path
     """
-
-    queue = all_urls
-    this_queue = queue[now_downloading - 1]
 
     url = info['webpage_url']
     music_path_wo_ext = f'{output_dir}/{sanitize_title(info["title"])}'
