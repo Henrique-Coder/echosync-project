@@ -68,17 +68,20 @@ def clsr(jump_lines: int = 0) -> None:
         print()
 
 
-def is_app_updated(app_version: str, github_repository: str) -> tuple:
+def is_app_updated(app_version: str, github_repository_owner: str, github_repository_name: str) -> tuple:
     """
     Check if app is updated
     :param app_version:  App version
-    :param github_repository:  Github repository
+    :param github_repository_owner:  GitHub repository owner
+    :param github_repository_name:  GitHub repository name
     :return:  Tuple with boolean value, latest version available and latest release url
     """
 
-    github_latest_repository = github_repository + '/releases/latest'
-    latest_version_available = get(github_latest_repository).url.path.split('/')[-1].replace('v', '')
-    latest_release_url = f'{github_repository}/releases/tag/v{latest_version_available}'
+    api_url = f'https://api.github.com/repos/{github_repository_owner}/{github_repository_name}/releases/latest'
+    gh_data = get(api_url).json()
+
+    latest_version_available = gh_data['tag_name'].replace('v', str())
+    latest_release_url = gh_data['html_url']
 
     is_updated = latest_version_available <= app_version
 
@@ -96,15 +99,15 @@ def base64_decoder(base64_data: str, output_file_path: Path) -> None:
     output_file_path.write_bytes(b64decode(base64_data))
 
 
-def create_dirs(main_dir: Path, dirs_list: list) -> None:
+def create_dirs(main_dir: Path, dir_list: list) -> None:
     """
     Create main directory and subdirectories
     :param main_dir:  Main directory
-    :param dirs_list:  List of directories to create
+    :param dir_list:  List of subdirectories to create
     :return:  None
     """
 
-    for directory in dirs_list:
+    for directory in dir_list:
         Path(main_dir, directory).mkdir(parents=True, exist_ok=True)
 
 
@@ -126,9 +129,14 @@ def download_latest_ffmpeg(output_file_dir: Path, file_name: str = 'ffmpeg') -> 
     :return:  None
     """
 
-    github_repository = 'https://github.com/GyanD/codexffmpeg'
-    latest_official_version = get(github_repository + '/releases/latest').url.rsplit('/', 1)[-1]
-    build_name = f'ffmpeg-{latest_official_version}-essentials_build'
+    github_repository_owner = 'GyanD'
+    github_repository_name = 'codexffmpeg'
+
+    api_url = f'https://api.github.com/repos/{github_repository_owner}/{github_repository_name}/releases/latest'
+    gh_data = get(api_url).json()
+
+    github_repository = f'https://github.com/{github_repository_owner}/{github_repository_name}'
+    build_name = f'ffmpeg-{gh_data["tag_name"]}-essentials_build'
 
     with RemoteZip(f'{github_repository}/releases/latest/download/{build_name}.zip') as rzip:
         rzip.extract(f'{build_name}/bin/{file_name}.exe', output_file_dir)
@@ -169,13 +177,13 @@ def filedialog_selector(window_title: str, window_icon_path: Path, allowed_file_
 
 def unshorten_url(short_url: str) -> str:
     """
-    Get final link from short link
-    :param short_url:  Short link
-    :return:  Unshortened link
+    Get final link from short url
+    :param short_url:  Short url
+    :return:  Unshortened url
     """
 
     try:
-        unshortened_url = head(short_url, allow_redirects=True).url
+        unshortened_url = head(short_url, follow_redirects=True).url
     except Exception:
         unshortened_url = short_url
 
