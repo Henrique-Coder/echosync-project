@@ -5,3 +5,4 @@ youtube-search-python
 music-tag
 remotezip
 colorama
+Pillow
