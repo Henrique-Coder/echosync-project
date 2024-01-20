@@ -29,14 +29,14 @@
   <a href='https://github.com/Henrique-Coder/echosync-project/releases/latest'>
     <img src='https://img.shields.io/github/v/release/Henrique-Coder/echosync-project?color=red&style=for-the-badge' alt='GitHub release (latest by date)'></a><p>
 
-### Available features (v1.1.6)
+### Available features (v1.1.7)
 
 In the list below, it shows everything that **ECS-P** can do...
 
 - It can download songs by any online supported music platform (with shortened links or not);
 - It can download songs by song name;
 - Can download a list of songs by a text file;
-- Supports downloading individual songs or playlists from [YouTube](https://www.youtube.com), [YouTube Music](https://music.youtube.com);
+- Supports downloading individual songs or playlists from [YouTube](https://www.youtube.com), [YouTube Music](https://music.youtube.com), [TikTok Music](https://music.tiktok.com), [Deezer](https://www.deezer.com), [Spotify](https://www.spotify.com) and [SoundCloud](https://soundcloud.com);
 - And much more!
 
 * **Note 1:** The program will automatically detect the music platform by the link used. Unavailable links or platforms will be automatically rejected. Texts detected as the title of a song
@@ -49,15 +49,10 @@ In the list below, it shows everything that **ECS-P** can do...
 Later on, I plan to implement more music platforms, such as:
 
 <p align='left'>
+    <img src="online-assets/music-platforms/todo/tidal.png" alt="Tidal" style="display:inline-block; width:24px; height:24px; margin-right: 6px;">
     <img src="online-assets/music-platforms/todo/amazon-music.png" alt="Amazon Music" style="display:inline-block; width:24px; height:24px; margin-right: 6px;">
     <img src="online-assets/music-platforms/todo/apple-music.png" alt="Apple Music" style="display:inline-block; width:24px; height:24px; margin-right: 6px;">
-    <img src="online-assets/music-platforms/todo/deezer.png" alt="Deezer" style="display:inline-block; width:24px; height:24px; margin-right: 6px;">
     <img src="online-assets/music-platforms/todo/napster.png" alt="Napster" style="display:inline-block; width:24px; height:24px; margin-right: 6px;">
-    <img src="online-assets/music-platforms/todo/resso.png" alt="Resso" style="display:inline-block; width:24px; height:24px; margin-right: 6px;">
-    <img src="online-assets/music-platforms/todo/soundcloud.png" alt="SoundCloud" style="display:inline-block; width:24px; height:24px; margin-right: 6px;">
-    <img src="online-assets/music-platforms/todo/spotify.png" alt="Spotify" style="display:inline-block; width:24px; height:24px; margin-right: 6px;">
-    <img src="online-assets/music-platforms/todo/tidal.png" alt="Tidal" style="display:inline-block; width:24px; height:24px; margin-right: 6px;">
-    <img src="online-assets/music-platforms/todo/tiktok-music.png" alt="TikTok Music" style="display:inline-block; width:24px; height:24px; margin-right: 6px;">
 </p>
 <br>
 
