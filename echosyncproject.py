@@ -2,7 +2,8 @@ from datetime import datetime
 from os import getcwd, environ
 from pathlib import Path
 from subprocess import run
-import PIL  # Image handling
+from sys import exit
+import PIL  # Required image handling library
 
 from app_functions import (
     base64_items,
@@ -306,3 +307,4 @@ while True:
     if key != str():
         break
     app_utils.clsr(1)
+    exit()
