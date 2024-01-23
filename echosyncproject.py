@@ -307,4 +307,5 @@ while True:
     if key != str():
         break
     app_utils.clsr(1)
-    exit()
+
+exit()
