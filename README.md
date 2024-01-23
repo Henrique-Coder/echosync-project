@@ -29,7 +29,7 @@
   <a href='https://github.com/Henrique-Coder/echosync-project/releases/latest'>
     <img src='https://img.shields.io/github/v/release/Henrique-Coder/echosync-project?color=red&style=for-the-badge' alt='GitHub release (latest by date)'></a><p>
 
-### Available features (v1.1.6)
+### Available features (v1.1.7)
 
 In the list below, it shows everything that **ECS-P** can do...
 
@@ -43,6 +43,17 @@ In the list below, it shows everything that **ECS-P** can do...
   will automatically be added to the download queue and the search for the song will take place via YouTube.
 * **Note 2:** The program uses proprietary web scrapping techniques to extract the name/author of the song on the
   detected platform and will download it directly from YouTube.
+
+### Available music platforms scrappers
+
+<p align='left'>
+    <img src="online-assets/music-platforms/supported/youtube.png" alt="YouTube" style="display:inline-block; width:24px; height:24px; margin-right: 6px;">
+    <img src="online-assets/music-platforms/supported/youtube-music.png" alt="YouTube Music" style="display:inline-block; width:24px; height:24px; margin-right: 6px;">
+    <img src="online-assets/music-platforms/supported/tiktok-music.png" alt="TikTok Music" style="display:inline-block; width:24px; height:24px; margin-right: 6px;">
+    <img src="online-assets/music-platforms/supported/deezer.png" alt="Deezer" style="display:inline-block; width:24px; height:24px; margin-right: 6px;">
+    <img src="online-assets/music-platforms/supported/spotify.png" alt="Spotify" style="display:inline-block; width:24px; height:24px; margin-right: 6px;">
+    <img src="online-assets/music-platforms/supported/soundcloud.png" alt="SoundCloud" style="display:inline-block; width:24px; height:24px; margin-right: 6px;">
+</p>
 
 ### Future implementations
 
