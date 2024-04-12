@@ -1,0 +1,8 @@
+httpx
+beautifulsoup4
+yt-dlp
+youtube-search-python
+music-tag
+remotezip
+colorama
+Pillow
