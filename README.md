@@ -1,3 +1,7 @@
+## This project has been discontinued, but a new, improved version is being updated. The new project is called *SyncGroove* and can be found [here](https://github.com/Henrique-Coder/syncgroove).
+
+<br><br>
+
 <p align='center'>
     <img alt="Python 3.11.9" src="https://img.shields.io/badge/Python-3.11.9-blue?style=for-the-badge&logo=python&color=pink">
     <img alt="GitHub repository size" src="https://img.shields.io/github/repo-size/Henrique-Coder/echosync-project?style=for-the-badge&logo=github&color=pink">
